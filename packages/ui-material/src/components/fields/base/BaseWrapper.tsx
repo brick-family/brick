@@ -29,17 +29,17 @@ export const BaseWrapper: React.FC<BaseWrapperProps> = function BaseWrapper({
   ...otherProps
 }) {
 
-  const rootClassNames = classNames(generatorClass('-field-base'));
+  const rootClassNames = classNames(generatorClass('field-base'));
 
   return (
     <div className={rootClassNames}>
-      <div className={generatorClass('-field-base-title')}>
+      <div className={generatorClass('field-base-title')}>
         {title}
       </div>
-      <div className={generatorClass('-field-base-content')}>
+      <div className={generatorClass('field-base-content')}>
         {status === BaseFieldStatus.readonly ? <div>--</div> : children}
       </div>
-      <div className={generatorClass('-field-base-desc')}>
+      <div className={generatorClass('field-base-desc')}>
         {description}
       </div>
     </div>

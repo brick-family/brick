@@ -36,7 +36,9 @@ yarn-error.log*
 
 # ignore unused path
 packages/*/public/static/css/
-
-
+packages/**/es
+packages/**/lib
+packages/**/.tmp
+packages/**/
 # ignore others
 .hash

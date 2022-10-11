@@ -1,4 +1,6 @@
+import AntdInputMeta from '/Users/qiaojie/Code/github.com/jiechud/contain/packages/ui-material/lowcode/antd-input/meta'
 import FieldInputMeta from '/Users/qiaojie/Code/github.com/jiechud/contain/packages/ui-material/lowcode/field-input/meta'
+import FormContainerMeta from '/Users/qiaojie/Code/github.com/jiechud/contain/packages/ui-material/lowcode/form-container/meta'
 
 const componentCategorySort = {};
 ["基础元素","布局容器类","表格类","表单详情类","帮助类","对话框类","业务类","通用","引导","信息输入","信息展示","信息反馈"]
@@ -78,7 +80,7 @@ function generateComponentList(components) {
   return componentList;
 }
 
-function fillRealVersion(meta, packageName = 'ui-material', version = '0.1.0', basicLibraryVersion={"@alifd/next":"1.25.23","@alifd/meet":"2.6.3","antd":"4.17.3"}) {
+function fillRealVersion(meta, packageName = 'contain-ui-material', version = '0.1.5', basicLibraryVersion={"@alifd/next":"1.25.23","@alifd/meet":"2.6.3","antd":"4.17.3"}) {
   if (!meta || !version) {
     return meta;
   }
@@ -100,7 +102,7 @@ function fillRealVersion(meta, packageName = 'ui-material', version = '0.1.0', b
   return meta;
 }
 
-const componentMetas = [FieldInputMeta];
+const componentMetas = [AntdInputMeta,FieldInputMeta,FormContainerMeta];
 const components = [];
 const npmInfo = {};
 componentMetas.forEach(meta => {
@@ -161,8 +163,8 @@ const componentList = generateComponentList(components);
 
 export { components, componentList };
 
-const execCompile = !!false;
+const execCompile = !!true;
 
 if (!execCompile) {
-  window.UiMaterialMeta = { components, componentList };
+  window.ContainUiMaterialMeta = { components, componentList };
 }

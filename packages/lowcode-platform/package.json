@@ -29,7 +29,10 @@
     "@alilc/lowcode-react-renderer": "^1.0.10",
     "@alilc/lowcode-setter-behavior": "^1.0.0",
     "@alilc/lowcode-setter-title": "^1.0.2",
+    "@umijs/max": "^4.0.21",
+    "@umijs/plugins": "^4.0.21",
     "acorn": "^8.8.0",
+    "flooks": "^6.1.0",
     "moment": "^2.29.4",
     "sass": "^1.54.0",
     "umi": "^4.0.12"

@@ -8,8 +8,8 @@ const FieldInputMeta: ComponentMetadata = {
   "screenshot": "",
   "devMode": "proCode",
   "npm": {
-    "package": "ui-material",
-    "version": "0.1.0",
+    "package": "contain-ui-material",
+    "version": "0.1.3",
     "exportName": "FieldInput",
     "main": "src/index.tsx",
     "destructuring": true,
@@ -79,15 +79,15 @@ const FieldInputMeta: ComponentMetadata = {
         "setter": {
           "componentName": "RadioGroupSetter",
           "props": {
-            options: [{
-              label: "普通",
-              value: 'normal',
+            "options": [{
+              "label": "普通",
+              "value": "normal"
             }, {
-              label: "禁用",
-              value: 'disable',
+              "label": "禁用",
+              "value": "disable"
             }, {
-              label: "只读",
-              value: 'readonly',
+              "label": "只读",
+              "value": "readonly"
             }]
           },
           "isRequired": true,
@@ -99,17 +99,47 @@ const FieldInputMeta: ComponentMetadata = {
           "label": {
             "type": "i18n",
             "en-US": "isRequired",
-            "zh-CN": "是否必填"
+            "zh-CN": "校验"
           },
-          "tip": "isRequired | 是否必填"
         },
-        "name": "isRequired",
-        "description": "是否必填",
-        "setter": {
-          "componentName": "BoolSetter",
-          "isRequired": true,
-          "initialValue": false
-        }
+        type: 'group',
+        name: "valid",
+        description: "校验",
+        display: 'accordion',
+        items: [{
+          "title": {
+            "label": {
+              "type": "i18n",
+              "en-US": "isRequired",
+              "zh-CN": "是否必填"
+            },
+            "tip": "isRequired | 是否必填"
+          },
+          "name": "isRequired",
+          "description": "是否必填",
+          "setter": {
+            componentName: 'MixedSetter',
+            props: {
+              setters: ['StringSetter', 'SlotSetter'],
+            },
+          }
+        }, {
+          name: 'name',
+          title: {
+            label: {
+              type: 'i18n',
+              zh_CN: '表单标识',
+              en_US: 'Name',
+            },
+            tip: {
+              type: 'i18n',
+              zh_CN: '属性: name | 说明: 表单标识',
+              en_US: 'prop: name | description: switch name',
+            },
+          },
+          setter: 'StringSetter',
+        },]
+
       }
     ],
     "supports": {

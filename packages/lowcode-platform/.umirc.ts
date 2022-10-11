@@ -1,5 +1,9 @@
 export default {
   npmClient: 'pnpm',
+  plugins: [
+    '@umijs/plugins/dist/model'
+  ],
+  model: {},
   externals: {
     'react': 'var window.React',
     'react-dom': 'var window.ReactDOM',

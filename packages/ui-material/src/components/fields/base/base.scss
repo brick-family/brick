@@ -1,6 +1,7 @@
 @import '../../../variables.scss';
 
 #{$ui-prefix}-field-base {
+  width: 100%;
   display: flex;
 
   flex-direction: column;

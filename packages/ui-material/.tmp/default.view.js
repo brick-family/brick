@@ -11,7 +11,7 @@ export * from '/Users/qiaojie/Code/github.com/jiechud/contain/packages/ui-materi
 const coveredComponents = {};
 
 const library = 'BizComps';
-const execCompile = !!false;
+const execCompile = !!true;
 
 if (!execCompile) {
   window[library] = Object.assign({__esModule: true}, componentInstances || {}, coveredComponents || {});

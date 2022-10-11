@@ -58,7 +58,7 @@ export default async function registerPlugins() {
         // ).json();
         // 设置物料描述
         const { material, project } = ctx;
-        console.log(await injectAssets(assets));
+        console.log('aaaa=>', await injectAssets(assets));
 
         await material.setAssets(await injectAssets(assets));
 
