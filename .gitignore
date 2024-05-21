@@ -1,0 +1,60 @@
+lowcode_es/
+lowcode_lib/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+node_modules/
+pnpm-global/
+.pnp/
+.pnp.js
+.history
+# testing
+coverage/
+
+# production
+dist/
+build/
+.cache/
+.vscode/
+.idea
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# force using pnpm as the package manager
+package-lock.json
+yarn.lock
+
+# error messages
+.pnpm-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.tsbuildinfo
+
+# ignore unused path
+packages/**/es
+packages/**/lib
+packages/**/.tmp
+# packages/**/
+packages/**/ui-material-setter/*
+
+packages/ui-material/.tmp/*
+# ignore others
+.hash
+
+# ignore dumi
+
+# /dist
+packages/**/*/.dumi/tmp
+packages/**/*/.dumi/tmp-test
+packages/**/*/.dumi/tmp-production
+
+deploy.sh
+devops_back.sh
+back.md
+test.js

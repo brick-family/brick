@@ -1,0 +1,52 @@
+{
+  "name": "lowcode-platform",
+  "private": true,
+  "author": "jiechud <qiaojienet@163.com>",
+  "scripts": {
+    "dev": "max dev",
+    "dev:ui": "LOCAL_UI_MATERIAL=true max dev",
+    "dev:ui:local": "LOCAL_UI_MATERIAL=true LOCAL_PROXY=true max dev",
+    "build": "max build",
+    "setup": "max setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.8.0",
+    "@ant-design/pro-components": "^2.6.43",
+    "@brick/core": "workspace:0.0.1",
+    "@brick/types": "workspace:0.0.1",
+    "@brick/utils": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
+    "@brick/processor": "workspace:0.0.1",
+    "@brick/component": "workspace:0.0.1",
+    "@brick/rich-editor": "workspace:0.0.1",
+    "@brick/workflow": "workspace:0.0.1",
+    "@brick/biz-component": "workspace:0.0.1",
+    "@brick/lowcode-editor": "workspace:0.0.1",
+    "@emotion/css": "^11.10.5",
+    "@legendapp/state": "^1.11.1",
+    "@tanstack/react-query": "^4.20.9",
+    "@tanstack/react-table": "^8.7.4",
+    "@umijs/max": "^4.0.51",
+    "@umijs/plugin-model": "^2.6.2",
+    "acorn": "^8.8.0",
+    "ahooks": "^3.7.2",
+    "antd": "^5.12.4",
+    "axios": "^1.2.2",
+    "codemirror": "5.65.12",
+    "flooks": "^6.1.0",
+    "immer": "^9.0.17",
+    "localforage": "^1.10.0",
+    "moment": "^2.29.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "use-immer": "^0.8.1",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/codemirror": "^5.60.7",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@types/uuid": "^9.0.0"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@@/*": [
+        ".dumi/tmp/*"
+      ],
+      "@brick/biz-component": [
+        "src"
+      ],
+      // "@brick/biz-component/*": [
+      //   "src/*",
+      //   "*"
+      // ]
+    }
+  },
+  "include": [
+    "./typings.d.ts",
+    "src/**/*"
+  ]
+}

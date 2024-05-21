@@ -1,0 +1,321 @@
+{
+  "version": "1.1.13",
+  "packages": [
+    {
+      "package": "moment",
+      "version": "2.24.0",
+      "urls": ["https://g.alicdn.com/mylib/moment/2.24.0/min/moment.min.js"],
+      "library": "moment"
+    },
+    {
+      "package": "lodash",
+      "urls": ["https://g.alicdn.com/platform/c/lodash/4.6.1/lodash.min.js"],
+      "library": "lodash"
+    },
+    {
+      "title": "fusion组件库",
+      "package": "@alifd/next",
+      "version": "1.23.0",
+      "urls": [
+        "https://g.alicdn.com/code/lib/alifd__next/1.23.18/next.min.css",
+        "https://g.alicdn.com/code/lib/alifd__next/1.23.18/next-with-locales.min.js"
+      ],
+      "library": "Next"
+    },
+    {
+      "package": "antd",
+      "version": "4.19.5",
+      "urls": [
+        "//g.alicdn.com/code/lib/antd/4.19.4/antd.min.js",
+        "//g.alicdn.com/code/lib/antd/4.19.4/antd.min.css"
+      ],
+      "library": "antd"
+    },
+    {
+      "package": "contain-ui-material",
+      "version": "0.1.4",
+      "library": "BizComps",
+      "urls": [
+        "https://unpkg.com/contain-ui-material@0.1.4/build/lowcode/render/default/view.js",
+        "https://unpkg.com/contain-ui-material@0.1.4/build/lowcode/render/default/view.css"
+      ],
+      "editUrls": [
+        "https://unpkg.com/contain-ui-material@0.1.4/build/lowcode/view.js",
+        "https://unpkg.com/contain-ui-material@0.1.4/build/lowcode/view.css"
+      ],
+      "advancedUrls": {
+        "default": [
+          "https://unpkg.com/contain-ui-material@0.1.4/build/lowcode/render/default/view.js",
+          "https://unpkg.com/contain-ui-material@0.1.4/build/lowcode/render/default/view.css"
+        ]
+      },
+      "advancedEditUrls": {}
+    }
+  ],
+  "components": [
+    {
+      "componentName": "FieldInput",
+      "title": "FieldInput",
+      "docUrl": "",
+      "screenshot": "",
+      "devMode": "proCode",
+      "npm": {
+        "package": "contain-ui-material",
+        "version": "0.1.4",
+        "exportName": "FieldInput",
+        "main": "src/index.tsx",
+        "destructuring": true,
+        "subName": ""
+      },
+      "configure": {
+        "props": [
+          {
+            "title": {
+              "label": {
+                "type": "i18n",
+                "en-US": "title",
+                "zh-CN": "标题"
+              },
+              "tip": "属性：title"
+            },
+            "name": "title",
+            "description": "标题11",
+            "setter": {
+              "componentName": "StringSetter",
+              "isRequired": true,
+              "initialValue": "单行文本"
+            }
+          },
+          {
+            "title": {
+              "label": {
+                "type": "i18n",
+                "en-US": "占位提示",
+                "zh-CN": "占位提示"
+              },
+              "tip": "属性：placeholder"
+            },
+            "name": "placeholder",
+            "setter": {
+              "componentName": "StringSetter",
+              "isRequired": true,
+              "initialValue": "请输入"
+            }
+          },
+          {
+            "title": {
+              "label": {
+                "type": "i18n",
+                "en-US": "description",
+                "zh-CN": "描述"
+              },
+              "tip": "属性：description"
+            },
+            "name": "description",
+            "description": "描述",
+            "setter": {
+              "componentName": "StringSetter",
+              "isRequired": false,
+              "initialValue": ""
+            }
+          },
+          {
+            "title": {
+              "label": {
+                "type": "i18n",
+                "en-US": "status",
+                "zh-CN": "状态"
+              }
+            },
+            "name": "status",
+            "setter": {
+              "componentName": "RadioGroupSetter",
+              "props": {
+                "options": [
+                  {
+                    "label": "普通",
+                    "value": "normal"
+                  },
+                  {
+                    "label": "禁用",
+                    "value": "disable"
+                  },
+                  {
+                    "label": "只读",
+                    "value": "readonly"
+                  }
+                ]
+              },
+              "isRequired": true,
+              "initialValue": "normal"
+            }
+          },
+          {
+            "title": {
+              "label": {
+                "type": "i18n",
+                "en-US": "isRequired",
+                "zh-CN": "是否必填"
+              },
+              "tip": "isRequired | 是否必填"
+            },
+            "name": "isRequired",
+            "description": "是否必填",
+            "setter": {
+              "componentName": "BoolSetter",
+              "isRequired": true,
+              "initialValue": false
+            }
+          }
+        ],
+        "supports": {
+          "style": true
+        },
+        "component": {}
+      }
+    },
+    {
+      "componentName": "AntdInput",
+      "title": "AntdInput1111",
+      "docUrl": "",
+      "screenshot": "",
+      "devMode": "proCode",
+      "npm": {
+        "package": "contain-ui-material",
+        "version": "0.1.4",
+        "exportName": "AntdInput",
+        "main": "src/index.tsx",
+        "destructuring": true,
+        "subName": ""
+      },
+      "configure": {
+        "props": [
+          {
+            "title": {
+              "label": {
+                "type": "i18n",
+                "en-US": "color",
+                "zh-CN": "color"
+              }
+            },
+            "name": "color",
+            "setter": {
+              "componentName": "RadioGroupSetter",
+              "props": {
+                "dataSource": [
+                  {
+                    "label": "string",
+                    "value": "string"
+                  }
+                ],
+                "options": [
+                  {
+                    "label": "string",
+                    "value": "string"
+                  }
+                ]
+              },
+              "initialValue": "string"
+            }
+          },
+          {
+            "title": {
+              "label": {
+                "type": "i18n",
+                "en-US": "style",
+                "zh-CN": "style"
+              }
+            },
+            "name": "style",
+            "setter": {
+              "componentName": "RadioGroupSetter",
+              "props": {
+                "dataSource": [
+                  {
+                    "label": "object",
+                    "value": "object"
+                  }
+                ],
+                "options": [
+                  {
+                    "label": "object",
+                    "value": "object"
+                  }
+                ]
+              },
+              "initialValue": "object"
+            }
+          }
+        ],
+        "supports": {},
+        "component": {}
+      }
+    }
+  ],
+  "componentList": [
+    {
+      "title": "常用",
+      "icon": "",
+      "children": [
+        {
+          "componentName": "FieldInput",
+          "library": "BizComps",
+          "title": "单行文本",
+          "icon": "",
+          "snippets": [
+            {
+              "title": "FieldInput",
+              "screenshot": "",
+              "schema": {
+                "componentName": "FieldInput",
+                "props": {}
+              }
+            }
+          ]
+        },
+        {
+          "componentName": "ColorfulButton",
+          "library": "BizComps",
+          "title": "自定义按钮",
+          "icon": "",
+          "snippets": [
+            {
+              "title": "自定义按钮",
+              "screenshot": "",
+              "schema": {
+                "componentName": "ColorfulButton",
+                "props": {}
+              }
+            }
+          ]
+        },
+        {
+          "componentName": "AntdInput",
+          "library": "BizComps",
+          "title": "antd输入框",
+          "icon": "",
+          "snippets": [
+            {
+              "title": "AntdInput",
+              "screenshot": "",
+              "schema": {
+                "componentName": "AntdInput",
+                "props": {}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Others",
+      "icon": "",
+      "children": []
+    },
+    {
+      "title": "null",
+      "icon": "",
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "@brick/workflow",
+  "version": "0.0.1",
+  "description": "A react library developed with dumi",
+  "module": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "dumi dev",
+    "build": "father build",
+    "build:watch": "father dev  --no-clean",
+    "docs:build": "dumi build",
+    "doctor": "father doctor",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
+    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "authors": [],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@brick/core": "workspace:0.0.1",
+    "@brick/types": "workspace:0.0.1",
+    "@brick/utils": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "devDependencies": {
+    "@brick/core": "workspace:0.0.1",
+    "@brick/types": "workspace:0.0.1",
+    "@brick/utils": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@umijs/lint": "^4.0.0",
+    "dumi": "^2.2.0",
+    "eslint": "^8.23.0",
+    "father": "^4.1.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "stylelint": "^14.9.1"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.8.0",
+    "@antv/x6": "^2.14.1",
+    "@antv/x6-plugin-scroller": "^2.0.10",
+    "@antv/x6-react-shape": "^2.2.2",
+    "@brick/core": "workspace:^0.0.1",
+    "@legendapp/state": "^1.11.1",
+    "ahooks": "^3.7.2",
+    "antd": "^5.8.6",
+    "classnames": "^2.3.2"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "version": "1.1.13",
+  "packages": [
+    {
+      "package": "dayjs",
+      "version": "1.11.6",
+      "urls": ["https://cdn.staticfile.org/dayjs/1.11.6/dayjs.min.js"],
+      "library": "dayjs"
+    },
+    {
+      "package": "lodash",
+      "urls": ["https://g.alicdn.com/platform/c/lodash/4.6.1/lodash.min.js"],
+      "library": "lodash"
+    },
+    {
+      "title": "fusion组件库",
+      "package": "@alifd/next",
+      "version": "1.23.0",
+      "urls": [
+        "https://g.alicdn.com/code/lib/alifd__next/1.23.18/next.min.css",
+        "https://g.alicdn.com/code/lib/alifd__next/1.23.18/next-with-locales.min.js"
+      ],
+      "library": "Next"
+    },
+    {
+      "package": "antd",
+      "version": "5.8.6",
+      "urls": [
+        "https://cdn.staticfile.org/antd/5.8.6/antd.min.js",
+        "https://cdn.staticfile.org/antd/5.8.6/antd.min.js"
+      ],
+      "library": "antd"
+    },
+    {
+      "package": "contain-ui-material",
+      "version": "0.1.10",
+      "library": "BizComps",
+      "urls": ["http://localhost:3333/view.js"],
+      "editUrls": ["http://localhost:3333/view.js"],
+      "advancedUrls": {
+        "default": ["http://localhost:3333/view.js"]
+      },
+      "advancedEditUrls": {}
+    }
+  ],
+  "components": [
+    {
+      "exportName": "ContainUiMaterialMeta",
+      "npm": {
+        "package": "contain-ui-material",
+        "version": "0.1.10"
+      },
+      "url": "http://localhost:3333/meta.js",
+      "urls": {
+        "default": "http://localhost:3333/meta.js"
+      },
+      "advancedUrls": {
+        "default": ["http://localhost:3333/meta.js"]
+      }
+    }
+  ],
+  "sort": {
+    "groupList": ["基础组件"],
+    "categoryList": []
+  }
+}

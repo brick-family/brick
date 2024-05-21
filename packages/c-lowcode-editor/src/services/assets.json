@@ -1,0 +1,89 @@
+{
+  "version": "1.1.13",
+  "packages": [
+    {
+      "package": "dayjs",
+      "version": "1.11.6",
+      "urls": ["https://cdn.staticfile.org/dayjs/1.11.6/dayjs.min.js"],
+      "library": "dayjs"
+    },
+    {
+      "package": "lodash",
+      "urls": ["https://g.alicdn.com/platform/c/lodash/4.6.1/lodash.min.js"],
+      "library": "lodash"
+    },
+    {
+      "title": "fusion组件库",
+      "package": "@alifd/next",
+      "version": "1.23.0",
+      "urls": [
+        "https://g.alicdn.com/code/lib/alifd__next/1.23.18/next.min.css",
+        "https://g.alicdn.com/code/lib/alifd__next/1.23.18/next-with-locales.min.js"
+      ],
+      "library": "Next"
+    },
+    {
+      "package": "antd",
+      "version": "5.8.6",
+      "urls": [
+        "https://cdn.staticfile.org/antd/5.8.6/antd.min.js",
+        "https://cdn.staticfile.org/antd/5.8.6/antd.min.js"
+      ],
+      "library": "antd"
+    },
+    {
+      "package": "contain-ui-material",
+      "version": "0.1.12",
+      "library": "BizComps",
+      "urls": [
+        "http://101.42.26.70/material/lowcode/render/default/view.js",
+        "http://101.42.26.70/material/lowcode/render/default/view.css"
+      ],
+      "editUrls": [
+        "http://101.42.26.70/material/lowcode/view.js",
+        "http://101.42.26.70/material/lowcode/view.css"
+      ],
+      "advancedUrls": {
+        "default": [
+          "http://101.42.26.70/material/lowcode/render/default/view.js",
+          "http://101.42.26.70/material/lowcode/render/default/view.css"
+        ]
+      },
+      "advancedEditUrls": {}
+    }
+  ],
+  "components": [
+    {
+      "exportName": "ContainUiMaterialMeta",
+      "npm": {
+        "package": "contain-ui-material",
+        "version": "0.1.12"
+      },
+      "url": "http://101.42.26.70/material/lowcode/meta.js",
+      "urls": {
+        "default": "http://101.42.26.70/material/lowcode/meta.js"
+      },
+      "advancedUrls": {
+        "default": ["http://101.42.26.70/material/lowcode/meta.js"]
+      }
+    }
+  ],
+  "sort": {
+    "groupList": ["精选组件", "原子组件"],
+    "categoryList": [
+      "基础元素",
+      "布局容器类",
+      "表格类",
+      "表单详情类",
+      "帮助类",
+      "对话框类",
+      "业务类",
+      "通用",
+      "引导",
+      "信息输入",
+      "信息展示",
+      "信息反馈"
+    ]
+  },
+  "groupList": ["精选组件", "原子组件"]
+}

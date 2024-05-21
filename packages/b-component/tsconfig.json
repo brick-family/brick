@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@brick/component": [
+        "src"
+      ],
+      // "@brick/component/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+    }
+  },
+  "include": [
+    ".dumirc.ts",
+    "src/**/*",
+    "typings.d.ts"
+  ]
+}

@@ -1,0 +1,46 @@
+.internal {
+
+}
+
+.left {
+  display: flex;
+
+  :global {
+    .ant-pro-card-body {
+      //overflow: auto;
+      display: flex !important;
+      flex-direction: column;
+      padding: 16px 24px 0 24px !important;
+
+    }
+  }
+}
+
+.right {
+  display: flex;
+
+  :global  {
+    .ant-pro-card-body{
+      overflow: auto;
+      padding: 0 !important;
+    }
+  }
+
+}
+
+
+.user {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  :global {
+    .ant-pro-card {
+      height: 100% !important;
+    }
+    .ant-pro-card-body{
+      //overflow: auto;
+      padding: 16px 24px !important;
+    }
+  }
+
+}

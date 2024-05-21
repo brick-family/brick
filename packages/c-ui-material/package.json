@@ -1,0 +1,106 @@
+{
+  "name": "contain-ui-material",
+  "version": "0.1.12",
+  "description": "ui-material",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "typings": "types/index.d.ts",
+  "files": [
+    "build",
+    "dist",
+    "lib",
+    "es",
+    "types",
+    "lowcode_lib/",
+    "lowcode_es/"
+  ],
+  "scripts": {
+    "dev": "build-scripts start --config ./build.lowcode.js",
+    "start": "build-scripts start",
+    "build": "build-scripts build",
+    "lowcode:dev": "build-scripts start --config ./build.lowcode.js",
+    "lowcode:build": "build-scripts build --config ./build.lowcode.js",
+    "prepublishOnly": "npm run lowcode:build",
+    "publish:ui": "npm run prepublishOnly && npm version patch && npm publish",
+    "b": "npm run lowcode:build",
+    "server": "http-server -p 7002  -a"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "Fusion"
+  ],
+  "author": "fusion-team",
+  "license": "MIT",
+  "husky": {
+    "hooks": {}
+  },
+  "peerDependencies": {
+    "moment": "latest",
+    "react": "^18.x",
+    "react-dom": "^18.x"
+  },
+  "devDependencies": {
+    "@alib/build-scripts": "^0.1.3",
+    "brick-build-plugin-lowcode": "^0.3.19",
+    "@alifd/theme-2": "^0.4.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@umijs/plugin-sass": "^1.1.1",
+    "build-plugin-component": "^1.12.1",
+    "build-plugin-fusion": "^0.1.0",
+    "cross-env": "^7.0.3",
+    "dumi": "^1.1.49",
+    "dumi-theme-default": "^1.1.24",
+    "f2elint": "^1.2.0"
+  },
+  "dependencies": {
+    "@alifd/next": "^1.25.27",
+    "@brick/core": "workspace:0.0.1",
+    "@brick/component": "workspace:0.0.1",
+    "@brick/types": "workspace:0.0.1",
+    "@brick/utils": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
+    "@brick/processor": "workspace:0.0.1",
+    "@brick/biz-component": "workspace:0.0.1",
+    "@brick/rich-editor": "workspace:0.0.1",
+    "@legendapp/state": "^1.11.1",
+    "ahooks": "^3.7.2",
+    "antd": "^5.8.6",
+    "antd-mobile": "^5.30.0",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.5.8",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@babel/runtime": "^7.0.0"
+  },
+  "acceptDependencies": {
+    "webpack": "^4.46.x"
+  },
+  "resolutions": {
+    "webpack": "^4.46.x"
+  },
+  "componentConfig": {
+    "isComponentLibrary": true,
+    "materialSchema": "https://unpkg.com/contain-ui-material@0.1.12/build/lowcode/assets-prod.json"
+  },
+  "exports": {
+    "./prototype": {
+      "require": "./lowcode_lib/meta.js",
+      "import": "./lowcode_es/meta.js"
+    },
+    "./prototypeView": {
+      "require": "./lowcode_lib/view.js",
+      "import": "./lowcode_es/view.js"
+    },
+    "./*": "./*",
+    ".": {
+      "import": "./es/index.js",
+      "require": "./lib/index.js"
+    }
+  },
+  "lcMeta": {
+    "type": "component"
+  }
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+husky_dir=$(dirname -- "$0")
+project_dir=$(cd "$husky_dir/../" && pwd)
+. "$husky_dir/_/husky.sh"
+
+printf "\033[36m[pre-commit]\033[0m\n"
+
+printf "\n"
+printf "\033[35m[pre-commit]: run lint-staged ...\033[0m\n"
+
+pnpm exec lint-staged --concurrent false

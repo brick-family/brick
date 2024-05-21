@@ -1,0 +1,36 @@
+.menuList {
+  :global {
+    .ant-tree-list {
+      // background: black;
+    }
+    .ant-tree-node-content-wrapper {
+      display: flex;
+      align-items: center;
+      padding: 0px !important;
+      .ant-tree-title {
+        width: 100%;
+      }
+    }
+
+    .ant-tree-treenode {
+      padding: 0px 0px 0px 12px;
+    }
+    .ant-tree-treenode::before {
+      border-radius: 8px;
+      bottom: 0px !important;
+    }
+    .ant-tree-switcher {
+      display: none;
+    }
+
+  }
+
+}
+
+.oneLevel {
+  :global {
+    .ant-tree-treenode {
+      padding: 0;
+    }
+  }
+}

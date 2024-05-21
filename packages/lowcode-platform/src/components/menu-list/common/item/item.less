@@ -1,0 +1,37 @@
+.item {
+  color: #525967;
+  cursor: pointer;
+  height: 40px;
+  // margin: 0 16px;
+  padding: 0 16px;
+  line-height: 40px;
+
+  display: flex;
+  overflow: hidden;
+
+  &:hover {
+    .toolbar {
+      display: block;
+    }
+  }
+
+  .title {
+    // flex: 1;
+    flex-grow: 1;
+    // overflow: hidden;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    display: grid; // 为什么grid就可以了
+
+    .text {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
+    }
+  }
+
+  .toolbar {
+    display: none;
+  }
+}

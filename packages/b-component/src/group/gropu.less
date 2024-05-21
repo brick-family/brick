@@ -1,0 +1,38 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  //height: 100%;
+  .header {
+    display: flex;
+    justify-content: space-between;
+    color: #838892;
+    font-size: 14px;
+    height: 28px;
+    line-height: 28px;
+    margin-bottom: 6px;
+    //.title {
+    //
+    //}
+  }
+
+  .content {
+    flex: 1;
+  }
+
+  .active {
+    background: #e6f4ff;
+  }
+}
+
+.item {
+  border-radius: 6px;
+  color: #525967;
+  cursor: pointer;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 16px;
+
+  &:hover {
+    background: #f0f1f4;
+  }
+}

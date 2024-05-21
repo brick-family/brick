@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "paths": {
+      "@@/*": [
+        ".dumi/tmp/*"
+      ],
+      // "@brick/biz-component/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/component/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/core/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/processor/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/services/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/types/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/utils/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/lowcode-editor/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      // "@brick/workflow/*": [
+      //   "src/*",
+      //   "*"
+      // ],
+      "@brick/biz-component": [
+        "../b-biz-component/src/index.ts"
+      ],
+      "@brick/component": [
+        "../b-component/src/index.ts"
+      ],
+      "@brick/core": [
+        "../b-core/src/index.ts"
+      ],
+      "@brick/processor": [
+        "../b-processor/src/index.ts"
+      ],
+      "@brick/services": [
+        "../b-services/src/index.ts"
+      ],
+      "@brick/types": [
+        "../b-types/src/index.ts"
+      ],
+      "@brick/utils": [
+        "../b-utils/src/index.ts"
+      ],
+      "@brick/lowcode-editor": [
+        "../c-lowcode-editor/src/index.ts"
+      ],
+      "@brick/workflow": [
+        "../c-workflow/src/index.ts"
+      ],
+    }
+  },
+}

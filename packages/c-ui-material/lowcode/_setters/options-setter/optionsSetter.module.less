@@ -1,0 +1,30 @@
+
+
+.sortItem {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  line-height: 32px;
+  padding: 0 10px;
+  &:hover {
+    //variable: --hover-color, var(--primary-color);
+    //background: var(--ant-tree-directory-node-selected-bg);
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 6px;
+  }
+}
+
+.space {
+  display: flex;
+  width: 100%;
+  &> :nth-child(3) {
+    flex: 1;
+  }
+
+  //:global {
+  //  .ant-space-item {
+  //
+  //  }
+  //}
+}
+

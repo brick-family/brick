@@ -1,0 +1,54 @@
+{
+  "name": "contain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky install",
+    "clean-install": "rm -rf ./{packages}/*/node_modules node_modules && pnpm i",
+    "clean-dist": "find ./packages -type d -name 'dist' -exec rm -rf {} '+'",
+    "dev": "cd packages/lowcode-platform && pnpm dev",
+    "dev:ui": "cd packages/lowcode-platform && pnpm dev:ui",
+    "dev:ui:local": "cd packages/lowcode-platform && pnpm dev:ui:local",
+    "dev:lc": "cd packages/c-ui-material && pnpm lowcode:dev",
+    "pkg": "sh ./scripts/build-pkg.sh",
+    "watch": "sh ./scripts/build-pkg-watch.sh",
+    "build:material": "pnpm -F=contain-ui-material lowcode:build",
+    "build:platform": "pnpm -F=lowcode-platform build",
+    "build": "pnpm run build:material && pnpm run build:platform",
+    "format": "prettier --write .",
+    "lint": "eslint '{packages,projects}/*/{src,types}/**/*.{ts,tsx,js}'",
+    "ptest": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=7"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "lint-staged": {
+    "{packages,projects}/*/{src,types}/**/*.{ts,tsx,js}": [
+      "eslint --fix"
+    ],
+    "{packages,projects}/**/*.{d.ts,config.ts,config.*.ts}": [
+      "eslint --fix --ext .ts"
+    ],
+    "*.{ts,tsx,js,json,md,scss,html}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "eslint": "^7.32.0",
+    "eslint-config-react-app": "7.0.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^12.4.2",
+    "prettier": "^2.6.2",
+    "typescript": "4.7.4"
+  }
+}

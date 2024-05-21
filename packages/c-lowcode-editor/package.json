@@ -1,0 +1,84 @@
+{
+  "name": "@brick/lowcode-editor",
+  "version": "0.0.1",
+  "description": "A react library developed with dumi",
+  "module": "dist/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "father build",
+    "build:watch": "father dev --no-clean",
+    "doctor": "father doctor",
+    "lint": "npm run lint:es && npm run lint:css",
+    "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
+    "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "authors": [],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@brick/core": "workspace:0.0.1",
+    "@brick/component": "workspace:0.0.1",
+    "@brick/types": "workspace:0.0.1",
+    "@brick/utils": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
+    "@brick/processor": "workspace:0.0.1",
+    "@brick/biz-component": "workspace:0.0.1",
+    "react": ">=16.9.0",
+    "react-dom": ">=16.9.0"
+  },
+  "devDependencies": {
+    "@alifd/next": "1.26.12",
+    "@alilc/lowcode-datasource-fetch-handler": "^1.0.1",
+    "@alilc/lowcode-plugin-code-editor": "^1.0.3",
+    "@alilc/lowcode-plugin-components-pane": "^2.0.4",
+    "@alilc/lowcode-plugin-datasource-pane": "^1.0.9",
+    "@alilc/lowcode-plugin-inject": "^1.2.1",
+    "@alilc/lowcode-plugin-manual": "^1.0.4",
+    "@alilc/lowcode-plugin-schema": "^1.0.2",
+    "@alilc/lowcode-plugin-set-ref-prop": "^1.0.1",
+    "@alilc/lowcode-plugin-simulator-select": "^1.0.2",
+    "@alilc/lowcode-plugin-undo-redo": "^1.0.0",
+    "@alilc/lowcode-plugin-zh-en": "^1.0.0",
+    "@alilc/lowcode-react-renderer": "^1.1.2",
+    "@alilc/lowcode-setter-behavior": "^1.0.0",
+    "@alilc/lowcode-setter-title": "^1.0.2",
+    "@alib/build-scripts": "^0.1.18",
+    "@alilc/lowcode-engine": "^1.1.2",
+    "@alilc/lowcode-engine-ext": "^1.0.0",
+    "@alilc/lowcode-types": "^1.1.1",
+    "@brick/core": "workspace:0.0.1",
+    "@brick/component": "workspace:0.0.1",
+    "@brick/types": "workspace:0.0.1",
+    "@brick/utils": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
+    "@brick/processor": "workspace:0.0.1",
+    "@brick/biz-component": "workspace:0.0.1",
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@umijs/lint": "^4.0.0",
+    "dumi": "^2.2.13",
+    "eslint": "^8.23.0",
+    "father": "^4.1.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^3.0.0",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "stylelint": "^14.9.1"
+  }
+}
