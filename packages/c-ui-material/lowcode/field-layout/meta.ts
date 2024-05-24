@@ -1,6 +1,6 @@
 import { ScreenshotPrefix } from '../_utils/util';
 import { SelectSetter } from '../_setters';
-import { LayoutSpace } from '../common';
+import { getComponentNameProps, LayoutSpace } from '../common';
 import { ProportionSetter } from './_setters';
 
 const FieldLayoutMeta = {
@@ -22,22 +22,9 @@ const FieldLayoutMeta = {
   },
   configure: {
     props: [
-      // {
-      //   title: {
-      //     label: '列数',
-      //   },
-      //   name: 'colNumber',
-      //   supportVariable: false,
-      //   setter: {
-      //     componentName: NumberSetter,
-      //     props: {},
-      //     initialValue: 2,
-      //   },
-      // },
+      getComponentNameProps('FieldLayout'),
       {
-        title: {
-          // label: '',
-        },
+        title: {},
         // 设置没有left内容
         display: 'plain',
         name: 'proportion',

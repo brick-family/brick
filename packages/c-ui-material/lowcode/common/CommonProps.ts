@@ -1,5 +1,32 @@
 import { BoolSetter, SegmentedSetter, StringSetter } from '../_setters';
 
+/**
+ * 获取组件名称
+ * @param componentName
+ */
+export const getComponentNameProps = (componentName: string) => {
+  return {
+    title: {
+      label: {
+        'type': 'i18n',
+        'en-US': 'title',
+        'zh-CN': '组件名称',
+      },
+    },
+    name: 'componentName',
+    description: '标题',
+    supportVariable: false,
+    // 控制是否显示
+    condition: () => false,
+    setter: {
+      componentName: StringSetter,
+      isRequired: true,
+      initialValue: componentName,
+      props: {},
+    },
+  };
+};
+
 // 获取标题方法
 export const getTitleProps = (title: string) => {
   return {

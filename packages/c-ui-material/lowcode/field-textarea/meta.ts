@@ -1,5 +1,6 @@
 import { ScreenshotPrefix } from '../_utils/util';
 import {
+  getComponentNameProps,
   getDefaultValueTypeData,
   getDescriptionProps,
   getPlaceholderProps,
@@ -30,6 +31,7 @@ const FiledTextareaMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldTextarea'),
       getTitleProps('多行文本'),
       getPlaceholderProps(),
       getDescriptionProps(),

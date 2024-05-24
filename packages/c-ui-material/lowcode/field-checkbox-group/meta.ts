@@ -1,5 +1,11 @@
 import { ScreenshotPrefix } from '../_utils/util';
-import { getDescriptionProps, getRequireProps, getStatusProps, getTitleProps } from '../common';
+import {
+  getComponentNameProps,
+  getDescriptionProps,
+  getRequireProps,
+  getStatusProps,
+  getTitleProps,
+} from '../common';
 import { SegmentedSetter } from '../_setters';
 import { EColumnRadioDirection } from '@brick/types';
 import { OptionsSetter } from '../_setters/options-setter';
@@ -26,6 +32,7 @@ const FieldCheckboxGroupMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldCheckboxGroup'),
       getTitleProps('复选框组'),
       getDescriptionProps(),
       getStatusProps(),

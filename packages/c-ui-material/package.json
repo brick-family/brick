@@ -64,7 +64,6 @@
     "@brick/services": "workspace:0.0.1",
     "@brick/processor": "workspace:0.0.1",
     "@brick/biz-component": "workspace:0.0.1",
-    "@brick/rich-editor": "workspace:0.0.1",
     "@legendapp/state": "^1.11.1",
     "ahooks": "^3.7.2",
     "antd": "^5.8.6",

@@ -1,5 +1,6 @@
 import { ScreenshotPrefix } from '../_utils/util';
 import {
+  getComponentNameProps,
   getDescriptionProps,
   getPlaceholderProps,
   getRequireProps,
@@ -27,6 +28,7 @@ const FieldRichMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldRich'),
       getTitleProps('富文本'),
       getPlaceholderProps(),
       getDescriptionProps(),

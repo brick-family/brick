@@ -19,7 +19,6 @@
     "@brick/services": "workspace:0.0.1",
     "@brick/processor": "workspace:0.0.1",
     "@brick/component": "workspace:0.0.1",
-    "@brick/rich-editor": "workspace:0.0.1",
     "@brick/workflow": "workspace:0.0.1",
     "@brick/biz-component": "workspace:0.0.1",
     "@brick/lowcode-editor": "workspace:0.0.1",

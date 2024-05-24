@@ -1,6 +1,7 @@
 import { ScreenshotPrefix } from '../_utils/util';
 import { FieldParentWhitelist } from '../common/CommonRule';
 import {
+  getComponentNameProps,
   getDescriptionProps,
   getPlaceholderProps,
   getRequireProps,
@@ -29,6 +30,7 @@ const FieldSelectGroupMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldSelectGroup'),
       getTitleProps('下拉框'),
       getPlaceholderProps(),
       getDescriptionProps(),

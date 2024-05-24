@@ -1,6 +1,7 @@
 import { BoolSetter, DefaultValueSetterNew, NumberSetter, SelectSetter } from '../_setters';
 import { ScreenshotPrefix } from '../_utils/util';
 import {
+  getComponentNameProps,
   getDefaultValueTypeData,
   getDescriptionProps,
   getPlaceholderProps,
@@ -31,6 +32,7 @@ const FieldInputNumberMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldInputNumber'),
       getTitleProps('数字'),
       getPlaceholderProps(),
       getDescriptionProps(),

@@ -5,26 +5,31 @@ import {
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { message, Tabs } from 'antd';
+import { message, Tabs, Popover } from 'antd';
 import type { CSSProperties } from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { history } from 'umi';
 
 import styles from './login.less';
 import { login } from '@brick/services';
 import { getQueryParams, setUserInfo } from '@brick/utils';
+import codeImg from './code.jpg';
 
 type LoginType = 'phone' | 'account';
 
-const iconStyles: CSSProperties = {
-  color: 'rgba(0, 0, 0, 0.2)',
-  fontSize: '18px',
-  verticalAlign: 'middle',
-  cursor: 'pointer',
-};
-
 export default () => {
   const [loginType, setLoginType] = useState<LoginType>('account');
+
+  const codeJsx = (
+    <div>
+      <img width="200" height="200" src={codeImg} />
+      <div>
+        扫描二维码，关注【前端有话说】
+        <br />
+        公众号，回复"brick" 即可获取
+      </div>
+    </div>
+  );
 
   const onFinish = async (values: any) => {
     const res = await login({ username: values.username, password: values.password });
@@ -164,22 +169,28 @@ export default () => {
             />
           </>
         )}
-        <div
-          style={{
-            marginBlockEnd: 24,
-          }}
-        >
-          <ProFormCheckbox noStyle name="autoLogin">
-            自动登录
-          </ProFormCheckbox>
-          <a
+
+        <>
+          <Popover placement={'left'} content={codeJsx}>
+            <div className={styles.loginWay}>如何获取登录用户？</div>
+          </Popover>
+          <div
             style={{
-              float: 'right',
+              marginBlockEnd: 24,
             }}
           >
-            忘记密码
-          </a>
-        </div>
+            <ProFormCheckbox noStyle name="autoLogin">
+              自动登录
+            </ProFormCheckbox>
+            <a
+              style={{
+                float: 'right',
+              }}
+            >
+              忘记密码
+            </a>
+          </div>
+        </>
       </LoginFormPage>
     </div>
   );

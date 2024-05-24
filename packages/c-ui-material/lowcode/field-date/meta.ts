@@ -1,6 +1,7 @@
 import { ScreenshotPrefix } from '../_utils/util';
 import { DefaultValueSetterNew, SelectSetter } from '../_setters';
 import {
+  getComponentNameProps,
   getDefaultValueTypeData,
   getDescriptionProps,
   getPlaceholderProps,
@@ -31,6 +32,7 @@ const FieldDateMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldDate'),
       getTitleProps('日期'),
       getPlaceholderProps(),
       getDescriptionProps(),

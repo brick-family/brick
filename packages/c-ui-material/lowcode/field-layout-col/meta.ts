@@ -1,4 +1,5 @@
 import { ScreenshotPrefix } from '../_utils/util';
+import { getComponentNameProps } from '../common';
 
 const FieldLayoutColMeta = {
   componentName: 'FieldLayoutCol',
@@ -18,6 +19,7 @@ const FieldLayoutColMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldLayoutCol'),
       // {
       //   title: {
       //     label: '列数',

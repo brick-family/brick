@@ -1,5 +1,11 @@
 import { ScreenshotPrefix } from '../_utils/util';
-import { getDescriptionProps, getRequireProps, getStatusProps, getTitleProps } from '../common';
+import {
+  getComponentNameProps,
+  getDescriptionProps,
+  getRequireProps,
+  getStatusProps,
+  getTitleProps,
+} from '../common';
 import { NumberSetter, SegmentedSetter, SelectTypeSetter, StringSetter } from '../_setters';
 import { EColumnUploadType } from '@brick/types';
 import { FieldParentWhitelist } from '../common/CommonRule';
@@ -23,6 +29,7 @@ const FieldImageMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldImage'),
       getTitleProps('图片'),
       getDescriptionProps(),
       getStatusProps(),

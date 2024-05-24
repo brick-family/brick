@@ -1,6 +1,7 @@
 import { ScreenshotPrefix } from '../_utils/util';
 import {
   getColsProps,
+  getComponentNameProps,
   getDefaultValueTypeData,
   getDescriptionProps,
   getPlaceholderProps,
@@ -32,6 +33,7 @@ const FieldInputMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldInput'),
       getTitleProps('单行文本'),
       getPlaceholderProps(),
       getDescriptionProps(),

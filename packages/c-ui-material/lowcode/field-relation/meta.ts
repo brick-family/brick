@@ -1,5 +1,6 @@
 import { ScreenshotPrefix } from '../_utils/util';
 import {
+  getComponentNameProps,
   getDescriptionProps,
   getPlaceholderProps,
   getRequireProps,
@@ -29,6 +30,7 @@ const FieldRelationMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldRelation'),
       getTitleProps('关联数据'),
       getPlaceholderProps(),
       getDescriptionProps(),

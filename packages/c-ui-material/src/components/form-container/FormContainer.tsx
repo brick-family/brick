@@ -57,12 +57,12 @@ export const FormContainerWrapper = forwardRef<IWebFormRef | undefined, IFormCon
             {childs.map((child: any) => {
               const { props } = child;
               const name = props?.componentId || props?.__id;
-              const componentName = props?._componentName;
+              const componentName = props?._componentName || props.componentName;
 
-              console.log('q=>child-componentName', componentName);
+              // console.log('q=>child-componentName', props, componentName);
+
               // 占整行内容
-              if (['FieldLayout', 'FieldSubTable'].includes(componentName)) {
-                console.log('q=>child', child);
+              if (['FieldSubTable', 'FieldLayout'].includes(componentName)) {
                 return (
                   <Col key={name} span={24}>
                     {child}
@@ -72,17 +72,7 @@ export const FormContainerWrapper = forwardRef<IWebFormRef | undefined, IFormCon
 
               return (
                 <Col key={name} span={24 / childs.length}>
-                  {/*{props?.title === '富文本' ? child}*/}
-                  {name && (
-                    <Form.Item
-                      label=""
-                      name={name}
-                      // trigger={'onBlur'}
-                      rules={[{ required: props.isRequired, message: `${props.title}不能为空！` }]}
-                    >
-                      {child}
-                    </Form.Item>
-                  )}
+                  {name && child}
                 </Col>
               );
             })}

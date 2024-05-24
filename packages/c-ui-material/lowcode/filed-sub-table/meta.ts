@@ -1,5 +1,11 @@
 import { ScreenshotPrefix } from '../_utils/util';
-import { getDescriptionProps, getRequireProps, getStatusProps, getTitleProps } from '../common';
+import {
+  getComponentNameProps,
+  getDescriptionProps,
+  getRequireProps,
+  getStatusProps,
+  getTitleProps,
+} from '../common';
 import { FilterSetter, SortSetter } from '../_setters';
 import { DataSourceSelectSetter, SubTableColumnSelectSetter } from './_setters';
 import { FieldParentWhitelist } from '../common/CommonRule';
@@ -22,6 +28,7 @@ const FieldSubTableMeta = {
   },
   configure: {
     props: [
+      getComponentNameProps('FieldSubTable'),
       getTitleProps('子表单'),
       getDescriptionProps(),
       getStatusProps(),
