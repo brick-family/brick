@@ -1,5 +1,5 @@
 import { ScreenshotPrefix } from '../_utils/util';
-import { SelectSetter } from '../_setters';
+import { DefaultValueSetterNew, SelectSetter } from '../_setters';
 import {
   getDefaultValueTypeData,
   getDescriptionProps,
@@ -18,8 +18,8 @@ const FieldUserSelectMeta = {
   screenshot: '',
   devMode: 'proCode',
   group: '基础组件',
-  category: '基础字段',
-  priority: 101,
+  category: '高级',
+  priority: 80,
   npm: {
     package: 'contain-ui-material',
     version: '0.1.3',
