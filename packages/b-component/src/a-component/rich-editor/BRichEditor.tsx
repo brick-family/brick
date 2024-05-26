@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { useMemoizedFn } from 'ahooks';
 import { Editor } from '@tinymce/tinymce-react';
@@ -21,10 +21,12 @@ export const BRichEditor: FC<IRichEditorProps> = ({
   disabled,
   height = 360,
 }) => {
-  const editorRef = useRef<TinyMCEEditor>();
+  // const editorRef = useRef<TinyMCEEditor>();
+
+  const [editor, setEditor] = useState<TinyMCEEditor>();
 
   const onInit = (evt: any, editor: TinyMCEEditor) => {
-    editorRef.current = editor;
+    setEditor(editor);
   };
 
   const onEditorChange = useMemoizedFn((e: any, editor: TinyMCEEditor) => {
@@ -32,8 +34,10 @@ export const BRichEditor: FC<IRichEditorProps> = ({
   });
 
   useEffect(() => {
-    editorRef?.current?.setContent(initialValue!);
-  }, [initialValue]);
+    if (editor) {
+      editor?.setContent((value || initialValue)!);
+    }
+  }, [initialValue, value, editor]);
 
   return (
     <Editor
