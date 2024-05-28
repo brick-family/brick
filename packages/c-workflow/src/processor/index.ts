@@ -1,2 +1,2 @@
-export * from './WorkflowProcessor';
-export * from './WorkflowProvider';
+export * from './WorkflowAppProcessor';
+export * from './WorkflowAppProvider';

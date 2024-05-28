@@ -31,17 +31,17 @@
   },
   "peerDependencies": {
     "@brick/core": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
     "@brick/types": "workspace:0.0.1",
     "@brick/utils": "workspace:0.0.1",
-    "@brick/services": "workspace:0.0.1",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
   "devDependencies": {
     "@brick/core": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
     "@brick/types": "workspace:0.0.1",
     "@brick/utils": "workspace:0.0.1",
-    "@brick/services": "workspace:0.0.1",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
     "@types/react": "^18.0.0",
@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.8.0",
+    "@ant-design/pro-editor": "^1.2.1",
     "@antv/x6": "^2.14.1",
     "@antv/x6-plugin-scroller": "^2.0.10",
     "@antv/x6-react-shape": "^2.2.2",

@@ -5,7 +5,7 @@ import {
   NODE_HEIGHT,
   NODE_WIDTH,
   WorkflowApp,
-  WorkflowProcessor,
+  WorkflowAppProcessor,
 } from '@brick/workflow';
 import { useMemoizedFn } from 'ahooks';
 import { Button } from 'antd';
@@ -89,7 +89,7 @@ const data1 = {
 
 const WorkflowDemo: FC<IWorkflowProps> = (props) => {
   const [value, setValue] = useState(data1);
-  const ref = useRef<WorkflowProcessor>();
+  const ref = useRef<WorkflowAppProcessor>();
 
   const onSave = () => {
     const data = ref.current?.getData();

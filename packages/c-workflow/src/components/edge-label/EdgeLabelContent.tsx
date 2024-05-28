@@ -1,7 +1,7 @@
 import { Edge } from '@antv/x6';
 import React, { FC, memo, useMemo } from 'react';
 import { WORKFLOW_TABLE_NODE_DATA } from '../../constants';
-import { getWorkflowProcessor } from '../../processor/WorkflowManager';
+import { getWorkflowProcessor } from '../../processor/WorkflowAppManager';
 import { EWorkflowType, IPanelDataNode } from '../../types';
 import s from './lable.less';
 

@@ -1,12 +1,12 @@
-import { WorkflowProcessor } from './WorkflowProcessor';
+import { WorkflowAppProcessor } from './WorkflowAppProcessor';
 
 const data: Record<string, any> = {};
 
 export const getWorkflowProcessor = () => {
-  return data['wp'] as WorkflowProcessor;
+  return data['wp'] as WorkflowAppProcessor;
 };
 
-export const setWorkflowProcessor = (wp: WorkflowProcessor) => {
+export const setWorkflowProcessor = (wp: WorkflowAppProcessor) => {
   data['wp'] = wp;
 };
 

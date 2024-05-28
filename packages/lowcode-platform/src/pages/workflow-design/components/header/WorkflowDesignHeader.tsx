@@ -30,9 +30,10 @@ export interface IWorkflowDesignHeaderProps {}
 
 export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
   const { wId, aId } = useParams();
-  const [getWorkflow, workflowResponse] = useWorkflowDesignSelector((s) => [
+  const [getWorkflow, workflowResponse, workflowAppInstance] = useWorkflowDesignSelector((s) => [
     s.workflowProcessor.getWorkflow,
     s.workflowProcessor.getWorkflowResponse,
+    s.workflowAppInstance,
   ]);
   useEffect(() => {
     if (wId) {
@@ -40,7 +41,9 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
     }
   }, [wId]);
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    const data = workflowAppInstance?.getData();
+  };
 
   const handleDeploy = () => {};
 

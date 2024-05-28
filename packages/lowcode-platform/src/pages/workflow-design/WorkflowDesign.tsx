@@ -1,18 +1,11 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import s from './workflowDesign.less';
-import { Button } from 'antd';
-import {
-  ENodeType,
-  NODE_GAP,
-  NODE_HEIGHT,
-  NODE_WIDTH,
-  WorkflowApp,
-  WorkflowProcessor,
-} from '@brick/workflow';
-import { useMemoizedFn } from 'ahooks';
-import { uuid } from '@brick/utils';
+import { WorkflowApp, WorkflowAppProcessor } from '@brick/workflow';
 import { WorkflowDesignHeader } from '@/pages/workflow-design/components';
-import { WorkflowDesignProvider } from '@/pages/workflow-design/workflow-design-processor';
+import {
+  useWorkflowDesignSelector,
+  WorkflowDesignProvider,
+} from '@/pages/workflow-design/workflow-design-processor';
 
 const data1 = {
   id: 1,
@@ -92,80 +85,69 @@ export interface IWorkflowDesignContentProps {}
 
 export const WorkflowDesignContent: FC<IWorkflowDesignContentProps> = (props) => {
   const [value, setValue] = useState(data1);
-  const ref = useRef<WorkflowProcessor>();
+  const workflowAppRef = useRef<WorkflowAppProcessor>();
 
-  const onSave = () => {
-    const data = ref.current?.getData();
-  };
-  const onChange = useMemoizedFn((value) => {
-    console.log('q=>value', value);
-
-    // setValue(value);
-  });
+  const [setWorkflowAppInstance] = useWorkflowDesignSelector((s) => [s.setWorkflowAppInstance]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setValue(data1);
-      onAdd();
-    }, 100);
-  }, []);
+    if (workflowAppRef.current) {
+      setWorkflowAppInstance(workflowAppRef.current);
+    }
+  }, [workflowAppRef]);
 
-  const onAdd1 = (edge: any) => {
-    const sourceId = uuid();
-    ref.current?.addNodeByEdge({
-      nodeType: ENodeType.GetMoreData,
-      data: {
-        data: {},
-      },
-      edge,
-    });
-  };
-
-  const onAdd = () => {
-    const sourceId = uuid();
-    const endId = uuid();
-    ref.current?.addNode(ENodeType.TableEvent, {
-      view: 'react-shape-view',
-      shape: 'SHAPE_NODE',
-      id: sourceId,
-      label: 'hello',
-      x: 0,
-      y: 0,
-      width: NODE_WIDTH,
-      height: NODE_HEIGHT,
-      data: {
-        id: 'node1',
-        table: '1',
-      },
-    });
-
-    ref.current?.addNode(ENodeType.End, {
-      view: 'react-shape-view',
-      shape: 'SHAPE_NODE',
-      id: endId,
-      label: 'hello',
-      x: 0,
-      y: NODE_GAP + NODE_HEIGHT,
-      width: NODE_WIDTH,
-      height: NODE_HEIGHT,
-      data: {},
-    });
-
-    const edge = ref.current?.addEdge(sourceId, endId);
-    onAdd1(edge);
-    reset();
-  };
-
-  const reset = () => {
-    ref.current?.redraw();
-  };
+  // const onAdd1 = (edge: any) => {
+  //   const sourceId = uuid();
+  //   ref.current?.addNodeByEdge({
+  //     nodeType: ENodeType.GetMoreData,
+  //     data: {
+  //       data: {},
+  //     },
+  //     edge,
+  //   });
+  // };
+  //
+  // const onAdd = () => {
+  //   const sourceId = uuid();
+  //   const endId = uuid();
+  //   ref.current?.addNode(ENodeType.TableEvent, {
+  //     view: 'react-shape-view',
+  //     shape: 'SHAPE_NODE',
+  //     id: sourceId,
+  //     label: 'hello',
+  //     x: 0,
+  //     y: 0,
+  //     width: NODE_WIDTH,
+  //     height: NODE_HEIGHT,
+  //     data: {
+  //       id: 'node1',
+  //       table: '1',
+  //     },
+  //   });
+  //
+  //   ref.current?.addNode(ENodeType.End, {
+  //     view: 'react-shape-view',
+  //     shape: 'SHAPE_NODE',
+  //     id: endId,
+  //     label: 'hello',
+  //     x: 0,
+  //     y: NODE_GAP + NODE_HEIGHT,
+  //     width: NODE_WIDTH,
+  //     height: NODE_HEIGHT,
+  //     data: {},
+  //   });
+  //
+  //   const edge = ref.current?.addEdge(sourceId, endId);
+  //   onAdd1(edge);
+  //   reset();
+  // };
+  //
+  // const reset = () => {
+  //   ref.current?.redraw();
+  // };
   return (
     <div className={s.bg}>
       <WorkflowDesignHeader />
       <div className={s.content} style={{ height: 500 }}>
-        <Button onClick={onSave}>保存</Button>
-        <Button onClick={onAdd}>Add</Button>
-        <Button onClick={reset}>reset</Button>
         {/* @ts-ignore */}
         <WorkflowApp ref={ref} data={value} />
       </div>

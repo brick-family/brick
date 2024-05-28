@@ -7,12 +7,12 @@ import { TWorkflowData } from '../types';
 import { INodeData, TNodeType } from '../types/Node';
 import { convertToLevelTree } from '../utils';
 
-export class WorkflowProcessor {
+export class WorkflowAppProcessor {
   // graph: Observable<Graph | null>;
   // graph实例，不是
   graph: Graph | null;
 
-  self: WorkflowProcessor;
+  self: WorkflowAppProcessor;
 
   workflowElement: HTMLElement | null;
 
@@ -230,4 +230,4 @@ export class WorkflowProcessor {
   };
 }
 
-export const workflowProcessor = new WorkflowProcessor();
+export const workflowProcessor = new WorkflowAppProcessor();

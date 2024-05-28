@@ -1,20 +1,20 @@
-import { WipeObservable, generateSelector } from '@brick/core';
+import { generateSelector, WipeObservable } from '@brick/core';
 import React, { createContext, useImperativeHandle, useLayoutEffect, useState } from 'react';
-import { destroy, setWorkflowProcessor } from './WorkflowManager';
-import { WorkflowProcessor } from './WorkflowProcessor';
+import { destroy, setWorkflowProcessor } from './WorkflowAppManager';
+import { WorkflowAppProcessor } from './WorkflowAppProcessor';
 
 // 去除Observable类型
-export type WorkflowProcessorWipe = WipeObservable<typeof WorkflowProcessor.prototype>;
+export type WorkflowProcessorWipe = WipeObservable<typeof WorkflowAppProcessor.prototype>;
 
 export interface WorkflowProviderProps {
   children: React.ReactNode;
 }
 
-const Context = createContext({} as WorkflowProcessor);
+const Context = createContext({} as WorkflowAppProcessor);
 
-export const WorkflowProvider = React.forwardRef<WorkflowProcessor, WorkflowProviderProps>(
+export const WorkflowAppProvider = React.forwardRef<WorkflowAppProcessor, WorkflowProviderProps>(
   (props, ref) => {
-    const [currWorkflowProcessor, setCurrWorkflowProcessor] = useState<WorkflowProcessor>();
+    const [currWorkflowProcessor, setCurrWorkflowProcessor] = useState<WorkflowAppProcessor>();
 
     useImperativeHandle(
       ref,
@@ -25,7 +25,7 @@ export const WorkflowProvider = React.forwardRef<WorkflowProcessor, WorkflowProv
     );
 
     useLayoutEffect(() => {
-      const wp = new WorkflowProcessor();
+      const wp = new WorkflowAppProcessor();
       setCurrWorkflowProcessor(wp);
       setWorkflowProcessor(wp);
       return () => {
