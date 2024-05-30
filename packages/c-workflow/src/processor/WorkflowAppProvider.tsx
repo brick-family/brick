@@ -8,12 +8,14 @@ export type WorkflowProcessorWipe = WipeObservable<typeof WorkflowAppProcessor.p
 
 export interface WorkflowProviderProps {
   children: React.ReactNode;
+  onReady?: (workflowInstance: WorkflowAppProcessor) => void;
 }
 
 const Context = createContext({} as WorkflowAppProcessor);
 
 export const WorkflowAppProvider = React.forwardRef<WorkflowAppProcessor, WorkflowProviderProps>(
   (props, ref) => {
+    const { onReady } = props;
     const [currWorkflowProcessor, setCurrWorkflowProcessor] = useState<WorkflowAppProcessor>();
 
     useImperativeHandle(
@@ -28,6 +30,9 @@ export const WorkflowAppProvider = React.forwardRef<WorkflowAppProcessor, Workfl
       const wp = new WorkflowAppProcessor();
       setCurrWorkflowProcessor(wp);
       setWorkflowProcessor(wp);
+      //@ts-ignore
+      window._wp = wp;
+      onReady?.(wp);
       return () => {
         // 销毁workflow manager
         destroy?.();
@@ -48,6 +53,6 @@ export const WorkflowAppProvider = React.forwardRef<WorkflowAppProcessor, Workfl
  * @param selector
  * @returns
  */
-export function useWorkflowSelector<R extends any>(selector: (s: WorkflowProcessorWipe) => R) {
+export function useWorkflowAppSelector<R extends any>(selector: (s: WorkflowProcessorWipe) => R) {
   return generateSelector<R, WorkflowProcessorWipe>(Context, selector);
 }

@@ -2,14 +2,14 @@ import { Graph } from '@antv/x6';
 import { useUpdate } from 'ahooks';
 import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { useWorkflowSelector } from '../../../processor';
+import { useWorkflowAppSelector } from '../../../processor';
 import { EdgeLabel } from '../../edge-label';
 
 export const useWorkflowInit = (container: React.RefObject<HTMLDivElement>) => {
-  const [setGraph, setWorkflowElement, addNode] = useWorkflowSelector((s) => [
-    s.setGraph,
+  const [setGraph, setWorkflowElement, addNode] = useWorkflowAppSelector((s) => [
+    s.graphProcessor.setGraph,
     s.setWorkflowElement,
-    s.addNode,
+    s.graphProcessor.addNode,
   ]);
 
   const currGraphRef = useRef<Graph>();

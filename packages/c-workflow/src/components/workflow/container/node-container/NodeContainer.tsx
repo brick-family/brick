@@ -1,36 +1,39 @@
 import { Node } from '@antv/x6';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { PANEL_ALL_DATA } from '../../constants';
-import { useWorkflowSelector } from '../../processor';
-import { ENodeType, INodeData } from '../../types';
-import s from './node.less';
 
-export interface INodeProps {
+import s from './node.module.less';
+import { useWorkflowAppSelector } from '../../../../processor';
+import { ENodeType, IWorkflowNodeData } from '@brick/types';
+import { PANEL_ALL_DATA } from '../../../../constants';
+
+export interface INodeContainerProps {
   style?: React.CSSProperties;
   className?: string;
   icon?: string;
   title: string;
 }
 
-export const NodeComponent = ({ node }: { node: Node }) => {
-  const [graph, setActiveNode, activeNode] = useWorkflowSelector((s) => [
-    s.graph,
-    s.setActiveNode,
+export const NodeContainer = ({ node }: { node: Node }) => {
+  const [graphProcessor, setActiveNodeById, activeNode] = useWorkflowAppSelector((s) => [
+    s.graphProcessor,
+    s.setActiveNodeById,
     s.activeNode,
   ]);
 
+  const nodeId = node.id;
   // 是否激活
-  const isActive = activeNode?.id === node.id;
+  const isActive = activeNode?.id === nodeId;
 
-  const data = node.getData<INodeData>();
+  const data = node.getData<IWorkflowNodeData>();
 
   const panelData = useMemo(() => {
     return PANEL_ALL_DATA.find((f) => f.type === data.type);
   }, [data.type]);
 
   const onNodeClick = () => {
-    setActiveNode(node);
+    console.log('q=>activeNode', node?.toJSON());
+    setActiveNodeById(nodeId);
   };
 
   return (

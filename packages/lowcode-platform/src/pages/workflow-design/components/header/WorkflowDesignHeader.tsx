@@ -42,7 +42,8 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
   }, [wId]);
 
   const handleSave = () => {
-    const data = workflowAppInstance?.getData();
+    const data = workflowAppInstance?.graphProcessor.getData();
+    console.log('q=>save-data', data);
   };
 
   const handleDeploy = () => {};

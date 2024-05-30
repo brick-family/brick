@@ -14,14 +14,14 @@ export const EdgeLabelContent: FC<ILabelContentProps> = memo((props) => {
   const type = workflowProcessor?.workflowData?.get()?.type;
 
   const data = useMemo(() => {
-    if (type === EWorkflowType.Table) {
+    if (type === EWorkflowType.table) {
       return WORKFLOW_TABLE_NODE_DATA;
     }
     return WORKFLOW_TABLE_NODE_DATA;
   }, [type]);
 
   const handleAddNode = (node: IPanelDataNode) => {
-    workflowProcessor?.addNodeByEdge({
+    workflowProcessor?.graphProcessor?.addNodeByEdge({
       nodeType: node.type,
       edge: props.edge,
       data: {},

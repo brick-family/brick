@@ -1,19 +1,23 @@
 import { Graph } from '@antv/x6';
 import { useEffect } from 'react';
-import { useWorkflowSelector } from '../../../processor';
-import { TWorkflowData } from '../../../types';
+import { useWorkflowAppSelector } from '../../../processor';
+import { IWorkflowEntity } from '../../../types';
 
 export interface IUseSetWorkflowData {
-  data: TWorkflowData;
+  data: IWorkflowEntity;
   graph: Graph;
 }
 
 export const useSetWorkflowData = ({ data, graph }: IUseSetWorkflowData) => {
-  const [setWorkflowData] = useWorkflowSelector((s) => [s.setWorkflowData]);
+  const [setWorkflowData, graphProcessor] = useWorkflowAppSelector((s) => [
+    s.setWorkflowData,
+    s.graphProcessor,
+  ]);
   useEffect(() => {
     if (graph && data) {
-      console.log('q=>', data);
-      graph.fromJSON(data.graphData);
+      graph.fromJSON(data.graph);
+      // 重绘
+      graphProcessor?.redraw?.();
       setWorkflowData(data);
     }
   }, [data, graph]);

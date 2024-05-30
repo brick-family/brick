@@ -1,3 +1,6 @@
+import { ITableEventNodeConfig } from './TableEventNodeConfig';
+import { IAddDataNodeConfig } from './AddDataNodeConfig';
+
 /**
  * 节点类型枚举
  */
@@ -25,7 +28,7 @@ export enum ENodeType {
  */
 export type TNodeType = keyof typeof ENodeType;
 
-export interface INodeData<T extends TNodeType = TNodeType> {
+export interface IWorkflowNodeData<T extends TNodeType = TNodeType> {
   /**
    * 节点id
    */
@@ -39,15 +42,18 @@ export interface INodeData<T extends TNodeType = TNodeType> {
   /**
    * 配置
    */
-  config: INodeDataConfig<T>;
+  config: T extends keyof TNodeTypeConfigMap ? TNodeTypeConfigMap[T] : IBaseNodeConfig;
 }
 
-export interface INodeDataConfig<T extends TNodeType = TNodeType> {}
+/**
+ * node 节点配置映射
+ */
+export type TNodeTypeConfigMap = {
+  [ENodeType.TableEvent]: ITableEventNodeConfig;
+  [ENodeType.AddData]: IAddDataNodeConfig;
+};
 
-export interface INodeDataConfigByTable extends INodeDataConfig {
-  eventType: 'create' | 'update' | 'delete';
-  filter: any;
-}
+export interface IBaseNodeConfig<T extends TNodeType = TNodeType> {}
 
 /**
  * 选择面板数据类型

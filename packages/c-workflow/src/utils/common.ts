@@ -5,8 +5,6 @@
 //   { sourceId: '2', targetId: '4' },
 // ];
 
-import { IConnectionData } from '../types/common';
-
 // const graph: { [key: string]: string[] } = {};
 // const inDegree: { [key: string]: number } = {};
 
@@ -51,6 +49,8 @@ import { IConnectionData } from '../types/common';
 // }
 
 // console.log(result);
+
+import { IConnectionData } from '@brick/types';
 
 export const convertToLevelTree = (data: Array<IConnectionData>) => {
   const graph: { [key: string]: string[] } = {};

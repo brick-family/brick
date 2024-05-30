@@ -1,9 +1,9 @@
-import { FullscreenOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
 import { ActionGroup, ActionIconGroupItemType } from '@ant-design/pro-editor';
 import classNames from 'classnames';
 import React, { FC, memo } from 'react';
-import { useWorkflowSelector } from '../../processor';
+import { useWorkflowAppSelector } from '../../processor';
 import s from './toolbar.less';
+import { FullscreenOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
 
 export interface IToolbarProps {
   style?: React.CSSProperties;
@@ -12,7 +12,7 @@ export interface IToolbarProps {
 
 export const Toolbar: FC<IToolbarProps> = memo((props) => {
   const { style, className } = props;
-  const [graph] = useWorkflowSelector((s) => [s.graph]);
+  const [graph] = useWorkflowAppSelector((s) => [s.graphProcessor.graph]);
 
   const zoom = () => {
     console.log('q=>12');

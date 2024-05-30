@@ -2,13 +2,12 @@ import { register } from '@antv/x6-react-shape';
 import classNames from 'classnames';
 import React, { FC, useRef } from 'react';
 import { SHAPE_NODE } from '../../constants/Workflow';
-import { TWorkflowData } from '../../types';
-import { NodeComponent } from '../nodes';
-import { SettingContainer } from '../settings';
 import { Toolbar } from '../toolbar';
 import { useSetWorkflowData } from './hooks/useSetWorkflowData';
 import { useWorkflowInit } from './hooks/useWorkflowInit';
 import s from './workflow.less';
+import { NodeContainer, SettingContainer } from './container';
+import { IWorkflowEntity } from '@brick/types';
 
 // 注册自定义节点
 register({
@@ -16,54 +15,14 @@ register({
   width: 100,
   height: 40,
   effect: ['data'], //属性变化重新渲染组件
-  component: NodeComponent,
+  component: NodeContainer,
 });
+
 export interface IWorkflowProps {
   style?: React.CSSProperties;
   className?: string;
-  data?: TWorkflowData;
+  data?: IWorkflowEntity;
 }
-
-const data1 = {
-  nodes: [
-    {
-      id: 'node1',
-      shape: SHAPE_NODE,
-      x: 40,
-      y: 40,
-      label: 'hello',
-      data: {
-        id: 'node1',
-        table: '1',
-      },
-    },
-    {
-      id: 'node2',
-      shape: SHAPE_NODE,
-      x: 160,
-      y: 180,
-      label: 'world',
-      data: {
-        id: 'node2',
-        table: '2',
-      },
-    },
-  ],
-  edges: [
-    {
-      shape: 'edge',
-      source: 'node1',
-      target: 'node2',
-      label: 'x6',
-      attrs: {
-        line: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1,
-        },
-      },
-    },
-  ],
-};
 
 export const Workflow: FC<IWorkflowProps> = ({ style, className, data }) => {
   const classNameStr = classNames(s.workflow, className);

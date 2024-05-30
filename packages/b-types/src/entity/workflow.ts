@@ -1,37 +1,11 @@
 import { IBaseEntity } from './base';
 import { IResourceEntity } from './resource';
-
-export enum EWorkflowType {
-  /**
-   * 表单时间
-   */
-  'table' = 1,
-  /**
-   * 定时触发
-   */
-  'timing' = 2,
-  /**
-   * 按钮事件
-   */
-  'button' = 3,
-}
-
-/**
- *  流程状态
- */
-export enum EWorkflowStatus {
-  'enable' = 1,
-  'disable' = 0,
-}
-
-export type TWorkflowStatus = keyof typeof EWorkflowStatus;
-
-export type TWorkflowType = keyof typeof EWorkflowType;
+import { IWorkflowNodeData } from '../workflow';
 
 export interface IWorkflowEntity extends IBaseEntity {
   applicationId: string;
   name: string;
-  type: TWorkflowType;
+  type: number;
   /**
    *  表单id/定时任务id/按钮id
    */
@@ -47,6 +21,19 @@ export interface IWorkflowEntity extends IBaseEntity {
    * @description  --1 启用，0 禁用，
    */
   status: number;
-  config: any;
-  extra_param: any;
+
+  /**
+   * 配置信息
+   */
+  nodeMap: Record<string, IWorkflowNodeData>;
+
+  /**
+   * 拓扑信息
+   */
+  graph: any;
+
+  /**
+   * 扩展参数
+   */
+  extraParam: any;
 }
