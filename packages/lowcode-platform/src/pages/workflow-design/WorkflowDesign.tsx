@@ -19,7 +19,7 @@ import { useMemoizedFn } from 'ahooks';
 export interface IWorkflowDesignContentProps {}
 
 export const WorkflowDesignContent: FC<IWorkflowDesignContentProps> = (props) => {
-  const workflowAppRef = useRef<WorkflowAppProcessor>();
+  const workflowAppRef = useRef<WorkflowAppProcessor>(null);
 
   const [setWorkflowAppInstance, workflowResponse] = useWorkflowDesignSelector((s) => [
     s.setWorkflowAppInstance,
@@ -93,7 +93,7 @@ export const WorkflowDesignContent: FC<IWorkflowDesignContentProps> = (props) =>
   return (
     <div className={s.bg}>
       <WorkflowDesignHeader />
-      <div className={s.content} style={{ height: 500 }}>
+      <div className={s.content}>
         {/* @ts-ignore */}
         <WorkflowApp
           ref={workflowAppRef}

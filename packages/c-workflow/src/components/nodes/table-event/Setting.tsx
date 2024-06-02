@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { ITableEventConfig } from '@brick/types';
+import { ITableEventNodeConfig } from '@brick/types';
 import { SettingFormItem } from '../../common';
 
 export interface IPanelTableEventProps {
-  data: ITableEventConfig;
+  data: ITableEventNodeConfig;
 }
 
 const Setting: FC<IPanelTableEventProps> = (props) => {

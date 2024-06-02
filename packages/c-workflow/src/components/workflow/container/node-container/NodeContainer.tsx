@@ -32,8 +32,9 @@ export const NodeContainer = ({ node }: { node: Node }) => {
   }, [data.type]);
 
   const onNodeClick = () => {
-    console.log('q=>activeNode', node?.toJSON());
-    setActiveNodeById(nodeId);
+    console.log('q=>activeNode', nodeId, node?.toJSON());
+    const type = node?.data?.type;
+    setActiveNodeById(nodeId, type);
   };
 
   return (

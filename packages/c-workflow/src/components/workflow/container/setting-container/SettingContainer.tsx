@@ -1,14 +1,15 @@
 import { useMemoizedFn } from 'ahooks';
 import { Drawer, Form } from 'antd';
-import React, { FC, memo } from 'react';
+import React, { FC, memo, Suspense } from 'react';
 import { useWorkflowAppSelector } from '../../../../processor';
 
 export interface ISettingContainerProps {}
 
 export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
-  const [activeNode, clearActiveNode] = useWorkflowAppSelector((s) => [
+  const [activeNode, clearActiveNode, nodeModule] = useWorkflowAppSelector((s) => [
     s.activeNode,
     s.clearActiveNode,
+    s.nodeModule,
   ]);
 
   const [form] = Form.useForm();
@@ -17,10 +18,15 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
     clearActiveNode();
   });
 
+  const SettingComponent = nodeModule?.[activeNode?.type!]?.settingComponent;
+
   return (
     <Drawer title="Basic Drawer" placement="right" onClose={onClose} open={Boolean(activeNode)}>
-      <Form form={form}></Form>
-      {/*{JSON.stringify(activeNode?.data)}*/}
+      <Form form={form}>
+        <Suspense fallback={<div>Loading...</div>}>
+          {SettingComponent && <SettingComponent />}
+        </Suspense>
+      </Form>
     </Drawer>
   );
 });

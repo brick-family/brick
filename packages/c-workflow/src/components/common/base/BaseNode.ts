@@ -1,4 +1,4 @@
-import { TNodeType } from '@brick/types';
+import { IBaseNodeConfig, TNodeType } from '@brick/types';
 import React, { FunctionComponent } from 'react';
 
 export type TLazyFunctionComponent = React.LazyExoticComponent<React.FunctionComponent<any>>;
@@ -22,6 +22,8 @@ export interface INodeModuleValue {
   settingComponent: FunctionComponent;
 
   metaData: ISettingPanelMetaData;
+
+  defaultNodeConfigData: IBaseNodeConfig;
 }
 
 export type TNodeModuleMap = Record<TNodeType, INodeModuleValue>;
@@ -37,5 +39,9 @@ export abstract class BaseNode {
 
   static getMetadata = (): ISettingPanelMetaData => {
     throw new Error('metaData is not implemented');
+  };
+
+  static getDefaultConfigData = (): IBaseNodeConfig => {
+    throw new Error('default config data is not implemented');
   };
 }

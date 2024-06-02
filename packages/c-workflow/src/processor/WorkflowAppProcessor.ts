@@ -1,8 +1,9 @@
 import { Observable, observable } from '@legendapp/state';
-import { IWorkflowEntity, IWorkflowNodeData } from '../types';
+import { IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
 import { getNodeModule } from '../utils';
 import { TNodeModuleMap } from '../components/common';
 import { createGraphProcessor, GraphProcessor } from './poc';
+import { generateSetObservable } from '@brick/core';
 
 export class WorkflowAppProcessor {
   self: WorkflowAppProcessor;
@@ -17,14 +18,14 @@ export class WorkflowAppProcessor {
   nodeModule: TNodeModuleMap;
 
   //工作留数据
-  workflowData: Observable<IWorkflowEntity | null>;
+  workflowData: Observable<IWorkflowEntity>;
 
   activeNode: Observable<IWorkflowNodeData | null>;
 
   constructor() {
     this.self = this;
     this.activeNode = observable(null);
-    this.workflowData = observable(null);
+    this.workflowData = observable({} as IWorkflowEntity);
     this.workflowElement = null;
 
     this.graphProcessor = createGraphProcessor().processor;
@@ -47,8 +48,23 @@ export class WorkflowAppProcessor {
     // this.activeNode?.get().
   };
 
-  setActiveNodeById = (nodeId: string) => {
-    const nodeData = this.workflowData.get()?.nodeMap?.[nodeId];
+  get setWorkflowDataObservable() {
+    return generateSetObservable(this.workflowData!);
+  }
+
+  setActiveNodeById = (nodeId: string, type: TNodeType) => {
+    let nodeData = this.workflowData.get()?.nodeMap?.[nodeId];
+    if (!nodeData) {
+      nodeData = {
+        id: nodeId,
+        type: type,
+        config: this.nodeModule?.[type]?.defaultNodeConfigData || {},
+      } as IWorkflowNodeData;
+
+      this.setWorkflowDataObservable((draft) => {
+        draft.nodeMap.set({ ...draft.nodeMap.get(), [nodeId]: nodeData });
+      });
+    }
     this.activeNode.set(nodeData);
   };
 

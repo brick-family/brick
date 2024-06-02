@@ -1,5 +1,5 @@
 import React from 'react';
-import { ENodeType } from '@brick/types';
+import { ENodeType, ITableEventNodeConfig } from '@brick/types';
 import { PlusOutlined } from '@ant-design/icons';
 import { BaseNode, ISettingPanelMetaData, TLazyFunctionComponent } from '../../common';
 
@@ -18,5 +18,9 @@ export class TableEventNode extends BaseNode {
       type: ENodeType.TableEvent,
       icon: React.createElement(PlusOutlined),
     };
+  };
+
+  static getDefaultConfigData = () => {
+    return {} as ITableEventNodeConfig;
   };
 }
