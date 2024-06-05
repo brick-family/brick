@@ -95,7 +95,7 @@ export const DefaultValueSetterFun: FC<IDefaultValueSetterProps> = ({
           <UserSelect
             columnConfig={{
               selectType: format,
-              status: 1,
+              status: 2,
               description: '',
               defaultValue: undefined,
               defaultValueType: '',
