@@ -54,17 +54,27 @@ export const UserSelect: FC<IColumnUserProps> = (props) => {
   // const [multiValue, setMultiValue] = useState([] as string[]);
 
   useEffect(() => {
-    queryUser({ currentPage: 1, pageSize: 10 }).then((userList) => {
-      setPages(userList?.pages);
-      setCurrentPage(userList?.current);
-      const preUserList = userList?.records?.map((item) => {
-        return {
-          label: item.name,
-          value: item.name,
-        };
+    queryUser({ currentPage: 1, pageSize: 10 })
+      .then((userList) => {
+        setPages(userList?.pages);
+        setCurrentPage(userList?.current);
+        const preUserList = userList?.records?.map((item) => {
+          return {
+            label: item.name,
+            value: item.name,
+          };
+        });
+        setCurUserList(preUserList);
+      })
+      .then(() => {
+        let preValue = '' as string | string[];
+        if (status == 2) {
+          //是setter
+          onChange(value);
+        } else {
+          onChange(defaultValue);
+        }
       });
-      setCurUserList(preUserList);
-    });
   }, []);
 
   // const changeValue = (value: string | null | string[]) => {
