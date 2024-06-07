@@ -3,7 +3,7 @@ import s from './workflowDesignHeader.less';
 import { BEditInput } from '@brick/component';
 import { useWorkflowDesignSelector } from '@/pages/workflow-design/workflow-design-processor';
 import { history, useParams } from 'umi';
-import { Button, Space } from 'antd';
+import { Button, message, Space } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 
 export interface IWorkflowName {
@@ -30,10 +30,18 @@ export interface IWorkflowDesignHeaderProps {}
 
 export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
   const { wId, aId } = useParams();
-  const [getWorkflow, workflowResponse, workflowAppInstance] = useWorkflowDesignSelector((s) => [
+  const [
+    getWorkflow,
+    workflowResponse,
+    workflowAppInstance,
+    updateWorkflow,
+    updateWorkflowResponse,
+  ] = useWorkflowDesignSelector((s) => [
     s.workflowProcessor.getWorkflow,
     s.workflowProcessor.getWorkflowResponse,
     s.workflowAppInstance,
+    s.workflowProcessor.updateWorkflow,
+    s.workflowProcessor.updateWorkflowResponse,
   ]);
   useEffect(() => {
     if (wId) {
@@ -41,10 +49,17 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
     }
   }, [wId]);
 
-  const handleSave = () => {
-    const data = workflowAppInstance?.graphProcessor.getData();
+  const handleSave = async () => {
+    const graphData = workflowAppInstance?.graphProcessor.getData();
     const workflowData = workflowAppInstance?.workflowData?.get?.();
-    console.log('q=>save-data', data, workflowData);
+
+    const result = { ...workflowData, graph: graphData };
+
+    await updateWorkflow(result, {
+      onError() {
+        message.error('修改失败！');
+      },
+    });
   };
 
   const handleDeploy = () => {};
@@ -62,7 +77,9 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
 
       <div className={s.right}>
         <Space>
-          <Button onClick={handleSave}>保存</Button>
+          <Button loading={updateWorkflowResponse.loading} onClick={handleSave}>
+            保存
+          </Button>
           <Button type="primary" onClick={handleDeploy}>
             发布
           </Button>

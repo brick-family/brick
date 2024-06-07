@@ -511,6 +511,7 @@ importers:
       '@antv/x6': ^2.14.1
       '@antv/x6-plugin-scroller': ^2.0.10
       '@antv/x6-react-shape': ^2.2.2
+      '@brick/biz-component': workspace:0.0.1
       '@brick/core': workspace:^0.0.1
       '@brick/services': workspace:0.0.1
       '@brick/types': workspace:0.0.1
@@ -547,6 +548,7 @@ importers:
       antd: 5.17.3_nnrd3gsncyragczmpvfhocinkq
       classnames: 2.5.1
     devDependencies:
+      '@brick/biz-component': link:../b-biz-component
       '@brick/services': link:../b-services
       '@brick/types': link:../b-types
       '@brick/utils': link:../b-utils

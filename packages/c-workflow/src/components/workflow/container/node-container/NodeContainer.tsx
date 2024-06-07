@@ -15,13 +15,13 @@ export interface INodeContainerProps {
 }
 
 export const NodeContainer = ({ node }: { node: Node }) => {
-  const [graphProcessor, setActiveNodeById, activeNode] = useWorkflowAppSelector((s) => [
-    s.graphProcessor,
-    s.setActiveNodeById,
-    s.activeNode,
-  ]);
+  const [graphProcessor, setActiveNodeById, activeNode, nodeModule] = useWorkflowAppSelector(
+    (s) => [s.graphProcessor, s.setActiveNodeById, s.activeNode, s.nodeModule]
+  );
 
   const nodeId = node.id;
+
+  const nodeType = node?.data?.type as ENodeType;
   // 是否激活
   const isActive = activeNode?.id === nodeId;
 
@@ -32,10 +32,10 @@ export const NodeContainer = ({ node }: { node: Node }) => {
   }, [data.type]);
 
   const onNodeClick = () => {
-    console.log('q=>activeNode', nodeId, node?.toJSON());
-    const type = node?.data?.type;
-    setActiveNodeById(nodeId, type);
+    setActiveNodeById(nodeId, nodeType);
   };
+
+  const NodeComponent = nodeModule?.[nodeType]?.nodeComponent;
 
   return (
     <div
@@ -46,12 +46,10 @@ export const NodeContainer = ({ node }: { node: Node }) => {
       onClick={onNodeClick}
     >
       <div className={s.title}>
-        <div className={s.icon}>
-          {panelData?.icon}
-          <span>{panelData?.label}</span>
-        </div>
+        <span className={s.icon}>{panelData?.icon}</span>
+        <span>{panelData?.label}</span>
       </div>
-      <div className={s.content}></div>
+      <div className={s.content}>{NodeComponent && <NodeComponent nodeData={activeNode!} />}</div>
     </div>
   );
 };

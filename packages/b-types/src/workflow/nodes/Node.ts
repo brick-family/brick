@@ -40,6 +40,16 @@ export interface IWorkflowNodeData<T extends TNodeType = TNodeType> {
   type: T;
 
   /**
+   * 标题
+   */
+  name: string;
+
+  /**
+   * icon
+   */
+  icon: string;
+
+  /**
    * 配置
    */
   config: T extends keyof TNodeTypeConfigMap ? TNodeTypeConfigMap[T] : IBaseNodeConfig;

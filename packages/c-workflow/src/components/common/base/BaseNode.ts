@@ -1,4 +1,4 @@
-import { IBaseNodeConfig, TNodeType } from '@brick/types';
+import { ENodeType, IBaseNodeConfig, IWorkflowNodeData, TNodeType } from '@brick/types';
 import React, { FunctionComponent } from 'react';
 
 export type TLazyFunctionComponent = React.LazyExoticComponent<React.FunctionComponent<any>>;
@@ -16,10 +16,18 @@ export interface ISettingPanelMetaData {
   icon: string | React.ReactNode;
 }
 
-export interface INodeModuleValue {
-  nodeComponent: FunctionComponent;
+export interface INodeComponentProps<T extends ENodeType = any> {
+  nodeData: IWorkflowNodeData<T>;
+}
 
-  settingComponent: FunctionComponent;
+export interface ISettingComponentProps<T extends ENodeType = any> {
+  nodeData: IWorkflowNodeData<T>;
+}
+
+export interface INodeModuleValue {
+  nodeComponent: FunctionComponent<INodeComponentProps>;
+
+  settingComponent: FunctionComponent<ISettingComponentProps>;
 
   metaData: ISettingPanelMetaData;
 
