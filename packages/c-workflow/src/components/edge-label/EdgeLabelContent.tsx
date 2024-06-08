@@ -4,9 +4,11 @@ import { WORKFLOW_TABLE_NODE_DATA } from '../../constants';
 import { getWorkflowProcessor } from '../../processor/WorkflowAppManager';
 import { EWorkflowType, IPanelDataNode } from '../../types';
 import s from './lable.less';
+import { uuid } from '@brick/core';
 
 export interface ILabelContentProps {
   edge: Edge<Edge.Properties>;
+  setOpen?: (open: boolean) => void;
 }
 
 export const EdgeLabelContent: FC<ILabelContentProps> = memo((props) => {
@@ -21,11 +23,19 @@ export const EdgeLabelContent: FC<ILabelContentProps> = memo((props) => {
   }, [type]);
 
   const handleAddNode = (node: IPanelDataNode) => {
+    const id = uuid();
+    // 添加拓扑数据
     workflowProcessor?.graphProcessor?.addNodeByEdge({
       nodeType: node.type,
       edge: props.edge,
-      data: {},
+      data: { id },
     });
+
+    // 添加节点数据
+    workflowProcessor.addNodeData(node.type, { id });
+    workflowProcessor.setActiveNodeById(id);
+
+    props?.setOpen?.(false);
   };
 
   return (

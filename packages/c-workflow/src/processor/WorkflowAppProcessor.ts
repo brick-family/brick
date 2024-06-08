@@ -1,9 +1,9 @@
-import { Observable, observable } from '@legendapp/state';
+import { mergeIntoObservable, observable, Observable } from '@legendapp/state';
 import { IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
 import { getNodeModule } from '../utils';
 import { TNodeModuleMap } from '../components/common';
 import { createGraphProcessor, GraphProcessor } from './poc';
-import { generateSetObservable } from '@brick/core';
+import { generateSetObservable, uuid } from '@brick/core';
 
 export class WorkflowAppProcessor {
   self: WorkflowAppProcessor;
@@ -44,26 +44,50 @@ export class WorkflowAppProcessor {
     this.workflowData.set(data);
   };
 
-  updateNodeData = (nodeData: any) => {
-    // this.activeNode?.get().
+  /**
+   * 根据类型获取节点的默认数据
+   * @param nodeType
+   * @param defaultNodeData
+   */
+  _getDefaultNodeData = (nodeType: TNodeType, defaultNodeData?: Partial<IWorkflowNodeData>) => {
+    const { metaData, defaultNodeConfigData } = this.nodeModule?.[nodeType] || {};
+    return {
+      id: uuid(),
+      type: nodeType,
+      name: metaData.name,
+      config: defaultNodeConfigData || {},
+      ...defaultNodeData,
+    } as IWorkflowNodeData;
+  };
+
+  addNodeData = (nodeType: TNodeType, defaultNodeData?: Partial<IWorkflowNodeData>) => {
+    const currNodeData = this._getDefaultNodeData(nodeType, defaultNodeData);
+    this.setWorkflowDataObservable((draft) => {
+      draft.nodeMap.set({ ...draft.nodeMap.get(), [currNodeData.id]: currNodeData });
+    });
+    return currNodeData;
+  };
+
+  /**
+   * 修改node data
+   * @param nodeData
+   */
+  updateNodeData = (nodeData: IWorkflowNodeData) => {
+    this.setWorkflowDataObservable((draft) => {
+      const oldNode = draft.nodeMap?.[nodeData.id];
+      // 合并node节点
+      mergeIntoObservable(oldNode, nodeData);
+    });
   };
 
   get setWorkflowDataObservable() {
     return generateSetObservable(this.workflowData!);
   }
 
-  setActiveNodeById = (nodeId: string, type: TNodeType) => {
-    let nodeData = this.workflowData.get()?.nodeMap?.[nodeId];
-    if (!nodeData) {
-      nodeData = {
-        id: nodeId,
-        type: type,
-        config: this.nodeModule?.[type]?.defaultNodeConfigData || {},
-      } as IWorkflowNodeData;
-
-      this.setWorkflowDataObservable((draft) => {
-        draft.nodeMap.set({ ...draft.nodeMap.get(), [nodeId]: nodeData });
-      });
+  setActiveNodeById = (nodeId: string, type?: TNodeType) => {
+    let nodeData = this.workflowData.nodeMap?.[nodeId].get();
+    if (!nodeData && type) {
+      nodeData = this.addNodeData(type, { id: nodeId });
     }
     this.activeNode.set(nodeData);
   };
