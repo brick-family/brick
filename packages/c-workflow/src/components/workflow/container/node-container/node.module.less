@@ -8,20 +8,43 @@
   cursor: pointer;
   box-shadow: 0 1px 4px 0 rgba(10, 30, 65, 0.16);
   transition: all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
+  color: #1f1f1f;
 
   &.selected {
     background-color: #f7f9ff;
     border-color: #0089ff;
+
   }
 
   &.end {
+    background: #6e6e6e;
+    color: #fff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    height: 40px !important;
+
+  }
+
+  .content {
+    color: #111f2c;
+    background: rgba(0, 0, 0, .03);
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-top: 6px;
+    font-size: 14px;
+    display: flex;
+
+    .left {
+      flex: 1;
+    }
   }
 }
 
 .title {
   font-size: 14px;
   font-weight: 600;
-  color: #1f1f1f;
   display: flex;
   align-items: center;
 

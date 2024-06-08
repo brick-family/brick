@@ -27,6 +27,7 @@ const Setting: FC<ISettingComponentProps<ENodeType.TableEvent>> = (props) => {
         title={'触发事件'}
         formItemProps={{
           name: ['config', 'triggerEvent'],
+          rules: [{ required: true, message: '请选择触发事件' }],
         }}
       >
         <SettingCheckboxGroup options={TableTriggerEventGroupData} direction={'vertical'} />
@@ -49,7 +50,9 @@ const Setting: FC<ISettingComponentProps<ENodeType.TableEvent>> = (props) => {
         formItemProps={{
           name: ['config', 'filter'],
         }}
-      ></SettingFormItem>
+      >
+        <div></div>
+      </SettingFormItem>
     </div>
   );
 };

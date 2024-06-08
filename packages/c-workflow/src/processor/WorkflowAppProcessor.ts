@@ -1,4 +1,4 @@
-import { mergeIntoObservable, observable, Observable } from '@legendapp/state';
+import { observable, Observable } from '@legendapp/state';
 import { IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
 import { getNodeModule } from '../utils';
 import { TNodeModuleMap } from '../components/common';
@@ -75,8 +75,9 @@ export class WorkflowAppProcessor {
   updateNodeData = (nodeData: IWorkflowNodeData) => {
     this.setWorkflowDataObservable((draft) => {
       const oldNode = draft.nodeMap?.[nodeData.id];
-      // 合并node节点
-      mergeIntoObservable(oldNode, nodeData);
+      oldNode.assign(nodeData);
+      // 不需要深度合并
+      // mergeIntoObservable(oldNode, nodeData);
     });
   };
 

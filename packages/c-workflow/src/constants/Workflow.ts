@@ -80,6 +80,11 @@ const PANEL_DATA_NODE = [
     label: '删除数据',
     icon: React.createElement(DeleteOutlined) as any,
   },
+  {
+    id: ENodeType.End,
+    type: ENodeType.End,
+    label: '结束',
+  },
 ];
 
 const PANEL_DATA_PERSON = [

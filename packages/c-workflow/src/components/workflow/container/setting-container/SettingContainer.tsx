@@ -1,5 +1,5 @@
 import { useMemoizedFn } from 'ahooks';
-import { Button, Drawer, Form, Space } from 'antd';
+import { Button, Drawer, Form, message, Space } from 'antd';
 import React, { FC, memo, Suspense, useEffect } from 'react';
 import { useWorkflowAppSelector } from '../../../../processor';
 import s from './settingContainer.module.less';
@@ -27,10 +27,18 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
   /**
    * 更新widget
    */
-  const onOk = () => {
-    const values = form.getFieldsValue();
-    updateNodeData({ ...values, id: nodeId });
-    onClose();
+  const onOk = async () => {
+    try {
+      const values = await form.validateFields();
+
+      updateNodeData({ ...values, id: nodeId });
+      onClose();
+    } catch (error: any) {
+      const errMessage = error?.errorFields?.[0]?.errors?.[0];
+      message.error(errMessage);
+
+      return;
+    }
   };
 
   const SettingComponent = nodeModule?.[activeNode?.type!]?.settingComponent;

@@ -21,4 +21,5 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
     </div>
   );
 };
+
 export default Setting;

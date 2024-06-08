@@ -10,7 +10,10 @@ const TableEvent: FC<INodeComponentProps<ENodeType.TableEvent>> = (props) => {
 
   const text = useMemo(() => {
     if (triggerEvent) {
-      triggerEvent?.map((item) => TableTriggerEventGroupData.find((f) => f.value === item));
+      return triggerEvent
+        ?.map((item) => TableTriggerEventGroupData.find((f) => f.value === item))
+        ?.map((item) => item?.label)
+        ?.join(',');
     }
     return '';
   }, [triggerEvent]);
