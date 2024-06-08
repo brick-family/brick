@@ -44,7 +44,7 @@ export const UserSelect: FC<IColumnUserProps> = (props) => {
     onChange = () => {},
   } = props;
 
-  const { placeholder, defaultValue, status, selectType } = columnConfig || {};
+  const { placeholder, defaultValue, status, selectType, defaultValueType } = columnConfig || {};
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(0);
@@ -68,12 +68,7 @@ export const UserSelect: FC<IColumnUserProps> = (props) => {
       })
       .then(() => {
         let preValue = '' as string | string[];
-        if (status == 2) {
-          //是setter
-          onChange(value);
-        } else {
-          onChange(defaultValue);
-        }
+        onChange(value || defaultValue);
       });
   }, []);
 
@@ -94,12 +89,12 @@ export const UserSelect: FC<IColumnUserProps> = (props) => {
   console.log('selectType', selectType, 'defaultValue', defaultValue, 'value', value);
 
   useEffect(() => {
-    // setRadioValue(null);
-    // setMultiValue([]);
-    if (selectType == 1) {
-      onChange(null);
-    } else {
-      onChange([]);
+    if (curUserList.length > 0) {
+      if (selectType == 1) {
+        onChange(null);
+      } else {
+        onChange([]);
+      }
     }
   }, [selectType]);
 
@@ -180,7 +175,7 @@ export const UserSelect: FC<IColumnUserProps> = (props) => {
   return (
     <>
       <Select
-        mode={selectType == 2 ? 'multiple' : 'tags'}
+        mode={selectType == 2 ? 'multiple' : undefined}
         value={value}
         style={{ width: '100%' }}
         onSearch={onSearch}

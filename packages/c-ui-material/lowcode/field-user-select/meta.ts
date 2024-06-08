@@ -39,7 +39,7 @@ const FieldUserSelectMeta = {
         title: {
           label: '格式',
         },
-        name: 'columnConfig.format',
+        name: 'columnConfig.selectType',
         supportVariable: false,
         setter: {
           componentName: SelectSetter,
