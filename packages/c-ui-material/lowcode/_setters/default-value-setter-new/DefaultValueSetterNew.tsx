@@ -31,6 +31,7 @@ export const DefaultValueSetterFun: FC<IDefaultValueSetterProps> = ({
 }) => {
   const { getPropValue } = usePropsValue(otherProps);
   const format = getPropValue('columnConfig.format');
+  const selectType = getPropValue('columnConfig.selectType');
 
   useEffect(() => {
     if (fieldType == EFieldType.USER) {
@@ -94,11 +95,11 @@ export const DefaultValueSetterFun: FC<IDefaultValueSetterProps> = ({
         return (
           <UserSelect
             columnConfig={{
-              selectType: format,
-              status: 2,
+              selectType: selectType,
+              status: 1,
               description: '',
               defaultValue: undefined,
-              defaultValueType: '',
+              defaultValueType: '1',
             }}
             value={value}
             onChange={onChange}
