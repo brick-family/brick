@@ -54,7 +54,7 @@ export class WorkflowAppProcessor {
     return {
       id: uuid(),
       type: nodeType,
-      name: metaData.name,
+      name: metaData?.name,
       config: defaultNodeConfigData || {},
       ...defaultNodeData,
     } as IWorkflowNodeData;

@@ -75,10 +75,15 @@ export async function queryResourceAll() {
 
 /**
  * 根据类型获取资源
- * @param resourceType
+ * @param params
  */
-export async function queryResourceByResourceType(resourceType: ResourceType) {
-  return Request.get<IResourceEntity[]>(`/app/resource/all/${resourceType}/`);
+export async function queryResourceByResourceType(params: {
+  resourceType: ResourceType;
+  appId?: string;
+}) {
+  return Request.get<IResourceEntity[]>(`/app/resource/query/`, {
+    params: params,
+  });
 }
 
 /**
@@ -104,6 +109,7 @@ export interface IUpdateResourceSortParams {
   sort: TSortMap;
   dragData: Pick<IResourceEntity, 'parentId'> & Pick<IBaseEntity, 'id'>;
 }
+
 export async function updateResourceSort(params: IUpdateResourceSortParams) {
   return Request.post<boolean>(`/app/resource/sort`, params);
 }

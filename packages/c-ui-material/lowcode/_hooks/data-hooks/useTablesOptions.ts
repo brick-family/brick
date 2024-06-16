@@ -7,7 +7,9 @@ import { EResourceType } from '@brick/types';
  * 获取tables选项
  */
 export const useTablesOptions = () => {
-  const { data } = useRequest(() => queryResourceByResourceType(EResourceType.TABLE));
+  const { data } = useRequest(() =>
+    queryResourceByResourceType({ resourceType: EResourceType.TABLE })
+  );
 
   const options = useMemo(() => {
     return (

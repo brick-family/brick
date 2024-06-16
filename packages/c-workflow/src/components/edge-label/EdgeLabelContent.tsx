@@ -46,7 +46,7 @@ export const EdgeLabelContent: FC<ILabelContentProps> = memo((props) => {
             <div className={s.label}>{group.label}</div>
             {group.children?.map((item) => {
               return (
-                <div onClick={() => handleAddNode(item)} className={s.item} key={item.id}>
+                <div onClick={() => handleAddNode(item as any)} className={s.item} key={item.id}>
                   <div className={s.ic}>{item.icon}</div>
                   <div>{item.label}</div>
                 </div>
