@@ -87,6 +87,24 @@ const PANEL_DATA_NODE = [
   },
 ];
 
+/**
+ * 逻辑控制节点
+ */
+const PANEL_DATA_LOGIC = [
+  {
+    id: ENodeType.Condition,
+    type: ENodeType.Condition,
+    label: '条件分支',
+    icon: React.createElement(PlusOutlined) as any,
+  },
+  {
+    id: ENodeType.Loop,
+    type: ENodeType.Loop,
+    label: '循环分支',
+    icon: React.createElement(PlusOutlined) as any,
+  },
+];
+
 const PANEL_DATA_PERSON = [
   {
     id: ENodeType.SendAudit,
@@ -112,6 +130,11 @@ export const WORKFLOW_TABLE_NODE_DATA = [
   },
   {
     id: 2,
+    label: '逻辑控制',
+    children: PANEL_DATA_LOGIC,
+  },
+  {
+    id: 3,
     label: '人员节点',
     children: PANEL_DATA_PERSON,
   },

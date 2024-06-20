@@ -7,10 +7,12 @@ import { convertToLevelTree } from '../../utils';
 export class GraphProcessor extends BaseProcessor {
   // graph实例，不是
   graph: Graph | null;
+  minMapElement: HTMLDivElement | null;
 
   constructor() {
     super();
     this.graph = null;
+    this.minMapElement = null;
     this.init();
   }
 
@@ -26,6 +28,14 @@ export class GraphProcessor extends BaseProcessor {
     this.graph = graph;
     // @ts-ignore
     window._graph = graph;
+  };
+
+  /**
+   * 设置小地图实例
+   * @param instance
+   */
+  setMinMapElement = (instance: HTMLDivElement) => {
+    this.minMapElement = instance;
   };
 
   /**
@@ -175,6 +185,20 @@ export class GraphProcessor extends BaseProcessor {
    */
   getData = () => {
     return this.graph?.toJSON();
+  };
+
+  /**
+   * 设置画布局中
+   */
+  setGraphCenter = () => {
+    this.graph?.center();
+  };
+
+  /**
+   * 设置画布内容居中
+   */
+  setGraphContentCenter = () => {
+    this.graph?.centerContent();
   };
 
   /**

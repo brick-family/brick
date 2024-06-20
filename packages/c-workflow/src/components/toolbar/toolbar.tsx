@@ -1,9 +1,20 @@
 import { ActionGroup, ActionIconGroupItemType } from '@ant-design/pro-editor';
 import classNames from 'classnames';
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useState } from 'react';
 import { useWorkflowAppSelector } from '../../processor';
 import s from './toolbar.less';
-import { FullscreenOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons';
+import {
+  DragOutlined,
+  EnvironmentOutlined,
+  FullscreenOutlined,
+  RedoOutlined,
+  UndoOutlined,
+  ZoomInOutlined,
+  ZoomOutOutlined,
+} from '@ant-design/icons';
+import { Space } from 'antd';
+import { MinMap } from './min-map';
+import { useUpdate } from 'ahooks';
 
 export interface IToolbarProps {
   style?: React.CSSProperties;
@@ -12,44 +23,83 @@ export interface IToolbarProps {
 
 export const Toolbar: FC<IToolbarProps> = memo((props) => {
   const { style, className } = props;
-  const [graph] = useWorkflowAppSelector((s) => [s.graphProcessor.graph]);
+  const [graph, setGraphCenter, setGraphContentCenter, setMinMapElement] = useWorkflowAppSelector(
+    (s) => [
+      s.graphProcessor.graph,
+      s.graphProcessor.setGraphCenter,
+      s.graphProcessor.setGraphContentCenter,
+      s.graphProcessor.setMinMapElement,
+    ]
+  );
+  const update = useUpdate();
 
-  const zoom = () => {
-    console.log('q=>12');
-    graph?.zoom(1); // 将画布缩放级别减少 0.2
-  };
+  const [visible, setVisible] = useState(false);
 
   const customItems: ActionIconGroupItemType[] = [
+    {
+      icon: <DragOutlined />,
+      title: '快速定位',
+      onClick: () => {
+        setGraphContentCenter?.();
+      },
+    },
+    { icon: <UndoOutlined />, title: '撤销' },
+    { icon: <RedoOutlined />, title: '重做' },
+    {
+      type: 'divider',
+    },
     {
       icon: <FullscreenOutlined />,
       title: '全屏',
       onClick: () => {},
     },
     {
-      icon: <ZoomInOutlined />,
-      title: '放大！',
-      onClick: () => {},
+      icon: <EnvironmentOutlined />,
+      title: '小地图',
+      onClick: () => {
+        setVisible(!visible);
+      },
     },
+  ];
+
+  const customItems2: ActionIconGroupItemType[] = [
     {
       icon: <ZoomOutOutlined />,
-      style: {
-        color: '#1890ff',
-      },
       title: '缩小！',
-      onClick: () => {},
+      onClick: () => {
+        graph?.zoom(-0.1); // 将画布缩放级别减少 0.1
+        update();
+      },
     },
-    // {
-    //   type: 'divider',
-    // },
-    // {
-    //   icon: <DragOutlined/>,
-    //   title: '快速定位',
-    // },
+    {
+      icon: `${Math.floor((graph?.zoom() || 1) * 100)}%`,
+      style: {
+        background: 'unset',
+        margin: '0 4px',
+      },
+    },
+    {
+      icon: <ZoomInOutlined />,
+      title: '放大！',
+      onClick: () => {
+        graph?.zoom(0.1); // 将画布缩放级别减少 0.1
+        update();
+      },
+    },
+    {
+      type: 'divider',
+    },
   ];
 
   return (
-    <div style={style} className={classNames(s.toolbar, className)}>
-      <ActionGroup items={customItems} />
-    </div>
+    <>
+      <div style={style} className={classNames(s.toolbar, className)}>
+        <Space>
+          <ActionGroup items={[...customItems2, ...customItems]} />
+          {/*<ActionGroup items={customItems}/>*/}
+        </Space>
+        {<MinMap style={{ opacity: visible ? 1 : 0 }} className={s.minmap} />}
+      </div>
+    </>
   );
 });

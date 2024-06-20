@@ -509,6 +509,7 @@ importers:
       '@ant-design/icons': ^4.8.0
       '@ant-design/pro-editor': ^1.2.1
       '@antv/x6': ^2.14.1
+      '@antv/x6-plugin-minimap': ^2.0.7
       '@antv/x6-plugin-scroller': ^2.0.10
       '@antv/x6-react-shape': ^2.2.2
       '@brick/biz-component': workspace:0.0.1
@@ -541,6 +542,7 @@ importers:
       '@ant-design/icons': 4.8.3_nnrd3gsncyragczmpvfhocinkq
       '@ant-design/pro-editor': 1.2.1_kos45cijuqonyez2w2c5xg6uam
       '@antv/x6': 2.18.1
+      '@antv/x6-plugin-minimap': 2.0.7_@antv+x6@2.18.1
       '@antv/x6-plugin-scroller': 2.0.10_@antv+x6@2.18.1
       '@antv/x6-react-shape': 2.2.3_pecuq6kqnclxzczqjkjnabsdee
       '@brick/core': link:../b-core
@@ -2330,6 +2332,14 @@ packages:
 
   /@antv/x6-geometry/2.0.5:
     resolution: {integrity: sha512-MId6riEQkxphBpVeTcL4ZNXL4lScyvDEPLyIafvWMcWNTGK0jgkK7N20XSzqt8ltJb0mGUso5s56mrk8ysHu2A==}
+    dev: false
+
+  /@antv/x6-plugin-minimap/2.0.7_@antv+x6@2.18.1:
+    resolution: {integrity: sha512-8zzESCx0jguFPCOKCA0gPFb6JmRgq81CXXtgJYe34XhySdZ6PB23I5Po062lNsEuTjTjnzli4lju8vvU+jzlGw==}
+    peerDependencies:
+      '@antv/x6': ^2.x
+    dependencies:
+      '@antv/x6': 2.18.1
     dev: false
 
   /@antv/x6-plugin-scroller/2.0.10_@antv+x6@2.18.1:

@@ -20,6 +20,17 @@ export enum ENodeType {
    */
   SendAudit = 'SendAudit', //发送审批
 
+  // 逻辑控制节点
+
+  /**
+   * 条件节点
+   */
+  Condition = 'Condition',
+  /**
+   * 循环节点
+   */
+  Loop = 'Loop',
+
   End = 'End', //结束节点类型
 }
 
