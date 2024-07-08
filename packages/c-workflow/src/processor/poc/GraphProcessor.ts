@@ -235,10 +235,7 @@ export class GraphProcessor extends BaseProcessor {
     if (incomingEdges) {
       incomingEdges.forEach((edge) => {
         const sourceId = edge.getSourceCellId();
-        graph?.addEdge({
-          source: sourceId,
-          target: newNodeId,
-        });
+        this.addEdge(sourceId, newNodeId);
       });
     }
 
@@ -246,10 +243,7 @@ export class GraphProcessor extends BaseProcessor {
     if (outgoingEdges) {
       outgoingEdges.forEach((edge) => {
         const targetId = edge.getTargetCellId();
-        graph?.addEdge({
-          source: newNodeId,
-          target: targetId,
-        });
+        this.addEdge(newNodeId, targetId);
       });
     }
 
