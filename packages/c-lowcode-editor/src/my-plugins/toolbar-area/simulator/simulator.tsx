@@ -1,6 +1,6 @@
 import React from 'react';
-import { NumberPicker, Icon } from '@alifd/next';
-import { project, isOpenSource } from '@alilc/lowcode-engine';
+import { Icon } from '@alifd/next';
+import { project } from '@alilc/lowcode-engine';
 import { Divider } from 'antd';
 
 import './simultor.less';
@@ -12,7 +12,7 @@ const devices = [
 ];
 
 const CustomIcon = Icon.createFromIconfontCN({
-  scriptUrl: 'https://at.alicdn.com/t/font_2896595_33xhsbg9ux5.js',
+  scriptUrl: 'https://at.alicdn.com/t/c/font_4058713_zovbpz02h3h.js',
 });
 
 export class SimulatorResizePane extends React.Component {
@@ -111,6 +111,7 @@ export class SimulatorResizePane extends React.Component {
     );
   }
 }
+
 export const SimulatorPlugin = (ctx: any) => {
   const SimulatorResizePaneRef = React.createRef<SimulatorResizePane>();
 

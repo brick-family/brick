@@ -18,6 +18,13 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
         <AppTableCaseCadeSelect />
       </SettingFormItem>
       <Divider />
+
+      <SettingFormItem
+        title={'新增数据'}
+        formItemProps={{
+          name: ['data'],
+        }}
+      ></SettingFormItem>
     </div>
   );
 };

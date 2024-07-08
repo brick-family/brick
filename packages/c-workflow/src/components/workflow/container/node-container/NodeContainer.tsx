@@ -6,7 +6,8 @@ import s from './node.module.less';
 import { useWorkflowAppSelector } from '../../../../processor';
 import { ENodeType, IWorkflowNodeData } from '@brick/types';
 import { PANEL_ALL_DATA } from '../../../../constants';
-import { RightOutlined } from '@ant-design/icons';
+import { CopyOutlined, DeleteOutlined, RightOutlined } from '@ant-design/icons';
+import { Button, Space } from 'antd';
 
 export interface INodeContainerProps {
   style?: React.CSSProperties;
@@ -16,14 +17,23 @@ export interface INodeContainerProps {
 }
 
 export const NodeContainer = ({ node }: { node: Node }) => {
-  const [graphProcessor, setActiveNodeById, activeNode, nodeModule, nodeMap] =
-    useWorkflowAppSelector((s) => [
-      s.graphProcessor,
-      s.setActiveNodeById,
-      s.activeNode,
-      s.nodeModule,
-      s.workflowData.nodeMap,
-    ]);
+  const [
+    graphProcessor,
+    setActiveNodeById,
+    activeNode,
+    nodeModule,
+    nodeMap,
+    removeNodeData,
+    copyNodeData,
+  ] = useWorkflowAppSelector((s) => [
+    s.graphProcessor,
+    s.setActiveNodeById,
+    s.activeNode,
+    s.nodeModule,
+    s.workflowData.nodeMap,
+    s.removeNodeData,
+    s.copyNodeData,
+  ]);
 
   const nodeId = node.id;
 
@@ -46,7 +56,30 @@ export const NodeContainer = ({ node }: { node: Node }) => {
     setActiveNodeById(nodeId, nodeType);
   };
 
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // 复制节点
+
+    const newNode = copyNodeData(nodeId);
+
+    graphProcessor.copyNode(node, newNode.id);
+
+    // 复制节点数据
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // 删除节点
+    graphProcessor?.removeNode?.(node);
+
+    // 删除节点数据
+    removeNodeData(node.id);
+  };
+
   const NodeComponent = nodeModule?.[nodeType]?.nodeComponent;
+
+  // 是否有toolbar
+  const hasToolbar = ![ENodeType.End, ENodeType.TableEvent].includes(nodeType);
 
   return (
     <div
@@ -64,6 +97,27 @@ export const NodeContainer = ({ node }: { node: Node }) => {
         <div className={s.content}>
           <div className={s.left}>{NodeComponent && <NodeComponent nodeData={currNode!} />}</div>
           <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 16 }} />
+        </div>
+      )}
+
+      {hasToolbar && (
+        <div className={s.toolbar}>
+          <Space size={4}>
+            <Button
+              onClick={handleCopy}
+              type="text"
+              size={'small'}
+              className={s.item}
+              icon={<CopyOutlined />}
+            ></Button>
+            <Button
+              onClick={handleDelete}
+              type="text"
+              size={'small'}
+              className={s.item}
+              icon={<DeleteOutlined />}
+            ></Button>
+          </Space>
         </div>
       )}
     </div>

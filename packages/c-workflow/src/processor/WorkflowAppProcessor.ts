@@ -69,6 +69,35 @@ export class WorkflowAppProcessor {
   };
 
   /**
+   * 删除节点数据
+   * @param id
+   */
+  removeNodeData = (id: IWorkflowNodeData['id']) => {
+    this.setWorkflowDataObservable((draft) => {
+      draft.nodeMap.set((value) => {
+        delete value[id];
+        return value;
+      });
+    });
+  };
+
+  /**
+   * 复制node节点数据
+   * @param id
+   */
+  copyNodeData = (id: IWorkflowNodeData['id']) => {
+    const currNode = this.workflowData.nodeMap.get()?.[id];
+
+    const newNodeId = uuid();
+
+    const newNode = { ...currNode, id: newNodeId };
+
+    this.addNodeData(currNode.type, newNode);
+
+    return newNode;
+  };
+
+  /**
    * 修改node data
    * @param nodeData
    */

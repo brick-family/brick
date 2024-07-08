@@ -4,6 +4,49 @@ import { TNodeType } from '@brick/types';
 import { DEFAULT_NODE_ATTR, NODE_GAP, NODE_HEIGHT, NODE_WIDTH } from '../../constants';
 import { convertToLevelTree } from '../../utils';
 
+/**
+ * 连接线的配置
+ */
+const EdgeConfig: Edge.Metadata = {
+  attrs: {
+    line: {
+      stroke: '#8f8f8f',
+      strokeWidth: 1,
+    },
+  },
+  defaultLabel: {
+    markup: Markup.getForeignObjectMarkup(),
+    attrs: {
+      fo: {
+        width: 18,
+        height: 18,
+        x: -9,
+        y: 0,
+        // y: -(NODE_GAP / 2),
+      },
+    },
+  },
+  label: {
+    // attrs: {
+    //   text: {
+    //     text: "s1"
+    //   }
+    // },
+    position: {
+      distance: -35,
+      // distance: -(NODE_GAP / 2)
+    },
+  },
+  router: {
+    name: 'orth',
+    args: {
+      padding: {
+        bottom: 10, // 不请楚什么意思
+      },
+    },
+  },
+};
+
 export class GraphProcessor extends BaseProcessor {
   // graph实例，不是
   graph: Graph | null;
@@ -58,43 +101,7 @@ export class GraphProcessor extends BaseProcessor {
     return this.graph?.addEdge({
       source,
       target,
-      attrs: {
-        line: {
-          stroke: '#8f8f8f',
-          strokeWidth: 1,
-        },
-      },
-      defaultLabel: {
-        markup: Markup.getForeignObjectMarkup(),
-        attrs: {
-          fo: {
-            width: 18,
-            height: 18,
-            x: -9,
-            y: 0,
-            // y: -(NODE_GAP / 2),
-          },
-        },
-      },
-      label: {
-        // attrs: {
-        //   text: {
-        //     text: "s1"
-        //   }
-        // },
-        position: {
-          distance: -35,
-          // distance: -(NODE_GAP / 2)
-        },
-      },
-      router: {
-        name: 'orth',
-        args: {
-          padding: {
-            bottom: 10, // 不请楚什么意思
-          },
-        },
-      },
+      ...EdgeConfig,
     });
   };
 
@@ -124,6 +131,16 @@ export class GraphProcessor extends BaseProcessor {
     }
   };
 
+  getConnections = () => {
+    const edges = this.graph?.getEdges();
+    const connections =
+      edges?.map((f) => ({
+        sourceId: f.getSourceCellId(),
+        targetId: f.getTargetCellId(),
+      })) || [];
+    return connections;
+  };
+
   /**
    * 重新绘制实图
    */
@@ -137,11 +154,7 @@ export class GraphProcessor extends BaseProcessor {
     // 画布高度
     const graphHeight = graphArea?.height || 0;
 
-    const connections =
-      edges?.map((f) => ({
-        sourceId: f.getSourceCellId(),
-        targetId: f.getTargetCellId(),
-      })) || [];
+    const connections = this.getConnections();
 
     // 1. 通过edges找出层级关系
     const treeLevelData = convertToLevelTree(connections);
@@ -177,7 +190,70 @@ export class GraphProcessor extends BaseProcessor {
    * @param node
    */
   removeNode = (node: Node) => {
+    // 获取与删除节点相连的边
+    const incomingEdges = this.graph?.getIncomingEdges(node);
+    const outgoingEdges = this.graph?.getOutgoingEdges(node);
+
+    // 删除相关边
+    if (incomingEdges) {
+      incomingEdges.forEach((edge) => edge.remove());
+    }
+    if (outgoingEdges) {
+      outgoingEdges.forEach((edge) => edge.remove());
+    }
+
+    // 重新连接相邻节点
+    if (incomingEdges && outgoingEdges) {
+      incomingEdges.forEach((inEdge) => {
+        outgoingEdges.forEach((outEdge) => {
+          // 创建新的边
+          this.addEdge(inEdge.getSourceCellId(), outEdge.getTargetCellId());
+        });
+      });
+    }
     this.graph?.removeNode(node);
+    this.redraw();
+  };
+
+  /**
+   * 复制节点
+   */
+  copyNode = (node: Node, nodeId?: string) => {
+    const graph = this.graph;
+    // 复制节点
+    const newNodeId = nodeId || uuid();
+    const newNode = node.clone() as any;
+    newNode.id = newNodeId;
+    console.log('q=>clone-new', newNode, newNodeId);
+    this?.graph?.addCell(newNode);
+
+    // 复制与该节点相关的边
+    const incomingEdges = graph?.getIncomingEdges(node);
+    const outgoingEdges = graph?.getOutgoingEdges(node);
+
+    // 复制入边
+    if (incomingEdges) {
+      incomingEdges.forEach((edge) => {
+        const sourceId = edge.getSourceCellId();
+        graph?.addEdge({
+          source: sourceId,
+          target: newNodeId,
+        });
+      });
+    }
+
+    // 复制出边
+    if (outgoingEdges) {
+      outgoingEdges.forEach((edge) => {
+        const targetId = edge.getTargetCellId();
+        graph?.addEdge({
+          source: newNodeId,
+          target: targetId,
+        });
+      });
+    }
+
+    this.redraw();
   };
 
   /**

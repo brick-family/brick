@@ -1,3 +1,12 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .node {
   min-height: 80px;
   padding: 5px 10px 8px;
@@ -9,6 +18,14 @@
   box-shadow: 0 1px 4px 0 rgba(10, 30, 65, 0.16);
   transition: all 0.1s cubic-bezier(0.645, 0.045, 0.355, 1);
   color: #1f1f1f;
+
+  position: relative;
+
+  &:hover {
+    .toolbar {
+      animation: fadeIn 0.5s forwards; /* 动画效果 */
+    }
+  }
 
   &.selected {
     background-color: #f7f9ff;
@@ -56,3 +73,24 @@
 }
 
 
+.toolbar {
+  position: absolute;
+  right: 5px;
+  top: -30px;
+  //background: #ccc;
+  height: 28px;
+  opacity: 0;
+  //.item {
+  //  width: 20px !important;
+  //  height: 20px;
+  //  display: flex;
+  //  align-items: center;
+  //  justify-content: center;
+  //
+  //  :global {
+  //    .anticon {
+  //      font-size: 12px !important;
+  //    }
+  //  }
+  //}
+}
