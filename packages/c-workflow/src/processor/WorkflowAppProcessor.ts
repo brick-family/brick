@@ -94,12 +94,12 @@ export class WorkflowAppProcessor {
    * 复制node节点数据
    * @param id
    */
-  copyNodeData = (id: IWorkflowNodeData['id']) => {
+  copyNodeData = (id: IWorkflowNodeData['id'], newNodeId: string) => {
     const currNode = this.workflowData.nodeMap.get()?.[id];
 
-    const newNodeId = uuid();
+    const newId = newNodeId || uuid();
 
-    const newNode = { ...currNode, id: newNodeId };
+    const newNode = { ...currNode, id: newId, name: `${currNode.name}-复制` };
 
     this.addNodeData(currNode.type, newNode);
 

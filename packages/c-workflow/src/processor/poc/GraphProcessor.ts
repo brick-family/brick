@@ -227,39 +227,79 @@ export class GraphProcessor extends BaseProcessor {
 
   /**
    * 复制节点
+   * @param node 当前node
+   * @param nodeId 新节点id
    */
-  copyNode = (node: Node, nodeId?: string) => {
+  copyNode = (node: Node) => {
     const graph = this.graph;
+
     // 复制节点
-    const newNodeId = nodeId || uuid();
-    const newNode = node.clone() as any;
-    newNode.id = newNodeId;
-    console.log('q=>clone-new', newNode, newNodeId);
+    const newNode = node.clone();
     this?.graph?.addCell(newNode);
 
-    // 复制与该节点相关的边
+    // 获取新节点id
+    const newNodeId = newNode.id;
+
+    // console.log('q=>targetId-new-node', newNode, newNodeId);
+
+    // 获取节点B的入边和出边
     const incomingEdges = graph?.getIncomingEdges(node);
-    const outgoingEdges = graph?.getOutgoingEdges(node);
+    const outgoingEdges = graph?.getOutgoingEdges(node); // 下面那条线
 
-    // 复制入边
-    if (incomingEdges) {
-      incomingEdges.forEach((edge) => {
-        const sourceId = edge.getSourceCellId();
-        console.log('q=>adding incoming edge', sourceId, newNodeId);
-        this.addEdge(sourceId, newNodeId);
-      });
-    }
-
-    // 复制出边
+    // 移动当前节点下的所有连线
     if (outgoingEdges) {
-      outgoingEdges.forEach((edge) => {
-        const targetId = edge.getTargetCellId();
-        console.log('q=>adding outgoing edge', newNodeId, targetId);
-        this.addEdge(newNodeId, targetId);
-      });
+      graph?.removeCells(outgoingEdges);
     }
+
+    // 当前节点和新节点连接
+    this.addEdge(node.id, newNodeId);
+
+    // 获取当前节点之前连接的下个节点
+    const targetId = outgoingEdges?.[0]?.getTargetCellId?.();
+    if (targetId) {
+      // 新节点和目标节点连接
+      this.addEdge(newNodeId, targetId);
+    }
+
+    console.log('q=>targetId', targetId);
+
+    // console.log('q=>clone-new', newNode, newNodeId, targetId, incomingEdges, outgoingEdges );
+    // // 更新入边，使其连接到新节点D
+    // if (incomingEdges) {
+    //   incomingEdges.forEach((edge) => {
+    //     const sourceId = edge.getSourceCellId();
+    //     console.log('q=>adding incoming edge', sourceId, newNodeId);
+    //     this.addEdge(sourceId, newNodeId);
+
+    //     // 移除旧的入边
+    //     graph?.removeCells([edge]);
+    //   });
+    // }
+
+    // // 更新出边，使其从新节点D连接到目标节点
+    // if (outgoingEdges) {
+    //   outgoingEdges.forEach((edge) => {
+    //     const targetId = edge.getTargetCellId();
+    //     console.log('q=>adding outgoing edge', newNodeId, targetId);
+    //     this.addEdge(newNodeId, targetId);
+    //   });
+    // }
+
+    // // 更新节点B的出边，使其连接到新节点D
+    // if (outgoingEdges) {
+    //   outgoingEdges.forEach((edge) => {
+    //     const targetId = edge.getTargetCellId();
+    //     console.log('q=>adding edge from original node', node.id, newNodeId);
+    //     this.addEdge(node.id, newNodeId);
+
+    //     // 移除旧的出边
+    //     graph?.removeCells([edge]);
+    //   });
+    // }
 
     this.redraw();
+
+    return newNodeId;
   };
 
   /**

@@ -58,13 +58,11 @@ export const NodeContainer = ({ node }: { node: Node }) => {
 
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // 复制节点
+    // 画布复制节点
+    const newNodeId = graphProcessor.copyNode(node);
 
-    const newNode = copyNodeData(nodeId);
-
-    graphProcessor.copyNode(node, newNode.id);
-
-    // 复制节点数据
+    // 工作流 nodeMap 复制节点 (复制节点数据)
+    const newNode = copyNodeData(nodeId, newNodeId);
   };
 
   const handleDelete = (e: React.MouseEvent) => {
