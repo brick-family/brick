@@ -1,8 +1,7 @@
-import { EFieldType, IColumnUserConfig, IUserEntity } from '@brick/types';
-import { Dropdown, Select } from 'antd';
-import React, { FC, UIEventHandler, useEffect, useMemo, useState } from 'react';
+import { EFieldType } from '@brick/types';
+import { Select } from 'antd';
+import React, { FC, UIEventHandler, useEffect, useState } from 'react';
 import { queryUser } from '@brick/services';
-import { IBaseFieldFileProps } from '../base-field-file';
 import { IBaseFieldProps } from '../types';
 
 type IUserList = {
@@ -10,30 +9,9 @@ type IUserList = {
   value: string;
 };
 
-export interface IColumnUserProps extends IBaseFieldProps<EFieldType.USER> {
-  //   /**
-  //  * 占位符
-  //  */
-  // placeholder?: string;
-  // /**
-  //  *  1.普通 2.禁用 3.只读
-  //  */
-  // status: number;
-  // /**
-  //  * 默认值类型
-  //  */
-  // defaultValueType: string;
-  // /**
-  //  * 默认值
-  //  */
-  // defaultValue: string;
-  // /**
-  //  * 选择类型 1 单选 2 多选
-  //  */
-  // selectType: 'radio' | 'multi';
-}
+export interface IBaseFieldUserSelectProps extends IBaseFieldProps<EFieldType.USER> {}
 
-export const UserSelect: FC<IColumnUserProps> = (props) => {
+export const BaseFieldUserSelect: FC<IBaseFieldUserSelectProps> = (props) => {
   const {
     // selectType = 'multi',
     columnConfig,
@@ -98,7 +76,7 @@ export const UserSelect: FC<IColumnUserProps> = (props) => {
     }
   }, [selectType]);
 
-  const onScrollEnd: UIEventHandler<HTMLDivElement> = (e) => {
+  const onScrollEnd: UIEventHandler<HTMLDivElement> = (e: any) => {
     const { target } = e;
     if (target.scrollTop + target.offsetHeight === target.scrollHeight) {
       if (currentPage < pages) {
@@ -173,22 +151,20 @@ export const UserSelect: FC<IColumnUserProps> = (props) => {
   const filterOption = () => true;
 
   return (
-    <>
-      <Select
-        mode={selectType == 2 ? 'multiple' : undefined}
-        value={value}
-        style={{ width: '100%' }}
-        onSearch={onSearch}
-        defaultValue={defaultValue}
-        onPopupScroll={onScrollEnd}
-        filterOption={filterOption}
-        placeholder={placeholder}
-        onSelect={onSelect}
-        onDeselect={onDeSelect}
-        disabled={status === 2 || status === 3}
-        options={curUserList}
-        // dropdownStyle={{maxHeight: 200, overflowY: 'auto'}}
-      />
-    </>
+    <Select
+      mode={selectType == 2 ? 'multiple' : undefined}
+      value={value}
+      style={{ width: '100%' }}
+      onSearch={onSearch}
+      defaultValue={defaultValue}
+      onPopupScroll={onScrollEnd}
+      filterOption={filterOption}
+      placeholder={placeholder}
+      onSelect={onSelect}
+      onDeselect={onDeSelect}
+      disabled={status === 2 || status === 3}
+      options={curUserList}
+      // dropdownStyle={{maxHeight: 200, overflowY: 'auto'}}
+    />
   );
 };

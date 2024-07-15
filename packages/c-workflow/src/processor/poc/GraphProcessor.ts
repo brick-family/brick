@@ -2,7 +2,7 @@ import { BaseProcessor, uuid } from '@brick/core';
 import { Edge, Graph, Markup, Node } from '@antv/x6';
 import { TNodeType } from '@brick/types';
 import { DEFAULT_NODE_ATTR, NODE_GAP, NODE_HEIGHT, NODE_WIDTH } from '../../constants';
-import { convertToLevelTree } from '../../utils';
+import { convertToLevelTree, convertToLiteFlowScript } from '../../utils';
 
 /**
  * 连接线的配置
@@ -142,6 +142,19 @@ export class GraphProcessor extends BaseProcessor {
   };
 
   /**
+   * 后去Tree Level数据
+   * @returns
+   */
+  getTreeLevelData = () => {
+    const connections = this.getConnections();
+
+    // 1. 通过edges找出层级关系
+    const treeLevelData = convertToLevelTree(connections);
+
+    return treeLevelData;
+  };
+
+  /**
    * 重新绘制实图
    */
   redraw = () => {
@@ -154,15 +167,12 @@ export class GraphProcessor extends BaseProcessor {
     // 画布高度
     const graphHeight = graphArea?.height || 0;
 
-    const connections = this.getConnections();
-
     // 1. 通过edges找出层级关系
-    const treeLevelData = convertToLevelTree(connections);
+    const treeLevelData = this.getTreeLevelData();
 
     treeLevelData.forEach((currLevelData, level) => {
       // 当前级别数量
       const currLevenLength = currLevelData.length;
-
       // 当前级别node总宽度
       const nodeSumWidth = NODE_WIDTH * currLevenLength + NODE_GAP * (currLevenLength - 1);
 
@@ -235,6 +245,7 @@ export class GraphProcessor extends BaseProcessor {
     if (incomingEdges) {
       incomingEdges.forEach((edge) => {
         const sourceId = edge.getSourceCellId();
+        console.log('q=>adding incoming edge', sourceId, newNodeId);
         this.addEdge(sourceId, newNodeId);
       });
     }
@@ -243,6 +254,7 @@ export class GraphProcessor extends BaseProcessor {
     if (outgoingEdges) {
       outgoingEdges.forEach((edge) => {
         const targetId = edge.getTargetCellId();
+        console.log('q=>adding outgoing edge', newNodeId, targetId);
         this.addEdge(newNodeId, targetId);
       });
     }

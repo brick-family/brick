@@ -1,6 +1,6 @@
 import { observable, Observable } from '@legendapp/state';
 import { IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
-import { getNodeModule } from '../utils';
+import { convertToLiteFlowScript, getNodeModule } from '../utils';
 import { TNodeModuleMap } from '../components/common';
 import { createGraphProcessor, GraphProcessor } from './poc';
 import { generateSetObservable, uuid } from '@brick/core';
@@ -42,6 +42,15 @@ export class WorkflowAppProcessor {
    */
   setWorkflowData = (data: IWorkflowEntity) => {
     this.workflowData.set(data);
+  };
+
+  /**
+   *
+   * @returns
+   */
+  getLiteFlowElData = () => {
+    const treeLevelData = this.graphProcessor?.getTreeLevelData();
+    return convertToLiteFlowScript(treeLevelData, this.workflowData?.nodeMap?.get?.());
   };
 
   /**

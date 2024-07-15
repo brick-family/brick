@@ -53,7 +53,11 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
     const graphData = workflowAppInstance?.graphProcessor.getData();
     const workflowData = workflowAppInstance?.workflowData?.get?.();
 
-    const result = { ...workflowData, graph: graphData };
+    const elConfig = workflowAppInstance?.getLiteFlowElData();
+
+    console.log('q=>elConfig', elConfig, graphData, workflowData);
+
+    const result = { ...workflowData, graph: graphData, elData: elConfig };
 
     await updateWorkflow(result, {
       onError() {

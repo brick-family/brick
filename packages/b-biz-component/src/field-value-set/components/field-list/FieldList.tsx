@@ -1,17 +1,21 @@
-import { Field } from '@douyinfe/semi-ui/lib/es/form';
 import React, { FC } from 'react';
-import { useFieldValueSetSelector } from 'src/field-value-set/processor';
 import { FieldItem } from '../field-item';
+import { useFieldValueSetSelector } from '../../processor/FieldValueSetProvider';
 
 export interface IFieldListProps {}
 
 export const FieldList: FC<IFieldListProps> = (props) => {
-  const [tableConfig, value] = useFieldValueSetSelector((s) => [s.tableConfig, s.value]);
+  const [tableConfig, value, columnsMap] = useFieldValueSetSelector((s) => [
+    s.tableConfig,
+    s.value,
+    s.columnsMap,
+  ]);
 
   return (
     <div>
       {value?.map((item) => {
-        return <FieldItem data={item} />;
+        const config = columnsMap?.[item?.fieldId];
+        return <FieldItem config={config} data={item} />;
       })}
     </div>
   );

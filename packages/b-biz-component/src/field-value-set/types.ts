@@ -9,6 +9,7 @@ export enum EFieldValueType {
   formula = 'formula',
 }
 
+export type TFieldValueType = keyof typeof EFieldValueType;
 /**
  * 字段值
  */

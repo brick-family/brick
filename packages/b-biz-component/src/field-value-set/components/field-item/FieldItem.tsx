@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
-import { IFieldValue } from '../../types';
+import { IFieldValue, TFieldValueType } from '../../types';
 import { IColumnEntity } from '@brick/types';
+import { FieldValueType } from './FieldValueType';
+import { FieldValueComponent } from './FieldValueComponent';
 
 export interface IFieldItemProps {
   data: IFieldValue;
@@ -9,5 +11,14 @@ export interface IFieldItemProps {
 
 export const FieldItem: FC<IFieldItemProps> = (props) => {
   const { data, config } = props;
-  return <div></div>;
+
+  const handleFieldValueTypeChange = (value: TFieldValueType) => {};
+
+  return (
+    <div>
+      {config.title}
+      <FieldValueType value={data.type} onChange={handleFieldValueTypeChange} />
+      <FieldValueComponent config={config} value={data.data} />
+    </div>
+  );
 };

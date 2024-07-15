@@ -31,7 +31,11 @@ export class FieldValueSetProcessor extends BaseProcessor {
     this.tableConfig?.onChange((changeValue) => {
       const newTableConfig = changeValue.value;
 
-      newTableConfig?.columns?.forEach((column) => {});
+      const columnMap: any = {};
+      newTableConfig?.columns?.forEach((column) => {
+        columnMap[column?.id!] = column;
+      });
+      this.columnsMap?.set(columnMap);
     });
   };
 }
