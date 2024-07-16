@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { SetterHoc } from '../../../common';
 import { usePropsValue, useReRenderEvent } from '../../../_hooks';
-import { useTableData } from '../../../_hooks/data-hooks';
 import { useCreation } from 'ahooks';
 import { excludeFieldsByType } from '@brick/utils';
 import { EFieldType } from '@brick/types';
 import { SelectSetterFun } from '../../../_setters';
+import { useTableData } from '@brick/biz-component';
 
 export interface ILabelSelectSetterProps {
   value: string;

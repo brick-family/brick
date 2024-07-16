@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { ColumnSelect, SetterHoc } from '../../../common';
 import { usePropsValue, useReRenderEvent } from '../../../_hooks';
-import { useTableData } from '../../../_hooks/data-hooks';
 import { useCreation } from 'ahooks';
 import { EFieldType } from '@brick/types';
 import { excludeFieldsByType } from '@brick/utils';
+import { useTableData } from '@brick/biz-component';
 
 export interface IRelationColumnSelectSetterProps {
   value: string[];

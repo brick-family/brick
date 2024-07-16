@@ -131,7 +131,7 @@ export interface IColumnDecimalConfig {
   /**
    * 是否显示千分为 1 显示千分位 0不显示
    */
-  thousands: boolean;
+  thousands: number;
 
   /**
    * 默认值类型

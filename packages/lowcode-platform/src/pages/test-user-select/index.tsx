@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { UserSelect } from '@brick/biz-component';
+import { BaseFieldUserSelect } from '@brick/biz-component';
 
 export interface ITestUserSelectProps {}
 export type IValue = string | null | string[];
@@ -11,7 +11,7 @@ const TestUserSelect: FC<ITestUserSelectProps> = (props) => {
 
   return (
     <div>
-      <UserSelect
+      <BaseFieldUserSelect
         columnConfig={{
           selectType: 1,
           defaultValue: undefined,

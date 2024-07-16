@@ -6,7 +6,7 @@ import { SetterHoc } from '../../common';
 import { usePropsValue, useReRenderEvent } from '../../_hooks';
 import { DateFormatConstant } from '@brick/utils';
 import dayjs from 'dayjs';
-import { UserSelect } from '@brick/biz-component';
+import { BaseFieldUserSelect } from '@brick/biz-component';
 
 /**
  * 发送事件名称
@@ -93,7 +93,7 @@ export const DefaultValueSetterFun: FC<IDefaultValueSetterProps> = ({
         );
       case EFieldType.USER:
         return (
-          <UserSelect
+          <BaseFieldUserSelect
             columnConfig={{
               selectType: selectType,
               status: 1,

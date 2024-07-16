@@ -18,7 +18,7 @@ export interface ISettingFormItemProps {
    */
   title: string;
 
-  formItemProps: FormItemProps;
+  formItemProps?: FormItemProps;
 
   children: React.ReactNode;
 
@@ -37,9 +37,13 @@ export const SettingFormItem: FC<ISettingFormItemProps> = (props) => {
           </Tooltip>
         )}
       </div>
-      <Form.Item noStyle {...formItemProps}>
-        {children}
-      </Form.Item>
+      {formItemProps ? (
+        <Form.Item noStyle {...formItemProps}>
+          {children}
+        </Form.Item>
+      ) : (
+        children
+      )}
     </div>
   );
 };

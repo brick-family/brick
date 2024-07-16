@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { SetterHoc } from '../../../common';
 import { usePropsValue } from '../../../_hooks';
-import { useTableData } from '../../../_hooks/data-hooks';
-import { QueryFilter } from '@brick/biz-component';
+import { QueryFilter, useTableData } from '@brick/biz-component';
 
 export interface IFilterSetterProps {}
 

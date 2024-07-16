@@ -33,6 +33,11 @@ export interface IWorkflowEntity extends IBaseEntity {
   graph: any;
 
   /**
+   * lite flow el配置
+   */
+  elData: string;
+
+  /**
    * 扩展参数
    */
   extraParam: any;

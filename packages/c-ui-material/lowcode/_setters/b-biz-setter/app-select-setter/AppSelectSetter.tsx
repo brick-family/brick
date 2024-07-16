@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { SetterHoc } from '../../../common';
 import { SelectSetterFun } from '../../select-setter';
-import { useTablesOptions } from '../../../_hooks/data-hooks';
+import { useTablesOptions } from '@brick/biz-component';
 
 export interface IAppSelectSetterProps {
   value: string;
