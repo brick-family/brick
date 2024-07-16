@@ -2,8 +2,8 @@ import React, { FC, useMemo } from 'react';
 import { SetterHoc } from '../../../common';
 import { TreeSelect } from 'antd';
 import { usePropsValue, useReRenderEvent } from '../../../_hooks';
-import { useTableData } from '../../../_hooks/data-hooks';
 import { EFieldType, IColumnEntity, IColumnRelationConfig } from '@brick/types';
+import { useTableData } from '@brick/biz-component';
 
 export interface IColumnSelectSetterProps {
   value: string[];

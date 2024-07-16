@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { ENAddDataType, ENodeType } from '@brick/types';
 import { ISettingComponentProps, SettingFormItem, SettingRadioGroup } from '../../common';
 import { Divider } from 'antd';
-import { AppTableCaseCadeSelect } from '@brick/biz-component';
+import { AppTableCaseCadeSelect, FieldValueSet } from '@brick/biz-component';
 
 export const AddDataTypeData = [
   {
@@ -44,7 +44,9 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
         formItemProps={{
           name: ['data'],
         }}
-      ></SettingFormItem>
+      >
+        <FieldValueSet tableConfig={{}} />
+      </SettingFormItem>
     </div>
   );
 };

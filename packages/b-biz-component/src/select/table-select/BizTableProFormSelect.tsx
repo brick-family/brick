@@ -13,7 +13,7 @@ export const BizTableProFormSelect: FC<IBizTableProFormSelectProps> = (props) =>
       placeholder="请选择表格"
       rules={[{ required: true, message: '请选择表格' }]}
       {...props}
-      request={async () => queryOptions()}
+      request={async () => queryOptions({})}
     />
   );
 };
