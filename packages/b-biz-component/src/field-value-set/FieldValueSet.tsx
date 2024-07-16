@@ -11,6 +11,10 @@ export interface IFieldValueSetContentProps {}
 
 export const FieldValueSetContent: FC<IFieldValueSetContentProps> = (props) => {
   const [tableConfig] = useFieldValueSetSelector((s) => [s.tableConfig]);
+
+  if (!tableConfig) {
+    return <></>;
+  }
   return (
     <div>
       <FieldList />

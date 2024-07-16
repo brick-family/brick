@@ -30,6 +30,9 @@ export class WorkflowAppProcessor {
 
     this.graphProcessor = createGraphProcessor().processor;
     this.nodeModule = getNodeModule();
+
+    // @ts-ignore
+    window._workflow = this.workflowData;
   }
 
   setWorkflowElement = (element: HTMLDivElement) => {

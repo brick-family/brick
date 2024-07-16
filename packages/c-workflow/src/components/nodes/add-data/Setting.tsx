@@ -1,6 +1,11 @@
 import React, { FC } from 'react';
 import { ENAddDataType, ENodeType } from '@brick/types';
-import { ISettingComponentProps, SettingFormItem, SettingRadioGroup } from '../../common';
+import {
+  ISettingComponentProps,
+  SettingFieldValueSet,
+  SettingFormItem,
+  SettingRadioGroup,
+} from '../../common';
 import { Divider } from 'antd';
 import { AppTableCaseCadeSelect, FieldValueSet } from '@brick/biz-component';
 
@@ -20,12 +25,7 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
   const { nodeData } = props;
   return (
     <div>
-      <SettingFormItem
-        title={'选择表单'}
-        formItemProps={{
-          name: ['tableId'],
-        }}
-      >
+      <SettingFormItem title={'选择表单'}>
         <AppTableCaseCadeSelect />
       </SettingFormItem>
       <Divider />
@@ -33,7 +33,7 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
       <SettingFormItem
         title={'新增数据'}
         formItemProps={{
-          name: ['data'],
+          name: ['type'],
         }}
       >
         <SettingRadioGroup options={AddDataTypeData} />
@@ -42,10 +42,10 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
       <SettingFormItem
         title={'字段设置'}
         formItemProps={{
-          name: ['data'],
+          name: ['defaultValues'],
         }}
       >
-        <FieldValueSet tableConfig={{}} />
+        <SettingFieldValueSet />
       </SettingFormItem>
     </div>
   );
