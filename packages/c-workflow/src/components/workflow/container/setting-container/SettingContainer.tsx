@@ -67,6 +67,7 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
       onClose={onClose}
       open={Boolean(activeNode)}
       footer={<Footer />}
+      destroyOnClose
     >
       <Form form={form}>
         <Suspense fallback={<div>Loading...</div>}>

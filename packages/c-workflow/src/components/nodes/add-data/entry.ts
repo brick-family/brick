@@ -1,7 +1,8 @@
 import React from 'react';
-import { ENodeType, IAddDataNodeConfig } from '@brick/types';
+import { ENAddDataType, ENodeType, IAddDataNodeConfig } from '@brick/types';
 import { PlusOutlined } from '@ant-design/icons';
 import { BaseNode, ISettingPanelMetaData, TLazyFunctionComponent } from '../../common';
+import { getAppId } from '@brick/utils';
 
 export class AddDataNode extends BaseNode {
   static getNodeElement = (): TLazyFunctionComponent => {
@@ -21,6 +22,9 @@ export class AddDataNode extends BaseNode {
   };
 
   static getDefaultConfigData = () => {
-    return {} as IAddDataNodeConfig;
+    return {
+      type: ENAddDataType.single,
+      appId: getAppId(),
+    } as IAddDataNodeConfig;
   };
 }

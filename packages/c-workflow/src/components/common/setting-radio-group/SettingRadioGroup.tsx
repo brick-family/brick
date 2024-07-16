@@ -12,6 +12,7 @@ export interface ISettingRadioGroupProps extends IFromItemValue<any> {
 
 export const SettingRadioGroup: FC<ISettingRadioGroupProps> = (props) => {
   const { className, value, onChange, disabled, direction, options } = props;
+
   return (
     <Radio.Group className={className} disabled={disabled} value={value} onChange={onChange}>
       <Space direction={direction}>

@@ -1,27 +1,37 @@
-import { BaseProcessor, createDefaultResponseQuery, IResponseQuery } from '@brick/core';
+import { BaseProcessor } from '@brick/core';
 import { IColumnEntity, ITableEntity } from '@brick/types';
 import { Observable, observable } from '@legendapp/state';
-import { IFieldValue } from '../types';
+import { EFieldValueType, IFieldValue } from '../types';
 
 export class FieldValueSetProcessor extends BaseProcessor {
   tableConfig: Observable<ITableEntity | null>;
 
   columnsMap: Observable<Record<string, IColumnEntity>>;
 
-  value: Observable<IFieldValue[] | null>;
+  value: Observable<IFieldValue[]>;
+
   constructor() {
     super();
     this.tableConfig = observable(null);
-    this.value = observable(null);
+    this.value = observable([]);
     this.columnsMap = observable({}) as any;
     this.init();
   }
+
   private init = async () => {
     this.listeners();
   };
 
   setTableConfig = (tableConfig: ITableEntity) => {
     this.tableConfig?.set(tableConfig);
+  };
+
+  getDefaultFiledValue = (fieldId: string) => {
+    return { fieldId, type: EFieldValueType.value, data: null };
+  };
+
+  addField = (fieldId: string) => {
+    this.value.push(this.getDefaultFiledValue(fieldId));
   };
 
   /**

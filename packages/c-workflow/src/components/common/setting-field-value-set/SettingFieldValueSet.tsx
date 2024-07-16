@@ -4,13 +4,14 @@ import { NamePath } from 'antd/es/form/interface';
 import React, { FC } from 'react';
 
 export interface ISettingFieldValueSetProps {
-  formName?: NamePath;
+  tableNameKey?: NamePath;
 }
 
 export const SettingFieldValueSet: FC<ISettingFieldValueSetProps> = (props) => {
-  const { formName = 'tableId' } = props;
-  const tabelId = Form.useWatch(formName);
-  const { table } = useTableData(tabelId);
+  const { tableNameKey = ['tableId'] } = props;
+  const tableId = Form.useWatch(tableNameKey);
+
+  const { table } = useTableData(tableId);
 
   return <FieldValueSet tableConfig={table!} />;
 };

@@ -3,6 +3,7 @@ import { Button, Dropdown } from 'antd';
 
 import React, { FC, useMemo } from 'react';
 import { useFields } from '../../../hooks';
+import { useFieldValueSetSelector } from '../../processor';
 
 export interface IFieldAddProps {
   tableConfig: ITableEntity;
@@ -12,6 +13,8 @@ export interface IFieldAddProps {
 
 export const FieldAdd: FC<IFieldAddProps> = (props) => {
   const { tableConfig } = props;
+
+  const [addField] = useFieldValueSetSelector((s) => [s.addField]);
 
   const fields = useFields(tableConfig);
 
@@ -25,7 +28,9 @@ export const FieldAdd: FC<IFieldAddProps> = (props) => {
   }, [fields]);
 
   const handleClick = (info: any) => {
-    console.log('info', info);
+    const { key } = info;
+    // const currItem = items?.find(f => f.key === key);
+    addField?.(key);
   };
 
   return (

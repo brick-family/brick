@@ -7,7 +7,7 @@ import {
   SettingRadioGroup,
 } from '../../common';
 import { Divider } from 'antd';
-import { AppTableCaseCadeSelect, FieldValueSet } from '@brick/biz-component';
+import { AppTableCaseCadeSelect } from '@brick/biz-component';
 
 export const AddDataTypeData = [
   {
@@ -23,29 +23,30 @@ export const AddDataTypeData = [
 // TODO app table select多个form更新
 const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
   const { nodeData } = props;
+  const tableNameKey = ['config', 'tableId'];
   return (
     <div>
       <SettingFormItem title={'选择表单'}>
-        <AppTableCaseCadeSelect />
+        <AppTableCaseCadeSelect appNameKey={['config', 'appId']} tableNameKey={tableNameKey} />
       </SettingFormItem>
       <Divider />
 
       <SettingFormItem
         title={'新增数据'}
         formItemProps={{
-          name: ['type'],
+          name: ['config', 'type'],
         }}
       >
         <SettingRadioGroup options={AddDataTypeData} />
       </SettingFormItem>
-
+      <Divider />
       <SettingFormItem
         title={'字段设置'}
         formItemProps={{
-          name: ['defaultValues'],
+          name: ['config', 'defaultValues'],
         }}
       >
-        <SettingFieldValueSet />
+        <SettingFieldValueSet tableNameKey={tableNameKey} />
       </SettingFormItem>
     </div>
   );
