@@ -18,12 +18,21 @@ export interface IFieldItemProps {
 export const FieldItem: FC<IFieldItemProps> = (props) => {
   const { data, config, style, className } = props;
 
-  const [removeField] = useFieldValueSetSelector((s) => [s.removeField]);
+  const [removeField, updateFieldValue] = useFieldValueSetSelector((s) => [
+    s.removeField,
+    s.updateFieldValue,
+  ]);
 
-  const handleFieldValueTypeChange = (value: TFieldValueType) => {};
+  const handleFieldValueTypeChange = (value: TFieldValueType) => {
+    updateFieldValue?.({ ...data, type: value });
+  };
 
   const handleRemove = () => {
     removeField?.(data.fieldId);
+  };
+
+  const handleValueChange = (value: any) => {
+    updateFieldValue?.({ ...data, data: value });
   };
 
   return (
@@ -37,7 +46,12 @@ export const FieldItem: FC<IFieldItemProps> = (props) => {
           value={data?.type}
           onChange={handleFieldValueTypeChange}
         />
-        <FieldValueComponent style={{ width: 250 }} config={config} value={data?.data} />
+        <FieldValueComponent
+          style={{ width: 250 }}
+          config={config}
+          value={data?.data}
+          onChange={handleValueChange}
+        />
         <Button icon={<DeleteOutlined />} onClick={handleRemove}></Button>
       </Space>
     </div>

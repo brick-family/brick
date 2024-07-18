@@ -122,6 +122,15 @@ export class WorkflowAppProcessor {
     });
   };
 
+  /**
+   * 根据nodeId修改节点数据
+   * @param nodeId
+   * @param nodeData
+   */
+  updateNodeDataById = (nodeId: string, nodeData: Partial<IWorkflowNodeData>) => {
+    this.updateNodeData({ ...nodeData, id: nodeId } as IWorkflowNodeData);
+  };
+
   get setWorkflowDataObservable() {
     return generateSetObservable(this.workflowData!);
   }

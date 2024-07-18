@@ -18,11 +18,17 @@ if (process.env.LOCAL_UI_MATERIAL === 'true') {
   localStorage.setItem('__ui_material__', 'local');
 }
 
-export const getAssetsJson = () => {
+/**
+ * 当前是否是local环境
+ */
+export const isLocalEnv = () => {
   const curr = localStorage.getItem('__ui_material__');
-  console.log('q=>curr-aa', curr);
+  return curr === 'local';
+};
+
+export const getAssetsJson = () => {
   // 用本地配置文件
-  if (curr === 'local') {
+  if (isLocalEnv()) {
     return assetsLocal;
   }
   return assets;

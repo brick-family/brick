@@ -64,6 +64,21 @@ export class FieldValueSetProcessor extends BaseProcessor {
   };
 
   /**
+   * 修改某个值
+   * @param value
+   */
+  updateFieldValue = (value: IFieldValue) => {
+    const index = this.value?.get()?.findIndex((f) => {
+      return f?.fieldId == value.fieldId;
+    });
+
+    // 更新具体
+    if (index != -1) {
+      this.value?.[index]?.set(value);
+    }
+  };
+
+  /**
    * 过滤value是否存在
    */
   _filterValue = (columnsMap?: Record<string, IColumnEntity>) => {
@@ -72,7 +87,7 @@ export class FieldValueSetProcessor extends BaseProcessor {
     const hasColumns = Object.keys(currColumnsMap)?.length > 0;
 
     hasColumns &&
-      this.value?.get().forEach((f) => {
+      this.value?.get()?.forEach((f) => {
         const filedId = f?.fieldId;
         if (currColumnsMap?.[filedId]) {
           newValue.push(f);

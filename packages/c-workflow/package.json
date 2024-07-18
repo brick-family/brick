@@ -31,6 +31,7 @@
   },
   "peerDependencies": {
     "@brick/biz-component": "workspace:0.0.1",
+    "@brick/component": "workspace:0.0.1",
     "@brick/core": "workspace:0.0.1",
     "@brick/services": "workspace:0.0.1",
     "@brick/types": "workspace:0.0.1",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@brick/biz-component": "workspace:0.0.1",
+    "@brick/component": "workspace:0.0.1",
     "@brick/core": "workspace:0.0.1",
     "@brick/services": "workspace:0.0.1",
     "@brick/types": "workspace:0.0.1",

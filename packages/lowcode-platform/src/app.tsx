@@ -12,6 +12,8 @@ import { FormulaEditor, ItemDetail } from '@brick/biz-component';
 import { GlobalProvider } from './global-processor';
 import { history } from 'umi';
 import { setUmiHistory } from '@brick/utils';
+import { AssetLoader } from '@alilc/lowcode-utils';
+import { isLocalEnv } from '@brick/lowcode-editor';
 
 // dayjs.locale('en');
 dayjs.locale('zh-cn');
@@ -33,9 +35,19 @@ function GlobalContent() {
   );
 }
 
+function lowcodeInit() {
+  // 加载 lowcode 资源
+  const assetLoader = new AssetLoader();
+  const resourceUrl = isLocalEnv()
+    ? ['http://localhost:3333/view.js']
+    : ['http://101.42.26.70/material/lowcode/meta.js'];
+  assetLoader.load(resourceUrl);
+}
+
 function QCProvider({ children }: any) {
   useLayoutEffect(() => {
     setUmiHistory(history);
+    lowcodeInit();
   }, []);
   return (
     <QueryClientProvider client={query}>

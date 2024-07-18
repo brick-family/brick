@@ -29,7 +29,7 @@ export const AppTableCaseCadeSelect: FC<IAppTableCaseCadeSelectProps> = (props) 
           <BizAppSelect style={{ width: 150 }} disabled defaultValue={defaultAppId} />
         </Form.Item>
 
-        <Form.Item noStyle name={tableNameKey}>
+        <Form.Item noStyle name={tableNameKey} rules={[{ required: true, message: '请选择表格' }]}>
           <BizTableSelect style={{ width: 180 }} appId={currentAppId} containAllData={false} />
         </Form.Item>
       </Space>

@@ -10,11 +10,12 @@ export enum EFieldValueType {
 }
 
 export type TFieldValueType = keyof typeof EFieldValueType;
+
 /**
  * 字段值
  */
 export interface IFieldValue {
   fieldId: string;
-  type: EFieldValueType;
+  type: TFieldValueType;
   data: any;
 }

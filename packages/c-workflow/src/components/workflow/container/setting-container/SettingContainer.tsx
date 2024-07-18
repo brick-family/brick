@@ -1,24 +1,33 @@
 import { useMemoizedFn } from 'ahooks';
-import { Button, Drawer, Form, message, Space } from 'antd';
-import React, { FC, memo, Suspense, useEffect } from 'react';
+import { Button, Drawer, Form, message, Modal, Space } from 'antd';
+import React, { FC, memo, Suspense, useEffect, useRef } from 'react';
 import { useWorkflowAppSelector } from '../../../../processor';
 import s from './settingContainer.module.less';
+import { BEditInput } from '@brick/component';
 
 export interface ISettingContainerProps {}
 
 export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
-  const [activeNode, clearActiveNode, nodeModule, updateNodeData, nodeMap] = useWorkflowAppSelector(
-    (s) => [s.activeNode, s.clearActiveNode, s.nodeModule, s.updateNodeData, s.workflowData.nodeMap]
-  );
+  const [activeNode, clearActiveNode, nodeModule, updateNodeDataById, nodeMap] =
+    useWorkflowAppSelector((s) => [
+      s.activeNode,
+      s.clearActiveNode,
+      s.nodeModule,
+      s.updateNodeDataById,
+      s?.workflowData.nodeMap,
+    ]);
+  // 表单值是否有变更
+  const formValueIsChange = useRef(false);
 
   const nodeId = activeNode?.id!;
+  const node = nodeMap?.[nodeId] || {};
 
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (nodeId) {
-      const values = nodeMap?.[nodeId] || {};
-      form.setFieldsValue(values);
+      formValueIsChange.current = false;
+      form.setFieldsValue(node);
     }
 
     return () => {
@@ -26,7 +35,24 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
     };
   }, [nodeId]);
 
-  const onClose = useMemoizedFn(() => {
+  const onFormValuesChange = () => {
+    console.log('q=>change');
+    formValueIsChange.current = true;
+  };
+
+  const onClose = useMemoizedFn(async () => {
+    if (formValueIsChange.current) {
+      Modal.confirm({
+        title: '确定要退出吗？',
+        content: '未保存的内容将丢失',
+        onOk: () => {
+          clearActiveNode();
+        },
+        onCancel: () => {},
+      });
+
+      return;
+    }
     clearActiveNode();
   });
 
@@ -37,8 +63,8 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
     try {
       const values = await form.validateFields();
 
-      updateNodeData({ ...values, id: nodeId });
-      onClose();
+      updateNodeDataById(nodeId, values);
+      clearActiveNode();
     } catch (error: any) {
       const errMessage = error?.errorFields?.[0]?.errors?.[0];
       message.error(errMessage);
@@ -48,6 +74,19 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
   };
 
   const SettingComponent = nodeModule?.[activeNode?.type!]?.settingComponent;
+
+  const onSave = async (name: string) => {
+    updateNodeDataById(nodeId, { name });
+    return true;
+  };
+
+  const Title = () => {
+    return (
+      <div style={{ width: '200px' }}>
+        <BEditInput name={node?.name || '设置'} onSave={onSave} />
+      </div>
+    );
+  };
 
   const Footer = () => {
     return (
@@ -64,7 +103,8 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
 
   return (
     <Drawer
-      title={activeNode?.name || '设置'}
+      classNames={s.drawer}
+      title={<Title />}
       placement="right"
       bodyStyle={{
         padding: '24px 0',
@@ -75,7 +115,7 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
       footer={<Footer />}
       destroyOnClose
     >
-      <Form form={form}>
+      <Form form={form} onValuesChange={onFormValuesChange}>
         <Suspense fallback={<div>Loading...</div>}>
           {SettingComponent && <SettingComponent nodeData={activeNode!} />}
         </Suspense>
