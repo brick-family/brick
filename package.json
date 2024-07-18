@@ -13,7 +13,7 @@
     "dev:lc": "cd packages/c-ui-material && pnpm lowcode:dev",
     "pkg": "sh ./scripts/build-pkg.sh",
     "watch": "sh ./scripts/build-pkg-watch.sh",
-    "watch:single": "pnpm run -F=@brick/* build:watch",
+    "watch:single": "pnpm run --parallel -F=@brick/* build:watch",
     "build:material": "pnpm -F=contain-ui-material lowcode:build",
     "build:platform": "pnpm -F=lowcode-platform build",
     "build": "pnpm run build:material && pnpm run build:platform",

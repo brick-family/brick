@@ -14,18 +14,23 @@ export interface IFieldAddProps {
 export const FieldAdd: FC<IFieldAddProps> = (props) => {
   const { tableConfig } = props;
 
-  const [addField] = useFieldValueSetSelector((s) => [s.addField]);
+  const [addField, value] = useFieldValueSetSelector((s) => [s.addField, s.value]);
 
-  const fields = useFields(tableConfig);
+  const fields = useFields(tableConfig, { excludeSystem: true });
 
   const items = useMemo(() => {
-    return fields?.map((item) => {
-      return {
-        label: item.title!,
-        key: item.id!,
-      };
+    const result: any = [];
+
+    fields?.forEach((item) => {
+      if (!value.find((f) => f.fieldId === item.id)) {
+        result.push({
+          label: item.title!,
+          key: item.id!,
+        });
+      }
     });
-  }, [fields]);
+    return result;
+  }, [fields, value?.length]);
 
   const handleClick = (info: any) => {
     const { key } = info;
@@ -35,8 +40,8 @@ export const FieldAdd: FC<IFieldAddProps> = (props) => {
 
   return (
     <div>
-      <Dropdown menu={{ items, onClick: handleClick }}>
-        <Button>添加</Button>
+      <Dropdown placement={'topLeft'} menu={{ items, onClick: handleClick }}>
+        <Button type={'primary'}>添加</Button>
       </Dropdown>
     </div>
   );

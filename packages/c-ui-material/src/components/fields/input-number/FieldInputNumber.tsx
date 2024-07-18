@@ -1,6 +1,5 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC } from 'react';
 import { BaseWrapper, BaseWrapperProps } from '../base/BaseWrapper';
-import { InputNumber } from 'antd';
 import classNames from 'classnames';
 import './fieldInputNumber.less';
 import { generatorClass } from '../../utils';
@@ -17,10 +16,7 @@ export const FieldInputNumber: FC<IFieldInputNumberProps> = (props) => {
   const className = classNames(generatorClass('filed-input-number'));
 
   const { isExists, destroyRender } = useDestroyRender();
-  // console.log('q=>props-input-number', props);
   const [readonly] = useFormContainerSelector((s) => [s.readonly]);
-
-  console.log('q=>input-number', props);
 
   return (
     <BaseWrapper {...props}>

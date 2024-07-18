@@ -30,7 +30,7 @@ export const AppTableCaseCadeSelect: FC<IAppTableCaseCadeSelectProps> = (props) 
         </Form.Item>
 
         <Form.Item noStyle name={tableNameKey}>
-          <BizTableSelect style={{ width: 180 }} appId={currentAppId} />
+          <BizTableSelect style={{ width: 180 }} appId={currentAppId} containAllData={false} />
         </Form.Item>
       </Space>
     </div>

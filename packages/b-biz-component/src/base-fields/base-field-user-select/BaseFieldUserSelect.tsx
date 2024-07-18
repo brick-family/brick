@@ -18,7 +18,7 @@ export const BaseFieldUserSelect: FC<IBaseFieldUserSelectProps> = (props) => {
     // placeholder,
     // status,
     // defaultValue,
-    value,
+    value = [],
     onChange = () => {},
   } = props;
 
@@ -96,7 +96,7 @@ export const BaseFieldUserSelect: FC<IBaseFieldUserSelectProps> = (props) => {
   };
 
   const onSelect = (curValue: string) => {
-    console.log('onSelect', value);
+    console.log('onSelect', value, selectType);
 
     if (selectType == 1) {
       // setRadioValue(value);

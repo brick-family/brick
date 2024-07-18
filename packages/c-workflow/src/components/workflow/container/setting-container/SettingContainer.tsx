@@ -16,8 +16,14 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    const values = nodeMap?.[nodeId] || {};
-    form.setFieldsValue(values);
+    if (nodeId) {
+      const values = nodeMap?.[nodeId] || {};
+      form.setFieldsValue(values);
+    }
+
+    return () => {
+      form.resetFields();
+    };
   }, [nodeId]);
 
   const onClose = useMemoizedFn(() => {

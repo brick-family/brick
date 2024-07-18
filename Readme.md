@@ -51,7 +51,7 @@ pnpm run test
 
 ## 环境
 
-- pnpm 7.x
+- pnpm 8.x
 
 - node 16.x
 
@@ -181,9 +181,9 @@ pnpm run test
 建立了一个微信交流群，请添加微信号`brickmaster1`,备注`brick`,我会拉你进群
 
 ## 项目地址
-* [github](https://github.com/brick-family/brick)
-* [gitee](https://gitee.com/brick-family/brick)
 
+- [github](https://github.com/brick-family/brick)
+- [gitee](https://gitee.com/brick-family/brick)
 
 ## 📝 License
 

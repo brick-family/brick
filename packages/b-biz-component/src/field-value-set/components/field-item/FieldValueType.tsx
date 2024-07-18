@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { EFieldValueType, TFieldValueType } from '../../types';
 import { Select } from 'antd';
+import { SelectProps } from 'antd/es/select';
 
 const options = [
   {
@@ -13,17 +14,17 @@ const options = [
   },
 ];
 
-export interface IFieldValueTypeProps {
+export interface IFieldValueTypeProps extends SelectProps {
   value: TFieldValueType;
   onChange?: (value: TFieldValueType) => void;
 }
 
 export const FieldValueType: FC<IFieldValueTypeProps> = (props) => {
-  const { value, onChange } = props;
+  const { value, onChange, ...otherProps } = props;
 
   const handleChange = (value: TFieldValueType) => {
     onChange?.(value);
   };
 
-  return <Select onChange={handleChange} options={options} value={value}></Select>;
+  return <Select onChange={handleChange} options={options} value={value} {...otherProps}></Select>;
 };

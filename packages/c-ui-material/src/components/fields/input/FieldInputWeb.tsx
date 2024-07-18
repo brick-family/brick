@@ -7,7 +7,7 @@ import { EFieldStatus } from '@brick/types';
 export const FieldInputWeb: FC<IFieldInputProps> = ({
   value,
   onChange,
-  columnConfig,
+  columnConfig = {},
   ...otherProps
 }) => {
   const { status, placeholder } = columnConfig;

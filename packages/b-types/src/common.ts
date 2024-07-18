@@ -20,3 +20,11 @@ export interface IModalData<T extends any = any> {
   type: CreateOrUpdateType;
   data?: T;
 }
+
+/**
+ * 基础props
+ */
+export interface BaseProps {
+  style?: React.CSSProperties;
+  className?: string;
+}

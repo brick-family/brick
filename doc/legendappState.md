@@ -12,3 +12,14 @@ this.workflowProcessor.workflowList.data.set((value) => {
   });
 });
 ```
+
+删除数据
+
+```
+  this.setValueObservable(draft => {
+    const index = draft.findIndex(f => f?.fieldId === fieldId);
+    if (index != -1) {
+      draft.splice(index, 1)
+    }
+  })
+```

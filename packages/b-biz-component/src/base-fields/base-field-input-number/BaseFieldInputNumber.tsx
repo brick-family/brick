@@ -13,7 +13,7 @@ export interface IBaseFieldInputNumberProps extends IBaseFieldProps<EFieldType.D
 }
 
 export const BaseFieldInputNumber: FC<IBaseFieldInputNumberProps> = (props) => {
-  const { columnConfig, style, className, value, onChange, inputNumberProps, ...ohterProps } =
+  const { columnConfig, style, className, value, onChange, inputNumberProps, ...otherProps } =
     props;
 
   // 百分比处理
@@ -53,7 +53,7 @@ export const BaseFieldInputNumber: FC<IBaseFieldInputNumberProps> = (props) => {
     <InputNumber
       className={className}
       style={style}
-      {...ohterProps}
+      {...otherProps}
       {...inputNumberProps}
       value={value}
       onChange={onChange}

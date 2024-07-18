@@ -35,7 +35,7 @@ export const BRichEditor: FC<IRichEditorProps> = ({
 
   useEffect(() => {
     if (editor) {
-      editor?.setContent((value || initialValue)!);
+      editor?.setContent((value || initialValue || '')!);
     }
   }, [initialValue, value, editor]);
 
