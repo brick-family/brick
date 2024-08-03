@@ -1,12 +1,13 @@
 import { BaseProcessor } from '@brick/core';
 import React from 'react';
-import { RuleGroupType } from 'react-querybuilder';
+import { RuleGroupType, generateID } from 'react-querybuilder';
 import { observable, Observable } from '@legendapp/state';
 
 const initialQuery: RuleGroupType = {
+  id: generateID(),
   combinator: 'and',
-  rules: [{ field: '', operator: '=', value: undefined }],
   not: true,
+  rules: [{ id: generateID(), field: 'column_gosanf', operator: '=', value: 111 }],
 };
 
 export class QueryBuilderProcessor extends BaseProcessor {
@@ -14,12 +15,15 @@ export class QueryBuilderProcessor extends BaseProcessor {
 
   query: Observable<RuleGroupType>; //
 
+  reload: Observable<boolean>;
+
   executeQueryFun: (value: RuleGroupType) => void;
 
   constructor() {
     super();
     // this.appList = createDefaultResponseQuery();
     this.footerRef = React.createRef();
+    this.reload = observable(true);
     this.query = observable(initialQuery);
     this.executeQueryFun = () => {};
     this.init();
@@ -42,6 +46,10 @@ export class QueryBuilderProcessor extends BaseProcessor {
    */
   resetQuery = () => {
     this.query.set(initialQuery);
+  };
+
+  setReload = () => {
+    this.reload.set(!this.reload);
   };
 
   private init = async () => {

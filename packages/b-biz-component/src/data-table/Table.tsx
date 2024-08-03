@@ -97,6 +97,8 @@ export const Table = React.forwardRef<IDataTableRef, IDataTableProps>(({}, ref) 
   });
 
   const toolBarRender = useMemoizedFn((action, rows) => {
+    console.log('table.data', table.data);
+
     return [
       <QueryFilter onChange={handleChange} tableConfig={table.data} />,
       <div>toolBarRender1</div>,
