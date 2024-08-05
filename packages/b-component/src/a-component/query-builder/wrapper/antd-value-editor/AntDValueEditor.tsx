@@ -14,6 +14,14 @@ type AntDValueEditorProps = ValueEditorProps & { extraProps?: Record<string, any
 
 const DatePicker = generatePicker(dayjsGenerateConfig);
 
+/**
+ * PopupContainer容器
+ * @param trigger
+ */
+const getPopupContainer = (trigger: HTMLElement) => {
+  return (trigger?.parentNode?.parentNode || document.body) as any;
+};
+
 export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
   const {
     fieldData = {},
@@ -80,6 +88,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
               placeholder={placeHolderText}
               onChange={(d) => multiValueHandler(d?.format('HH:mm:ss') ?? '', i)}
               {...extraProps}
+              getPopupContainer={getPopupContainer}
             />
           );
         } else if (inputTypeCoerced === 'number') {
@@ -232,6 +241,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
               }
             }
             {...extraProps}
+            getPopupContainer={getPopupContainer}
           />
         );
       }
@@ -246,6 +256,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
           placeholder={placeHolderText}
           onChange={(_d, dateString) => handleOnChange(dateString)}
           {...extraProps}
+          getPopupContainer={getPopupContainer}
         />
       );
     }
@@ -260,6 +271,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
           placeholder={placeHolderText}
           onChange={(d) => handleOnChange(d?.format('HH:mm:ss') ?? '')}
           {...extraProps}
+          getPopupContainer={getPopupContainer}
         />
       );
     }
