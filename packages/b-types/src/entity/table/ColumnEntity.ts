@@ -18,7 +18,8 @@ export enum EFieldType {
   DATE = 'DATE',
   // 单选按钮组和多选按钮组
   RADIO = 'RADIO',
-
+  //多选按钮
+  CHECKBOX = 'CHECKBOX',
   // 下拉框
   SELECT = 'SELECT',
   // 图片

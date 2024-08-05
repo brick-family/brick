@@ -67,11 +67,9 @@ export const App: FC<IAppProps> = (props) => {
   const span = getColSpan(screens);
 
   const [setUserInfoApp] = useGlobalSelector((s) => [s.setUserInfoApp]);
-  const [appList, requestApp, changeRequestAppParams] = useMainSelector((s) => [
-    s.appList,
-    s.requestApp,
-    s.changeRequestAppParams,
-  ]);
+  const [appList, requestApp, changeRequestAppParams, appDataRequestParams] = useMainSelector(
+    (s) => [s.appList, s.requestApp, s.changeRequestAppParams, s.appDataRequestParams]
+  );
   const currTenant = useGlobalSelector((s) => s.currTenant);
 
   // 是否有app list权限
@@ -150,7 +148,8 @@ export const App: FC<IAppProps> = (props) => {
       </Row>
 
       <div className={styles.list}>
-        {hasEmpty && <BEmpty description="暂无应用，请去创建" />}
+        {hasEmpty && !appDataRequestParams.search && <BEmpty description="暂无数据，请去创建" />}
+        {hasEmpty && appDataRequestParams.search && <BEmpty description="没有搜索到结果" />}
         {appList.loading && <BSpin style={{ marginTop: 50, margin: 'auto' }} />}
         <Row gutter={[16, 24]}>
           {!appList.loading &&

@@ -18,7 +18,7 @@ export const AntDFieldSelector: FC<IAntDFieldSelectorProps> = ({
 
   const val = useCreation(() => {
     return value === '' ? undefined : value;
-  }, []);
+  }, [value]);
 
   // getQuery();
 

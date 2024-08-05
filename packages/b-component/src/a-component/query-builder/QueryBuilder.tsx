@@ -43,11 +43,21 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
     );
   }, [tableConfig?.columns]);
 
-  const [query, setQuery, setExecuteQueryFun] = useQueryBuilderSelector((s) => [
-    s.query,
-    s.setQuery,
-    s.setExecuteQueryFun,
-  ]);
+  const [query, setQuery, setExecuteQueryFun, footerRef, setReload, reload] =
+    useQueryBuilderSelector((s) => [
+      s.query,
+      s.setQuery,
+      s.setExecuteQueryFun,
+      s.footerRef,
+      s.setReload,
+      s.reload,
+    ]);
+
+  useEffect(() => {
+    setReload();
+  }, [footerRef.current]);
+
+  console.log('footerref', footerRef);
 
   useEffect(() => {
     if (onOk) {
