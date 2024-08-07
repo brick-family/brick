@@ -60,7 +60,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
     values,
   });
 
-  console.log('q=>operator', operator, allProps);
+  console.log('q=>operator', operator, allProps, type);
 
   if (operator === 'null' || operator === 'notNull') {
     return <div className={cls}></div>;
@@ -79,6 +79,8 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
     const editors = ['from', 'to'].map((key, i) => {
       if (type === 'text') {
         if (inputTypeCoerced === 'time') {
+          console.log('111222333');
+
           return (
             <DatePicker.TimePicker
               key={key}
@@ -86,7 +88,10 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
               className={standardClassnames.valueListItem}
               disabled={disabled}
               placeholder={placeHolderText}
-              onChange={(d) => multiValueHandler(d?.format('HH:mm:ss') ?? '', i)}
+              getPopupContainer={() => document.getElementById('filterDropdown@1')!}
+              onChange={(d) => {
+                multiValueHandler(d?.format('HH:mm:ss') ?? '', i);
+              }}
               {...extraProps}
               getPopupContainer={getPopupContainer}
             />
@@ -143,6 +148,8 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
   switch (type) {
     case 'select':
     case 'multiselect':
+      console.log('select111', values);
+
       return (
         <SelectorComponent
           {...props}
@@ -197,6 +204,8 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
       );
 
     case 'radio':
+      console.log('valueseeee', values);
+
       return (
         <span className={className} title={title}>
           {values.map((v) => (
@@ -214,6 +223,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
         </span>
       );
   }
+  console.log('inputTypeCoerced', inputTypeCoerced);
 
   switch (inputTypeCoerced) {
     case 'date':
@@ -226,6 +236,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
             showTime={inputTypeCoerced === 'datetime-local'}
             className={cls}
             disabled={disabled}
+            getPopupContainer={() => document.getElementById('filterDropdown@1')!}
             placeholder={[placeHolderText, placeHolderText]}
             // TODO: the function below is currently untested (see the
             // "should render a date range picker" test in ./AntD.test.tsx)
@@ -254,6 +265,7 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
           className={cls}
           disabled={disabled}
           placeholder={placeHolderText}
+          getPopupContainer={() => document.getElementById('filterDropdown@1')!}
           onChange={(_d, dateString) => handleOnChange(dateString)}
           {...extraProps}
           getPopupContainer={getPopupContainer}
@@ -269,7 +281,10 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
           className={cls}
           disabled={disabled}
           placeholder={placeHolderText}
-          onChange={(d) => handleOnChange(d?.format('HH:mm:ss') ?? '')}
+          onChange={(d) => {
+            console.log('date', d);
+            handleOnChange(d?.format('HH:mm:ss') ?? '');
+          }}
           {...extraProps}
           getPopupContainer={getPopupContainer}
         />

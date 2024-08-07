@@ -10,6 +10,7 @@ export enum ENodeType {
    */
   TableEvent = 'TableEvent',
   AddData = 'AddData', //添加节点
+  AddOneData = 'AddOneData', //新增单条数据
   UpdateData = 'UpdateData', //修改节点
   GetOneData = 'GetOneData', //获取一条数据
   GetMoreData = 'GetMoreData', //获取多条数据
