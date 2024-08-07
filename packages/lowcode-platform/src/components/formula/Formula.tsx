@@ -6,11 +6,11 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/theme/cobalt.css';
 import s from './formula.less';
 import { Collapse } from 'antd';
-import { useMemoizedFn } from 'ahooks';
 import { getLabeType } from './util';
 import { ITableEntity } from '@brick/types';
 
 const { Panel } = Collapse;
+
 export interface IFormulaProps {
   // 标签名
   label: string;
@@ -1101,7 +1101,7 @@ interface IFormulaFunction {
   title: string;
 }
 
-export const Formula: FC<IFormulaProps> = ({ label = '标签名称' }) => {
+export const Formula123131: FC<IFormulaProps> = ({ label = '标签名称' }) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const keyCodeRef = useRef<number>(-1);
   const coderRef = useRef<any>();

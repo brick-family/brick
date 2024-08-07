@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { TypeData } from '@/pages/workflow/create-and-update';
+import React, { FC, useMemo } from 'react';
+import { getTypeData } from '@/pages/workflow/create-and-update';
 import { Select, Space } from 'antd';
 import { BizTableSelect } from '@brick/biz-component';
 import { useWorkflowPageSelector } from '@/pages/workflow/workflow-processor';
@@ -22,6 +22,10 @@ export const Header: FC<IHeaderProps> = (props) => {
     s.workflowProcessor.setQueryWorkflowParamsObservable,
     s.workflowProcessor.queryWorkflowParams,
   ]);
+
+  const TypeData = useMemo(() => {
+    return getTypeData();
+  }, []);
 
   const linkData = useCreation(() => {
     return TypeData.map((type) => {

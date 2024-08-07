@@ -32,6 +32,11 @@ export enum ENodeType {
   Loop = 'Loop',
 
   End = 'End', //结束节点类型
+
+  /**
+   * 占位节点
+   */
+  Placeholder = 'Placeholder',
 }
 
 /**

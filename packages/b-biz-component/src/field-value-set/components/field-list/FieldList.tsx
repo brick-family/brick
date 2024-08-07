@@ -13,6 +13,8 @@ export const FieldList: FC<IFieldListProps> = (props) => {
     s.setValue,
   ]);
 
+  console.log('q=>columnsMap', columnsMap);
+
   return (
     <div>
       {value?.map((item) => {

@@ -43,6 +43,7 @@
     "@brick/biz-component": "workspace:0.0.1",
     "@brick/component": "workspace:0.0.1",
     "@brick/core": "workspace:0.0.1",
+    "@brick/processor": "workspace:0.0.1",
     "@brick/services": "workspace:0.0.1",
     "@brick/types": "workspace:0.0.1",
     "@brick/utils": "workspace:0.0.1",

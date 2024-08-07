@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
 import { ENodeType, ETableEventType } from '@brick/types';
 import { ISettingComponentProps, SettingCheckboxGroup, SettingFormItem } from '../../common';
-import { Checkbox, Divider } from 'antd';
+import { Alert, Checkbox, Divider } from 'antd';
+import { useWorkflowAppSelector } from '../../../processor';
 
 export const TableTriggerEventGroupData = [
   {
@@ -21,8 +22,11 @@ export const TableTriggerEventGroupData = [
 const Setting: FC<ISettingComponentProps<ENodeType.TableEvent>> = (props) => {
   const { nodeData } = props;
 
+  const [workflowData] = useWorkflowAppSelector((s) => [s.workflowData]);
+
   return (
     <div>
+      <Alert message={`当前触发的表单：${workflowData?.refData?.title}`} type="info" showIcon />
       <SettingFormItem
         title={'触发事件'}
         formItemProps={{

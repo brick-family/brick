@@ -6,10 +6,21 @@ import { ENodeType, IWorkflowEntity } from '@brick/types';
 
 const IGNORE_NODE_TYPE = [ENodeType.TableEvent, ENodeType.End];
 
+export const hasSubmitWorkflowNode = () => {};
+
 export const convertToLiteFlowScript = (
   levelTree: string[][],
   nodeMap: IWorkflowEntity['nodeMap']
 ): string => {
+  const dataLength = Object.values(nodeMap || {})?.filter(
+    (f) => !IGNORE_NODE_TYPE.includes(f?.type as any)
+  )?.length;
+
+  // 如果没有可用节点的数据，返回空Script
+  if (dataLength <= 0) {
+    return '';
+  }
+
   // 内部递归函数
   const generateScript = (levelTree: string[][]): string => {
     let script = '';

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { PermSelectProvider, usePermSelectSelector } from '@brick/biz-component';
 import { observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
-import { QueryBuilder } from '@brick/component';
+import { Formula } from '@brick/formula';
 
 const d = {
   code: '0000',
@@ -208,8 +208,8 @@ const Demo: FC<IAppProps> = (props) => {
       {/*{JSON.stringify(data.fieldPerm.editFiledIds)}*/}
 
       {/* <Table /> */}
-      {/* <Formula label='test' /> */}
-      <QueryBuilder tableConfig={d.data as any} />
+      <Formula label="test" />
+      {/*<QueryBuilder tableConfig={d.data as any} />*/}
       {/* eslint-disable-next-line react/jsx-no-undef */}
       {/*<DataState />*/}
     </div>

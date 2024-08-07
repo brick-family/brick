@@ -19,6 +19,7 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
   // 表单值是否有变更
   const formValueIsChange = useRef(false);
 
+  console.log('q=>node-activeNode', activeNode);
   const nodeId = activeNode?.id!;
   const node = nodeMap?.[nodeId] || {};
 
@@ -36,7 +37,6 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
   }, [nodeId]);
 
   const onFormValuesChange = () => {
-    console.log('q=>change');
     formValueIsChange.current = true;
   };
 
@@ -63,6 +63,7 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
     try {
       const values = await form.validateFields();
 
+      console.log('q=>node-update', nodeId, values);
       updateNodeDataById(nodeId, values);
       clearActiveNode();
     } catch (error: any) {

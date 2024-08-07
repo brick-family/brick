@@ -53,6 +53,7 @@ export const NodeContainer = ({ node }: { node: Node }) => {
     if (nodeType === ENodeType.End) {
       return;
     }
+    console.log('q=>node-click', nodeId, nodeType);
     setActiveNodeById(nodeId, nodeType);
   };
 
@@ -93,7 +94,9 @@ export const NodeContainer = ({ node }: { node: Node }) => {
       </div>
       {!isEnd && (
         <div className={s.content}>
-          <div className={s.left}>{NodeComponent && <NodeComponent nodeData={currNode!} />}</div>
+          <div className={s.left}>
+            {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
+          </div>
           <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 16 }} />
         </div>
       )}

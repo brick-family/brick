@@ -7,6 +7,7 @@ import React, { FC, useRef, useState } from 'react';
 import { RuleGroupType, RuleType } from 'react-querybuilder';
 
 const { useToken } = theme;
+
 export interface IQueryFilterProps {
   tableConfig: ITableEntity;
   onChange?: (value: RuleType[]) => void;
@@ -62,7 +63,11 @@ export const QueryFilter: FC<IQueryFilterProps> = ({ tableConfig, onChange }) =>
       dropdownRender={dropdownRender}
       onOpenChange={onOpenChange}
     >
-      <Button className="icon-button" icon={<FilterOutlined />}>
+      <Button
+        // onClick={() => setOpen(true)}
+        className="icon-button"
+        icon={<FilterOutlined />}
+      >
         {/*筛选*/}
       </Button>
     </Dropdown>

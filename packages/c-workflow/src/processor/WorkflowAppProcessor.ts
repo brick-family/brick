@@ -1,14 +1,17 @@
 import { observable, Observable } from '@legendapp/state';
 import { IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
-import { convertToLiteFlowScript, getNodeModule } from '../utils';
+import { convertToLiteFlowScript, getDefaultNodeData, getNodeModule } from '../utils';
 import { TNodeModuleMap } from '../components/common';
 import { createGraphProcessor, GraphProcessor } from './poc';
 import { generateSetObservable, uuid } from '@brick/core';
+import { createResourceProcessor, ResourceProcessor } from '@brick/processor';
 
 export class WorkflowAppProcessor {
   self: WorkflowAppProcessor;
 
   graphProcessor: GraphProcessor;
+
+  private resourceProcessor: ResourceProcessor;
 
   workflowElement: HTMLElement | null;
 
@@ -28,12 +31,19 @@ export class WorkflowAppProcessor {
     this.workflowData = observable({} as IWorkflowEntity);
     this.workflowElement = null;
 
+    this.resourceProcessor = createResourceProcessor().processor;
     this.graphProcessor = createGraphProcessor().processor;
     this.nodeModule = getNodeModule();
 
     // @ts-ignore
     window._workflow = this.workflowData;
+
+    this.init();
   }
+
+  private init = () => {
+    // this.resourceProcessor.requestResourceAllByResourceType()
+  };
 
   setWorkflowElement = (element: HTMLDivElement) => {
     this.workflowElement = element;
@@ -62,14 +72,15 @@ export class WorkflowAppProcessor {
    * @param defaultNodeData
    */
   _getDefaultNodeData = (nodeType: TNodeType, defaultNodeData?: Partial<IWorkflowNodeData>) => {
-    const { metaData, defaultNodeConfigData } = this.nodeModule?.[nodeType] || {};
-    return {
-      id: uuid(),
-      type: nodeType,
-      name: metaData?.name,
-      config: defaultNodeConfigData || {},
-      ...defaultNodeData,
-    } as IWorkflowNodeData;
+    return getDefaultNodeData(nodeType, { defaultNodeData, useNodeTypeId: false });
+    // const { metaData, defaultNodeConfigData } = this.nodeModule?.[nodeType] || {};
+    // return {
+    //   id: uuid(),
+    //   type: nodeType,
+    //   name: metaData?.name,
+    //   config: defaultNodeConfigData || {},
+    //   ...defaultNodeData,
+    // } as IWorkflowNodeData;
   };
 
   addNodeData = (nodeType: TNodeType, defaultNodeData?: Partial<IWorkflowNodeData>) => {

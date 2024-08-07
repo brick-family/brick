@@ -57,11 +57,19 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
 
     console.log('q=>elConfig', elConfig, graphData, workflowData);
 
+    if (!elConfig) {
+      message.error('请添加节点');
+      return;
+    }
+
     const result = { ...workflowData, graph: graphData, elData: elConfig };
 
     await updateWorkflow(result, {
       onError() {
-        message.error('修改失败！');
+        // message.error('修改失败！');
+      },
+      onSuccess: () => {
+        message.success('保存成功！');
       },
     });
   };

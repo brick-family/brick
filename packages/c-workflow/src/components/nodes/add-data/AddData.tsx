@@ -1,9 +1,14 @@
 import React, { FC } from 'react';
+import { ENodeType } from '@brick/types';
+import { useResourceDataCache } from '@brick/processor';
+import { INodeComponentProps } from '../../common';
 
-export interface IAddDataProps {}
+const AddData: FC<INodeComponentProps<ENodeType.AddData>> = (props) => {
+  const { nodeData } = props;
+  const { config } = nodeData;
+  const { data } = useResourceDataCache(config?.tableId!);
 
-const AddData: FC<IAddDataProps> = React.memo((props) => {
-  console.log('q=>add-data-render');
-  return <div>1add</div>;
-});
+  return <div>{data?.title}</div>;
+};
+
 export default AddData;

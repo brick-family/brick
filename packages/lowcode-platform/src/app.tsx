@@ -40,7 +40,8 @@ function lowcodeInit() {
   const assetLoader = new AssetLoader();
   const resourceUrl = isLocalEnv()
     ? ['http://localhost:3333/view.js']
-    : ['http://101.42.26.70/material/lowcode/meta.js'];
+    : ['http://101.42.26.70/material/lowcode/view.js'];
+
   assetLoader.load(resourceUrl);
 }
 

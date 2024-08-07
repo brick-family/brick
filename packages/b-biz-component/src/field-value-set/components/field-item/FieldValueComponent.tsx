@@ -16,6 +16,8 @@ export const FieldValueComponent: FC<IFieldValueComponentProps> = (props) => {
     return CurrComponent;
   }, [config]);
 
+  console.log('q=>columnsMap-config', config);
+
   return (
     <div style={style} className={className}>
       <Component value={value} columnConfig={config?.columnConfig} onChange={onChange} />

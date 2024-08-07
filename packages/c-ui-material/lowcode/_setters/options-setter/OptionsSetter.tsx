@@ -124,7 +124,6 @@ const OptionsSetterFun: FC<IOptionsSetterProps> = (props) => {
 
   const ItemComponent = type === 'radio' ? Radio : Checkbox;
 
-  console.log('q=>items', items, props);
   return (
     <div className={s.test}>
       <ColorSetting parentProps={props} update={update} />

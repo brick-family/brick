@@ -2,7 +2,7 @@ import { Edge } from '@antv/x6';
 import React, { FC, memo, useMemo } from 'react';
 import { WORKFLOW_TABLE_NODE_DATA } from '../../constants';
 import { getWorkflowProcessor } from '../../processor/WorkflowAppManager';
-import { EWorkflowType, IPanelDataNode } from '../../types';
+import { ENodeType, EWorkflowType, IPanelDataNode } from '../../types';
 import s from './lable.less';
 import { uuid } from '@brick/core';
 
@@ -24,6 +24,17 @@ export const EdgeLabelContent: FC<ILabelContentProps> = memo((props) => {
 
   const handleAddNode = (node: IPanelDataNode) => {
     const id = uuid();
+
+    if (node.type === ENodeType.Condition) {
+      workflowProcessor?.graphProcessor?.addConditionNode({
+        // nodeType: node.type,
+        edge: props.edge,
+        data: { id },
+      });
+
+      return;
+    }
+
     // 添加拓扑数据
     workflowProcessor?.graphProcessor?.addNodeByEdge({
       nodeType: node.type,

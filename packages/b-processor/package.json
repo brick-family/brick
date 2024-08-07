@@ -35,6 +35,7 @@
     "@brick/utils": "workspace:0.0.1",
     "@brick/services": "workspace:0.0.1",
     "@legendapp/state": "^1.11.1",
+    "ahooks": "^3.7.2",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },

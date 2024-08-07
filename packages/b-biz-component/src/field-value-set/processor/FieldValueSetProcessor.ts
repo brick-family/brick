@@ -108,7 +108,7 @@ export class FieldValueSetProcessor extends BaseProcessor {
 
       const columnMap: any = {};
       newTableConfig?.columns?.forEach((column) => {
-        columnMap[column?.id!] = column;
+        columnMap[column?.dbFieldName!] = column;
       });
 
       this.columnsMap?.set(columnMap);

@@ -32,7 +32,7 @@ export const NODE_HEIGHT_SMALL = 40;
 /**
  * 节点的gap
  */
-export const NODE_GAP = 50;
+export const NODE_GAP = 65;
 
 /**
  * 系统节点数据
@@ -78,6 +78,18 @@ const PANEL_DATA_NODE = [
     id: ENodeType.DeleteData,
     type: ENodeType.DeleteData,
     label: '删除数据',
+    icon: React.createElement(DeleteOutlined) as any,
+  },
+  {
+    id: ENodeType.Condition,
+    type: ENodeType.Condition,
+    label: '条件分支',
+    icon: React.createElement(DeleteOutlined) as any,
+  },
+  {
+    id: ENodeType.Placeholder,
+    type: ENodeType.Placeholder,
+    label: '占为分支',
     icon: React.createElement(DeleteOutlined) as any,
   },
   {

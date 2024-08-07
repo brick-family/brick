@@ -1,22 +1,12 @@
-import { register } from '@antv/x6-react-shape';
 import classNames from 'classnames';
 import React, { FC, useRef } from 'react';
-import { SHAPE_NODE } from '../../constants/Workflow';
 import { Toolbar } from '../toolbar';
 import { useSetWorkflowData } from './hooks/useSetWorkflowData';
 import { useWorkflowInit } from './hooks/useWorkflowInit';
 import s from './workflow.less';
-import { NodeContainer, SettingContainer } from './container';
+import { SettingContainer } from './container';
 import { IWorkflowEntity } from '@brick/types';
-
-// 注册自定义节点
-register({
-  shape: SHAPE_NODE,
-  width: 100,
-  height: 40,
-  effect: ['data'], //属性变化重新渲染组件
-  component: NodeContainer,
-});
+import './workflowUtils';
 
 export interface IWorkflowProps {
   style?: React.CSSProperties;

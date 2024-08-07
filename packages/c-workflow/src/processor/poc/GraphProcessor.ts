@@ -1,8 +1,8 @@
 import { BaseProcessor, uuid } from '@brick/core';
 import { Edge, Graph, Markup, Node } from '@antv/x6';
-import { TNodeType } from '@brick/types';
+import { ENodeType, TNodeType } from '@brick/types';
 import { DEFAULT_NODE_ATTR, NODE_GAP, NODE_HEIGHT, NODE_WIDTH } from '../../constants';
-import { convertToLevelTree, convertToLiteFlowScript } from '../../utils';
+import { convertToLevelTree } from '../../utils';
 
 /**
  * 连接线的配置
@@ -33,16 +33,28 @@ const EdgeConfig: Edge.Metadata = {
     //   }
     // },
     position: {
-      distance: -35,
+      distance: 15,
       // distance: -(NODE_GAP / 2)
     },
   },
   router: {
-    name: 'orth',
+    name: 'manhattan',
+
     args: {
+      startDirections: ['bottom'],
+      endDirections: ['top'],
       padding: {
-        bottom: 10, // 不请楚什么意思
+        top: 20,
+        bottom: 30,
+        left: 10,
+        right: 10,
       },
+      // padding: {
+      //   bottom: 180
+      // },
+      // padding: {
+      //   bottom: 100, // 不请楚什么意思
+      // },
     },
   },
 };
@@ -101,6 +113,10 @@ export class GraphProcessor extends BaseProcessor {
     return this.graph?.addEdge({
       source,
       target,
+      vertices: [
+        // {x: 300, y: 30},
+        // {x: 300, y: 120},
+      ],
       ...EdgeConfig,
     });
   };
@@ -119,6 +135,7 @@ export class GraphProcessor extends BaseProcessor {
     const sourceId = edge.getSourceCellId();
     const targetId = edge.getTargetCellId();
 
+    // debugger;
     this.addNode(nodeType, data!);
     // 当前线删除
     edge.remove();
@@ -130,6 +147,47 @@ export class GraphProcessor extends BaseProcessor {
       this.redraw();
     }
   };
+
+  addConditionNode = ({
+    data,
+    edge,
+    isRedraw = true,
+  }: {
+    data?: Node.Metadata;
+    edge: Edge;
+    isRedraw?: boolean;
+  }) => {
+    // 获取原节点id
+    const sourceId = edge.getSourceCellId();
+    // 获取目标节点id
+    const targetId = edge.getTargetCellId();
+
+    edge.remove();
+
+    // 添加条件节点
+    const conditionNode = this.addNode(ENodeType.Condition, data!);
+
+    // 添加两个占位节点
+    const p1Node = this.addNode(ENodeType.Placeholder, { name: 'p1' });
+    const p2Node = this.addNode(ENodeType.Placeholder, { name: 'p2' });
+    const p3Node = this.addNode(ENodeType.Placeholder, { name: 'p3' });
+
+    this.addEdge(sourceId, conditionNode?.id!);
+
+    this.addEdge(conditionNode?.id!, p1Node?.id!);
+    this.addEdge(conditionNode?.id!, p2Node?.id!);
+    this.addEdge(conditionNode?.id!, p3Node?.id!);
+
+    this.addEdge(p1Node?.id!, targetId);
+    this.addEdge(p2Node?.id!, targetId);
+    this.addEdge(p3Node?.id!, targetId);
+
+    if (isRedraw) {
+      this.redraw();
+    }
+  };
+
+  removeConditionNode = () => {};
 
   getConnections = () => {
     const edges = this.graph?.getEdges();

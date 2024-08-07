@@ -32,7 +32,7 @@ export const FieldItem: FC<IFieldItemProps> = (props) => {
   };
 
   const handleValueChange = (value: any) => {
-    updateFieldValue?.({ ...data, data: value });
+    updateFieldValue?.({ ...data, data: value?.target?.value || value });
   };
 
   return (
