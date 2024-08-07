@@ -30,28 +30,51 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
   onChange,
   onOk,
 }) => {
+  console.log('tableConfig?.columns?', tableConfig?.columns);
+
   const fields = useCreation(() => {
     return (
       tableConfig?.columns?.map((item) => {
+        if (item.fieldType == 'RADIO') {
+          return {
+            name: item.dbFieldName!,
+            label: item.title,
+            valueEditorType: 'radio',
+            defaultValue: item.columnConfig?.options[0]?.value,
+            values: item.columnConfig?.options?.map((item: any) => ({
+              name: item.value,
+              label: item.label,
+            })),
+            ...item,
+          };
+        } else if (item.fieldType == 'CHECKBOX') {
+          return {
+            name: item.dbFieldName!,
+            label: item.title,
+            valueEditorType: 'checkbox',
+            defaultValue: item.columnConfig?.options[0]?.value,
+            values: item.columnConfig?.options?.map((item: any) => ({
+              name: item.value,
+              label: item.label,
+            })),
+            ...item,
+          };
+        }
         return {
           name: item.dbFieldName!,
           label: item.title,
-          value: item.dbFieldName!,
+          defaultValue: item.dbFieldName!,
           ...item,
         };
       }) || []
     );
   }, [tableConfig?.columns]);
 
-  const [query, setQuery, setExecuteQueryFun, footerRef, setReload, reload] =
-    useQueryBuilderSelector((s) => [
-      s.query,
-      s.setQuery,
-      s.setExecuteQueryFun,
-      s.footerRef,
-      s.setReload,
-      s.reload,
-    ]);
+  console.log('fields111', fields);
+
+  const [query, setQuery, setExecuteQueryFun, footerRef, setReload] = useQueryBuilderSelector(
+    (s) => [s.query, s.setQuery, s.setExecuteQueryFun, s.footerRef, s.setReload]
+  );
 
   useEffect(() => {
     setReload();
@@ -115,7 +138,7 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
   console.log('q=>query', query);
 
   return (
-    <div className={s.container}>
+    <div className={s.container} id="filterDropdown@1">
       <div>筛选</div>
       <QueryBuilderAntD>
         <ReactQueryBuilder

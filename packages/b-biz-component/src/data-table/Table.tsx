@@ -81,6 +81,7 @@ export const Table = React.forwardRef<IDataTableRef, IDataTableProps>(({}, ref) 
   const handleChange = useMemoizedFn((value: RuleType[]) => {
     setQueryDataParamsObservable((draft) => {
       const newValue = convertDataFilterByRuleType(value);
+
       draft.filterExpressionList.set(newValue);
       draft.currentPage.set(1);
     });
