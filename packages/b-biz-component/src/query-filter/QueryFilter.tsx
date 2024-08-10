@@ -41,7 +41,7 @@ export const QueryFilter: FC<IQueryFilterProps> = ({ tableConfig, onChange }) =>
   const dropdownRender = useMemoizedFn(() => {
     return (
       <div style={contentStyle}>
-        <QueryBuilder onOk={onOk} onChange={onChangeQuery} tableConfig={tableConfig!} />
+        <QueryBuilder onOk={onOk} onChange={onChangeQuery} tableConfig={tableConfig!} hasClear />
       </div>
     );
   });

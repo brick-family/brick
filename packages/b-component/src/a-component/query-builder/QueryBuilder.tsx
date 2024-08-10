@@ -1,5 +1,10 @@
 import React, { FC, useEffect } from 'react';
-import { Field, QueryBuilder as ReactQueryBuilder, RuleGroupType } from 'react-querybuilder';
+import {
+  Field,
+  QueryBuilder as ReactQueryBuilder,
+  RuleGroupType,
+  generateID,
+} from 'react-querybuilder';
 import 'react-querybuilder/dist/query-builder.css';
 import { IColumnEntity, ITableEntity } from '@brick/types';
 import { useCreation, useMemoizedFn } from 'ahooks';
@@ -19,9 +24,10 @@ const controlClassnames = {
 
 export interface IQueryBuilderContentProps {
   tableConfig: ITableEntity;
-  onChange: (value: RuleGroupType) => void;
+  onChange?: (value: RuleGroupType) => void;
   value?: RuleGroupType;
   onOk?: (value: RuleGroupType) => void;
+  hasClear?: boolean;
 }
 
 const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
@@ -29,6 +35,7 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
   value,
   onChange,
   onOk,
+  hasClear,
 }) => {
   console.log('tableConfig?.columns?', tableConfig?.columns);
 
@@ -68,17 +75,46 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
         };
       }) || []
     );
-  }, [tableConfig?.columns]);
+  }, [JSON.stringify(tableConfig?.columns)]);
+
+  useEffect(() => {
+    if (fields?.length > 0) {
+      setQuery({
+        id: generateID(),
+        combinator: 'and',
+        not: true,
+        rules: [
+          {
+            id: generateID(),
+            field: fields[0].name,
+            value: '',
+            operator: '',
+          },
+        ],
+      });
+    }
+  }, [JSON.stringify(fields)]);
 
   console.log('fields111', fields);
 
-  const [query, setQuery, setExecuteQueryFun, footerRef, setReload] = useQueryBuilderSelector(
-    (s) => [s.query, s.setQuery, s.setExecuteQueryFun, s.footerRef, s.setReload]
-  );
+  const [query, setQuery, setExecuteQueryFun, footerRef, setReload, setHasClear] =
+    useQueryBuilderSelector((s) => [
+      s.query,
+      s.setQuery,
+      s.setExecuteQueryFun,
+      s.footerRef,
+      s.setReload,
+      s.setHasClear,
+    ]);
 
   useEffect(() => {
+    if (hasClear) {
+      setHasClear(hasClear);
+    } else {
+      setHasClear(false);
+    }
     setReload();
-  }, [footerRef.current]);
+  }, [footerRef.current, hasClear]);
 
   console.log('footerref', footerRef);
 

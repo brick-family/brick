@@ -88,7 +88,6 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
               className={standardClassnames.valueListItem}
               disabled={disabled}
               placeholder={placeHolderText}
-              getPopupContainer={() => document.getElementById('filterDropdown@1')!}
               onChange={(d) => {
                 multiValueHandler(d?.format('HH:mm:ss') ?? '', i);
               }}
@@ -252,7 +251,6 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
               }
             }
             {...extraProps}
-            getPopupContainer={getPopupContainer}
           />
         );
       }
@@ -265,7 +263,6 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
           className={cls}
           disabled={disabled}
           placeholder={placeHolderText}
-          getPopupContainer={() => document.getElementById('filterDropdown@1')!}
           onChange={(_d, dateString) => handleOnChange(dateString)}
           {...extraProps}
           getPopupContainer={getPopupContainer}
