@@ -13,18 +13,19 @@ export const AntdAddRuleAction: FC<IAntdAddRuleActionProps> = ({
   ruleOrGroup,
   ...otherProps
 }) => {
-  const [footerRef, resetQuery, query, executeQueryFun, reload] = useQueryBuilderSelector((s) => [
+  const [footerRef, resetQuery, query, executeQueryFun, hasClear] = useQueryBuilderSelector((s) => [
     s.footerRef,
     s.resetQuery,
     s.query,
     s.executeQueryFun,
-    s.footerRef,
-    s.reload,
+    s.hasClear,
   ]);
 
   if (!footerRef?.current) {
     return <></>;
   }
+
+  console.log('hasClear', hasClear);
 
   const add = (e: React.MouseEvent) => {
     console.log('q=>ruleOrGroup', ruleOrGroup, otherProps);
@@ -33,23 +34,25 @@ export const AntdAddRuleAction: FC<IAntdAddRuleActionProps> = ({
   };
   return ReactDOM.createPortal(
     <div className={s.content}>
-      <Flex justify={'space-between'}>
+      <Flex justify={hasClear ? 'space-between' : 'flex-start'}>
         <Button {...otherProps} type="text" icon={<PlusOutlined />} onClick={add}>
           条件
         </Button>
-        <div className={s.op}>
-          <Space>
-            <Button onClick={resetQuery}>清空值</Button>
-            <Button
-              type={'primary'}
-              onClick={() => {
-                executeQueryFun?.(query);
-              }}
-            >
-              筛选
-            </Button>
-          </Space>
-        </div>
+        {hasClear && query?.rules?.length > 0 ? (
+          <div className={s.op}>
+            <Space>
+              <Button onClick={resetQuery}>清空值</Button>
+              <Button
+                type={'primary'}
+                onClick={() => {
+                  executeQueryFun?.(query);
+                }}
+              >
+                筛选
+              </Button>
+            </Space>
+          </div>
+        ) : null}
       </Flex>
     </div>,
     footerRef?.current!

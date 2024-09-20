@@ -7,7 +7,7 @@ const initialQuery: RuleGroupType = {
   id: generateID(),
   combinator: 'and',
   not: true,
-  rules: [{ id: generateID(), field: 'column_gosanf', operator: '=', value: 111 }],
+  rules: [],
 };
 
 export class QueryBuilderProcessor extends BaseProcessor {
@@ -16,6 +16,7 @@ export class QueryBuilderProcessor extends BaseProcessor {
   query: Observable<RuleGroupType>; //
 
   reload: Observable<boolean>;
+  hasClear: Observable<boolean>;
 
   executeQueryFun: (value: RuleGroupType) => void;
 
@@ -25,12 +26,17 @@ export class QueryBuilderProcessor extends BaseProcessor {
     this.footerRef = React.createRef();
     this.reload = observable(true);
     this.query = observable(initialQuery);
+    this.hasClear = observable(false);
     this.executeQueryFun = () => {};
     this.init();
   }
 
   setQuery = (value: RuleGroupType) => {
     this.query.set(value);
+  };
+
+  setHasClear = (value: boolean) => {
+    this.hasClear.set(value);
   };
 
   /**

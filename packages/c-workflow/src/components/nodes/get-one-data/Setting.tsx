@@ -1,13 +1,16 @@
-import React, { FC } from 'react';
-import { ENAddDataType, ENodeType } from '@brick/types';
+import React, { FC, useEffect, useState } from 'react';
+import { ENAddDataType, ENodeType, IColumnEntity, ITableEntity } from '@brick/types';
 import {
   ISettingComponentProps,
   SettingFieldValueSet,
   SettingFormItem,
   SettingRadioGroup,
 } from '../../common';
-import { Divider } from 'antd';
-import { AppTableCaseCadeSelect, QueryFilter } from '@brick/biz-component';
+import { Divider, Form } from 'antd';
+import { AppTableCaseCadeSelect } from '@brick/biz-component';
+import { QueryBuilder } from '@brick/component';
+import { useCreation } from 'ahooks';
+import { getTable } from '@brick/services';
 
 export const AddDataTypeData = [
   {
@@ -24,6 +27,19 @@ export const AddDataTypeData = [
 const Setting: FC<ISettingComponentProps<ENodeType.AddOneData>> = (props) => {
   const { nodeData } = props;
   const tableNameKey = ['config', 'tableId'];
+  const [tableConfig, setTableConfig] = useState({} as ITableEntity);
+
+  const tableId = Form.useWatch(tableNameKey) as string;
+
+  useEffect(() => {
+    if (tableId) {
+      getTable({ id: tableId }).then((res) => {
+        console.log('res222', res, 'tableID', tableId);
+        setTableConfig(res!);
+      });
+    }
+  }, [tableId]);
+
   return (
     <div>
       <SettingFormItem title={'选择表单'}>
@@ -37,7 +53,7 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddOneData>> = (props) => {
           name: ['config', 'type'],
         }}
       >
-        <QueryFilter />
+        {tableConfig?.columns?.length ? <QueryBuilder tableConfig={tableConfig} /> : null}
       </SettingFormItem>
       <Divider />
       <SettingFormItem
