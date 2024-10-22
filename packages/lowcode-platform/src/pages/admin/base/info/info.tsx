@@ -60,10 +60,16 @@ export const Info: FC<IInfoProps> = (props) => {
           colProps={{ md: 12, xl: 8 }}
           onFinish={async (values: ITenantUserEntity) => {
             console.log('q=>values', values);
-
+            let logo = values.logo;
+            if (Array.isArray(values.logo)) {
+              logo = '';
+            } else {
+              logo = values.logo;
+            }
             const data = {
               ...values,
               id: tenant.id,
+              logo: logo,
             };
             const fileId = getFileIdByAntdFiles(values?.logo as any);
             if (fileId) {
