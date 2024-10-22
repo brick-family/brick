@@ -30,3 +30,13 @@ export enum EWorkflowStatus {
  * 工作流类型
  */
 export type TWorkflowType = keyof typeof EWorkflowType;
+
+/**
+ * 工作流布局单条数据结构
+ */
+export interface IWorkflowLayoutItem {
+  id: string;
+  children?: IWorkflowLayoutItem[];
+}
+
+export type TWorkflowLayouts = IWorkflowLayoutItem[];

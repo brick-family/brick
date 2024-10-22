@@ -5,20 +5,16 @@ import { IWorkflowEntity } from '../../../types';
 
 export interface IUseSetWorkflowData {
   data: IWorkflowEntity;
-  graph: Graph;
 }
 
-export const useSetWorkflowData = ({ data, graph }: IUseSetWorkflowData) => {
+export const useSetWorkflowData = ({ data }: IUseSetWorkflowData) => {
   const [setWorkflowData, graphProcessor] = useWorkflowAppSelector((s) => [
     s.setWorkflowData,
     s.graphProcessor,
   ]);
   useEffect(() => {
-    if (graph && data) {
-      graph.fromJSON(data.graph);
-      // 重绘
-      graphProcessor?.redraw?.();
+    if (data) {
       setWorkflowData(data);
     }
-  }, [data, graph]);
+  }, [data]);
 };

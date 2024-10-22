@@ -1,6 +1,6 @@
 import { IBaseEntity } from './base';
 import { IResourceEntity } from './resource';
-import { IWorkflowNodeData } from '../workflow';
+import { IWorkflowLayoutItem, IWorkflowNodeData, TWorkflowLayouts } from '../workflow';
 
 export interface IWorkflowEntity extends IBaseEntity {
   applicationId: string;
@@ -26,6 +26,11 @@ export interface IWorkflowEntity extends IBaseEntity {
    * 配置信息
    */
   nodeMap: Record<string, IWorkflowNodeData>;
+
+  /**
+   * 布局信息
+   */
+  layouts: TWorkflowLayouts;
 
   /**
    * 拓扑信息

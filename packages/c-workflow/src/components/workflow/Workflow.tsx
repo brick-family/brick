@@ -4,7 +4,7 @@ import { Toolbar } from '../toolbar';
 import { useSetWorkflowData } from './hooks/useSetWorkflowData';
 import { useWorkflowInit } from './hooks/useWorkflowInit';
 import s from './workflow.less';
-import { SettingContainer } from './container';
+import { SettingContainer, WorkflowContainer } from './container';
 import { IWorkflowEntity } from '@brick/types';
 import './workflowUtils';
 
@@ -17,25 +17,22 @@ export interface IWorkflowProps {
 export const Workflow: FC<IWorkflowProps> = ({ style, className, data }) => {
   const classNameStr = classNames(s.workflow, className);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { graph } = useWorkflowInit(containerRef);
+  // const { graph } = useWorkflowInit(containerRef);
 
   useSetWorkflowData({
     data: data!,
-    graph: graph!,
   });
 
   return (
     <div style={style} className={classNameStr}>
       <div>
-        {graph && (
+        {/* {graph && (
           <React.Fragment>
             <Toolbar />
           </React.Fragment>
-        )}
+        )} */}
       </div>
-      <div ref={containerRef} className={s.container} id="container"></div>
+      <WorkflowContainer />
       <SettingContainer />
     </div>
   );

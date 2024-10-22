@@ -12,7 +12,6 @@ import { OptionsSetter } from '../_setters/options-setter';
 import { DefaultOptionsConstant } from '@brick/utils';
 import { FieldParentWhitelist } from '../common/CommonRule';
 
-console.log('q=>EColumnRadioDirection', EColumnRadioDirection);
 const FieldCheckboxGroupMeta = {
   componentName: 'FieldCheckboxGroup',
   title: '复选框组',
@@ -41,6 +40,7 @@ const FieldCheckboxGroupMeta = {
           label: '排列方式',
         },
         name: 'columnConfig.direction',
+        display: 'none', // TODO 测试display noe是否OK
         supportVariable: false,
         setter: {
           componentName: SegmentedSetter,
