@@ -1,5 +1,5 @@
 import { observable, Observable } from '@legendapp/state';
-import { IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
+import { ENodeType, IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
 import { convertToLiteFlowScript, getDefaultNodeData, getNodeModule } from '../utils';
 import { TNodeModuleMap } from '../components/common';
 import { createGraphProcessor, GraphProcessor } from './poc';
@@ -54,6 +54,7 @@ export class WorkflowAppProcessor {
    * @param data
    */
   setWorkflowData = (data: IWorkflowEntity) => {
+    data.layouts = [{ id: ENodeType.TableEvent, children: [] }];
     this.workflowData.set(data);
   };
 
@@ -83,9 +84,38 @@ export class WorkflowAppProcessor {
     // } as IWorkflowNodeData;
   };
 
-  addNodeData = (nodeType: TNodeType, defaultNodeData?: Partial<IWorkflowNodeData>) => {
+  addNodeData = (addNodeDataParams: {
+    // 当前节点id
+    id: IWorkflowNodeData['id'];
+    nodeType: TNodeType;
+    defaultNodeData?: Partial<IWorkflowNodeData>;
+  }) => {
+    const { id, nodeType, defaultNodeData } = addNodeDataParams;
+
     const currNodeData = this._getDefaultNodeData(nodeType, defaultNodeData);
     this.setWorkflowDataObservable((draft) => {
+      if (nodeType === ENodeType.Condition) {
+        // 添加布局信息和节点信息
+        const c1Id = uuid();
+        const c2Id = uuid();
+
+        const c1NodeData = this._getDefaultNodeData(ENodeType.AddData, defaultNodeData);
+        const c2NodeData = this._getDefaultNodeData(ENodeType.AddData, defaultNodeData);
+
+        draft.layouts.push({
+          id: currNodeData.id,
+          children: [{ id: c1Id }, { id: c2Id }],
+        });
+
+        draft.nodeMap.set({
+          ...draft.nodeMap.get(),
+          [currNodeData.id]: currNodeData,
+          [c1Id]: c1NodeData,
+          [c2Id]: c2NodeData,
+        });
+        return;
+      }
+      draft.layouts.push({ id: currNodeData.id, children: [] });
       draft.nodeMap.set({ ...draft.nodeMap.get(), [currNodeData.id]: currNodeData });
     });
     return currNodeData;

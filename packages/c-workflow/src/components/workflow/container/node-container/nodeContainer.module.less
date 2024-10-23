@@ -2,12 +2,18 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
 .node {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.container {
   min-height: 80px;
   padding: 5px 10px 8px;
   border-radius: 8px;
@@ -23,7 +29,8 @@
 
   &:hover {
     .toolbar {
-      animation: fadeIn 0.5s forwards; /* 动画效果 */
+      animation: fadeIn 0.5s forwards;
+      /* 动画效果 */
     }
   }
 
@@ -93,4 +100,39 @@
   //    }
   //  }
   //}
+}
+
+
+.nodeAdd {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: var(--node-line-len);
+
+  &:before {
+    position: absolute;
+    content: '';
+    width: var(--node-line-width);
+    height: var(--node-line-len);
+    background: var(--node-line-color);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: var(--node-line-len);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    border-style: solid;
+    border-width: 8px 6px 4px;
+    border-color: var(--node-line-color) transparent transparent;
+  }
+}
+
+.hideArrow {
+  &:after {
+    display: none;
+  }
 }

@@ -1,22 +1,29 @@
-import { Node } from '@antv/x6';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-import s from './node.module.less';
+import s from './nodeContainer.module.less';
 import { useWorkflowAppSelector } from '../../../../processor';
-import { ENodeType, IWorkflowNodeData } from '@brick/types';
+import { ENodeType, IWorkflowLayoutItem, IWorkflowNodeData } from '@brick/types';
 import { PANEL_ALL_DATA } from '../../../../constants';
 import { CopyOutlined, DeleteOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
+import { BLoading } from '@brick/component';
+import { NodeAdd } from '../../../common';
+import { NodeBranchContainer } from './node-branch-container/NodeBranchContainer';
 
 export interface INodeContainerProps {
   style?: React.CSSProperties;
   className?: string;
-  icon?: string;
-  title: string;
+  layoutItem: IWorkflowLayoutItem;
+  /**
+   * 是否显示箭头
+   */
+  showArrow?: boolean;
 }
 
-export const NodeContainer = ({ node }: { node: Node }) => {
+export const NodeContainer = (props: INodeContainerProps) => {
+  const { layoutItem, showArrow = true } = props;
+
   const [
     graphProcessor,
     setActiveNodeById,
@@ -35,19 +42,19 @@ export const NodeContainer = ({ node }: { node: Node }) => {
     s.copyNodeData,
   ]);
 
-  const nodeId = node.id;
-
-  const nodeType = node?.data?.type as ENodeType;
+  const nodeId = layoutItem?.id;
+  // const nodeId = node.id;
+  const nodeData = nodeMap?.[nodeId];
+  const nodeType = nodeData.type;
   // 是否激活
   const isActive = activeNode?.id === nodeId;
 
   const currNode = nodeMap?.[nodeId];
-  const data = node.getData<IWorkflowNodeData>();
-  const isEnd = data.type === ENodeType.End;
+  const isEnd = nodeData.type === ENodeType.End;
 
   const panelData = useMemo(() => {
-    return PANEL_ALL_DATA.find((f) => f.type === data.type);
-  }, [data.type]);
+    return PANEL_ALL_DATA.find((f) => f.type === nodeData.type);
+  }, [nodeData.type]);
 
   const onNodeClick = () => {
     if (nodeType === ENodeType.End) {
@@ -60,67 +67,80 @@ export const NodeContainer = ({ node }: { node: Node }) => {
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
     // 画布复制节点
-    const newNodeId = graphProcessor.copyNode(node);
+    // const newNodeId = graphProcessor.copyNode(node);
 
     // 工作流 nodeMap 复制节点 (复制节点数据)
-    const newNode = copyNodeData(nodeId, newNodeId);
+    // const newNode = copyNodeData(nodeId, newNodeId);
   };
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     // 删除节点
-    graphProcessor?.removeNode?.(node);
+    // graphProcessor?.removeNode?.(node);
 
     // 删除节点数据
-    removeNodeData(node.id);
+    removeNodeData(nodeId);
   };
 
   const NodeComponent = nodeModule?.[nodeType]?.nodeComponent;
 
   // 是否有toolbar
-  const hasToolbar = ![ENodeType.End, ENodeType.TableEvent].includes(nodeType);
+  const hasToolbar = ![ENodeType.End, ENodeType.TableEvent].includes(nodeType as any);
+
+  console.log('q=>workflowData-abc', nodeModule, NodeComponent, currNode);
 
   return (
-    <div
-      className={classNames(s.node, {
-        [s.selected]: isActive,
-        [s.end]: isEnd,
-      })}
-      onClick={onNodeClick}
-    >
-      <div className={s.title}>
-        <span className={s.icon}>{panelData?.icon}</span>
-        <span>{currNode?.name || panelData?.label}</span>
-      </div>
-      {!isEnd && (
-        <div className={s.content}>
-          <div className={s.left}>
-            {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
+    <div className={s.node}>
+      <div
+        className={classNames(s.container, {
+          [s.selected]: isActive,
+          [s.end]: isEnd,
+        })}
+        onClick={onNodeClick}
+      >
+        <div className={s.title}>
+          <span className={s.icon}>{panelData?.icon}</span>
+          <span>{currNode?.name || panelData?.label}</span>
+        </div>
+        {!isEnd && (
+          <div className={s.content}>
+            <div className={s.left}>
+              <React.Suspense fallback={<BLoading />}>
+                {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
+              </React.Suspense>
+            </div>
+            <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 16 }} />
           </div>
-          <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 16 }} />
-        </div>
-      )}
+        )}
 
-      {hasToolbar && (
-        <div className={s.toolbar}>
-          <Space size={4}>
-            <Button
-              onClick={handleCopy}
-              type="text"
-              size={'small'}
-              className={s.item}
-              icon={<CopyOutlined />}
-            ></Button>
-            <Button
-              onClick={handleDelete}
-              type="text"
-              size={'small'}
-              className={s.item}
-              icon={<DeleteOutlined />}
-            ></Button>
-          </Space>
-        </div>
-      )}
+        {hasToolbar && (
+          <div className={s.toolbar}>
+            <Space size={4}>
+              <Button
+                onClick={handleCopy}
+                type="text"
+                size={'small'}
+                className={s.item}
+                icon={<CopyOutlined />}
+              ></Button>
+              <Button
+                onClick={handleDelete}
+                type="text"
+                size={'small'}
+                className={s.item}
+                icon={<DeleteOutlined />}
+              ></Button>
+            </Space>
+          </div>
+        )}
+      </div>
+      <div
+        className={classNames(s.nodeAdd, {
+          [s.hideArrow]: !showArrow,
+        })}
+      >
+        <NodeAdd />
+      </div>
     </div>
   );
 };

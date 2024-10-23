@@ -1,0 +1,104 @@
+.nodeBranch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-bottom: 8px;
+  margin-top: 16px;
+
+  .container {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    // background: @main-bgc;
+
+
+
+    &:before {
+      content: '';
+      width: calc(100% - var(--node-width));
+      background: var(--node-line-color);
+      position: absolute;
+      height: var(--node-line-width);
+    }
+
+    &:after {
+      content: '';
+      width: calc(100% - var(--node-width));
+      background: var(--node-line-color);
+      position: absolute;
+      height: var(--node-line-width);
+      bottom: 0;
+    }
+
+    .addButton {
+      z-index: 5;
+      top: -16px;
+      position: absolute;
+    }
+
+    .item {
+
+      position: relative;
+      padding: 0 60px;
+      display: flex;
+      justify-content: center;
+
+      &>div {
+        z-index: 1; //防止连线跑到它上面
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &>.w-p-node:last-child {
+          :deep(.w-p-node-add) {
+
+            //分支最后一个节点要去除箭头，影响美观
+            &:after {
+              display: none !important;
+            }
+          }
+        }
+      }
+
+      &:before {
+        content: '';
+        position: absolute;
+        background: var(--node-line-color);
+        height: 100%;
+        width: var(--node-line-width);
+      }
+    }
+
+  }
+
+
+  .nodeAdd {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--node-line-len);
+
+    &:before {
+      position: absolute;
+      content: '';
+      width: var(--node-line-width);
+      height: var(--node-line-len);
+      background: var(--node-line-color);
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: var(--node-line-len);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      border-style: solid;
+      border-width: 8px 6px 4px;
+      border-color: var(--node-line-color) transparent transparent;
+    }
+  }
+}
