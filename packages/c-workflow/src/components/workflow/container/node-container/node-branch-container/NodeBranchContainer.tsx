@@ -26,9 +26,15 @@ export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
         <div className={s.addButton}>
           <Button onClick={addBranch}>添加分支</Button>
         </div>
-        {layoutItem?.children?.map((item) => {
+        {layoutItem?.children?.map((item, index) => {
           return (
-            <div key={item.id} className={s.item}>
+            <div
+              key={item.id}
+              className={classNames(s.item, {
+                [s.itemLeft]: index === 0,
+                [s.itemRight]: index === layoutItem?.children?.length! - 1,
+              })}
+            >
               <NodeContainer showArrow={false} layoutItem={item} />
             </div>
           );

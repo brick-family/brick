@@ -38,7 +38,6 @@
     }
 
     .item {
-
       position: relative;
       padding: 0 60px;
       display: flex;
@@ -68,6 +67,60 @@
         background: var(--node-line-color);
         height: 100%;
         width: var(--node-line-width);
+      }
+    }
+
+    .itemLeft,
+    .itemRight {
+      &:after {
+        //当分支不是偶数时，需要一个遮罩线
+        content: '';
+        position: absolute;
+        height: var(--node-line-width);
+        width: 50%;
+        top: 0;
+        background: #fff;
+      }
+
+      &>div {
+        &:before {
+          //当分支不是偶数时，需要一个遮罩线
+          content: '';
+          position: absolute;
+          height: var(--node-line-width);
+          width: 50%;
+          bottom: 0;
+          background: #fff;
+          bottom: -8px;
+        }
+      }
+    }
+
+    .itemLeft {
+      margin-left: 0;
+
+      &>div {
+        &:before {
+          left: -1px;
+        }
+      }
+
+      &:after {
+        left: -1px;
+      }
+    }
+
+    .itemRight {
+      margin-right: 0;
+
+      &>div {
+        &:before {
+          right: -1px;
+        }
+      }
+
+      &:after {
+        right: -1px;
       }
     }
 

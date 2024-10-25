@@ -84,6 +84,8 @@ export class WorkflowAppProcessor {
     // } as IWorkflowNodeData;
   };
 
+  _addConditionNodeData = () => {};
+
   addNodeData = (addNodeDataParams: {
     // 当前节点id
     id: IWorkflowNodeData['id'];
@@ -92,6 +94,7 @@ export class WorkflowAppProcessor {
   }) => {
     const { id, nodeType, defaultNodeData } = addNodeDataParams;
 
+    // 拆分node节点
     const currNodeData = this._getDefaultNodeData(nodeType, defaultNodeData);
     this.setWorkflowDataObservable((draft) => {
       if (nodeType === ENodeType.Condition) {
@@ -99,7 +102,7 @@ export class WorkflowAppProcessor {
         const c1Id = uuid();
         const c2Id = uuid();
 
-        const c1NodeData = this._getDefaultNodeData(ENodeType.AddData, defaultNodeData);
+        const c1NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, defaultNodeData);
         const c2NodeData = this._getDefaultNodeData(ENodeType.AddData, defaultNodeData);
 
         draft.layouts.push({

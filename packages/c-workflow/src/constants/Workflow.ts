@@ -87,6 +87,12 @@ const PANEL_DATA_NODE = [
     icon: React.createElement(DeleteOutlined) as any,
   },
   {
+    id: ENodeType.ConditionItem,
+    type: ENodeType.ConditionItem,
+    label: '条件',
+    icon: React.createElement(DeleteOutlined) as any,
+  },
+  {
     id: ENodeType.Placeholder,
     type: ENodeType.Placeholder,
     label: '占为分支',

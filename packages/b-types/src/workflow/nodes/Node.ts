@@ -27,6 +27,11 @@ export enum ENodeType {
    * 条件节点
    */
   Condition = 'Condition',
+
+  /**
+   * 具体的条件子节点
+   */
+  ConditionItem = 'ConditionItem',
   /**
    * 循环节点
    */
