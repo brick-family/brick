@@ -95,7 +95,7 @@ const PANEL_DATA_NODE = [
   {
     id: ENodeType.Placeholder,
     type: ENodeType.Placeholder,
-    label: '占为分支',
+    label: '占位分支',
     icon: React.createElement(DeleteOutlined) as any,
   },
   {
@@ -144,7 +144,9 @@ export const WORKFLOW_TABLE_NODE_DATA = [
   {
     id: 1,
     label: '数据节点',
-    children: PANEL_DATA_NODE,
+    children: PANEL_DATA_NODE.filter(
+      (item) => ![ENodeType.ConditionItem, ENodeType.Placeholder, ENodeType.End].includes(item.type)
+    ),
   },
   {
     id: 2,

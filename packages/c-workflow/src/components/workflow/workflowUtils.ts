@@ -82,11 +82,11 @@ export const ports = {
 };
 
 // 注册自定义节点
-register({
-  shape: SHAPE_NODE,
-  width: 100,
-  height: 40,
-  effect: ['data'], //属性变化重新渲染组件
-  component: NodeContainer,
-  // ports: {...ports},
-});
+// register({
+//   shape: SHAPE_NODE,
+//   width: 100,
+//   height: 40,
+//   effect: ['data'], //属性变化重新渲染组件
+//   component: NodeContainer,
+//   // ports: {...ports},
+// });

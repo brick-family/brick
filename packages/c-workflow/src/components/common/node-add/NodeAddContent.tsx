@@ -10,10 +10,11 @@ export interface INodeAddContentProps {
   /**
    * 当前添加的节点id
    */
-  id: string;
+  sourceNodeId: string;
 }
 
 export const NodeAddContent: FC<INodeAddContentProps> = memo((props) => {
+  const { sourceNodeId } = props;
   const workflowProcessor = getWorkflowProcessor();
   const type = workflowProcessor?.workflowData?.get()?.type;
 
@@ -25,34 +26,13 @@ export const NodeAddContent: FC<INodeAddContentProps> = memo((props) => {
   }, [type]);
 
   const handleAddNode = (node: IPanelDataNode) => {
-    const id = uuid();
-    if (node.type === ENodeType.Condition) {
-      workflowProcessor?.addNodeData({
-        nodeType: node.type,
-        defaultNodeData: { id },
-      });
-      // workflowProcessor?.graphProcessor?.addConditionNode({
-      //   // nodeType: node.type,
-      //   edge: props.edge,
-      //   data: { id },
-      // });
-      return;
-    }
-
-    // 添加拓扑数据
-    // workflowProcessor?.graphProcessor?({
-    //   nodeType: node.type,
-    //   edge: props.edge,
-    //   data: { id },
-    // });
-
     // 添加节点数据
-    workflowProcessor.addNodeData({
+    const newNode = workflowProcessor.addNodeData({
+      sourceNodeId,
       nodeType: node.type,
-      defaultNodeData: { id },
+      // defaultNodeData: { id },
     });
-    workflowProcessor.setActiveNodeById(id);
-
+    // workflowProcessor.setActiveNodeById(newNode.id);
     props?.setOpen?.(false);
   };
 

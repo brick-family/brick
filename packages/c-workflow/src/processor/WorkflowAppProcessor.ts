@@ -1,6 +1,18 @@
 import { observable, Observable } from '@legendapp/state';
-import { ENodeType, IWorkflowEntity, IWorkflowNodeData, TNodeType } from '../types';
-import { convertToLiteFlowScript, getDefaultNodeData, getNodeModule } from '../utils';
+import {
+  ENodeType,
+  IWorkflowEntity,
+  IWorkflowLayoutItem,
+  IWorkflowNodeData,
+  TNodeType,
+} from '../types';
+import {
+  convertToLiteFlowScript,
+  getDefaultNodeData,
+  getNodeModule,
+  recursiveAddNode,
+  recursiveRemoveNode,
+} from '../utils';
 import { TNodeModuleMap } from '../components/common';
 import { createGraphProcessor, GraphProcessor } from './poc';
 import { generateSetObservable, uuid } from '@brick/core';
@@ -74,52 +86,61 @@ export class WorkflowAppProcessor {
    */
   _getDefaultNodeData = (nodeType: TNodeType, defaultNodeData?: Partial<IWorkflowNodeData>) => {
     return getDefaultNodeData(nodeType, { defaultNodeData, useNodeTypeId: false });
-    // const { metaData, defaultNodeConfigData } = this.nodeModule?.[nodeType] || {};
-    // return {
-    //   id: uuid(),
-    //   type: nodeType,
-    //   name: metaData?.name,
-    //   config: defaultNodeConfigData || {},
-    //   ...defaultNodeData,
-    // } as IWorkflowNodeData;
   };
 
   _addConditionNodeData = () => {};
 
   addNodeData = (addNodeDataParams: {
-    // 当前节点id
-    id: IWorkflowNodeData['id'];
+    sourceNodeId: IWorkflowNodeData['id'];
     nodeType: TNodeType;
     defaultNodeData?: Partial<IWorkflowNodeData>;
   }) => {
-    const { id, nodeType, defaultNodeData } = addNodeDataParams;
+    const { sourceNodeId, nodeType, defaultNodeData } = addNodeDataParams;
 
+    const sourceNodeData = this.workflowData.nodeMap?.[sourceNodeId]?.get();
     // 拆分node节点
     const currNodeData = this._getDefaultNodeData(nodeType, defaultNodeData);
+
     this.setWorkflowDataObservable((draft) => {
+      let layoutItem: IWorkflowLayoutItem = {
+        id: currNodeData.id,
+        children: [],
+      };
+
+      let nodeDataMap = {
+        [currNodeData.id]: currNodeData,
+      };
+
       if (nodeType === ENodeType.Condition) {
         // 添加布局信息和节点信息
         const c1Id = uuid();
         const c2Id = uuid();
 
         const c1NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, defaultNodeData);
-        const c2NodeData = this._getDefaultNodeData(ENodeType.AddData, defaultNodeData);
+        const c2NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, defaultNodeData);
 
-        draft.layouts.push({
-          id: currNodeData.id,
-          children: [{ id: c1Id }, { id: c2Id }],
-        });
+        // 添加布局信息
+        layoutItem.children = [
+          { id: c1Id, children: [] },
+          { id: c2Id, children: [] },
+        ];
 
-        draft.nodeMap.set({
-          ...draft.nodeMap.get(),
-          [currNodeData.id]: currNodeData,
-          [c1Id]: c1NodeData,
-          [c2Id]: c2NodeData,
-        });
-        return;
+        // 添加节点信息
+        nodeDataMap[c1Id] = c1NodeData;
+        nodeDataMap[c2Id] = c2NodeData;
       }
-      draft.layouts.push({ id: currNodeData.id, children: [] });
-      draft.nodeMap.set({ ...draft.nodeMap.get(), [currNodeData.id]: currNodeData });
+
+      console.log('q=>1111', sourceNodeData.type === ENodeType.ConditionItem, sourceNodeData);
+
+      // 添加布局信息
+      recursiveAddNode({
+        sourceNodeId,
+        layouts: draft.layouts,
+        newLayoutItem: layoutItem,
+        isChildrenInsert: sourceNodeData.type === ENodeType.ConditionItem,
+      });
+
+      draft.nodeMap.set({ ...draft.nodeMap.get(), ...nodeDataMap });
     });
     return currNodeData;
   };
@@ -130,10 +151,26 @@ export class WorkflowAppProcessor {
    */
   removeNodeData = (id: IWorkflowNodeData['id']) => {
     this.setWorkflowDataObservable((draft) => {
-      draft.nodeMap.set((value) => {
-        delete value[id];
-        return value;
+      const nodeType = draft.nodeMap[id].get().type;
+
+      console.log('q=>removeIds-删除前', JSON.stringify(draft.layouts.get()));
+      // 删除布局信息
+      const removeIds = recursiveRemoveNode({
+        sourceNodeId: id,
+        layouts: draft.layouts,
+        deleteIfSingle: nodeType === ENodeType.ConditionItem,
       });
+
+      console.log('q=>removeIds-删除后', removeIds);
+      // 删除节点信息
+      if (removeIds?.length) {
+        draft.nodeMap.set((value) => {
+          removeIds?.forEach((removeId) => {
+            delete value[removeId];
+          });
+          return value;
+        });
+      }
     });
   };
 
@@ -143,13 +180,14 @@ export class WorkflowAppProcessor {
    */
   copyNodeData = (id: IWorkflowNodeData['id'], newNodeId: string) => {
     const currNode = this.workflowData.nodeMap.get()?.[id];
-
     const newId = newNodeId || uuid();
-
     const newNode = { ...currNode, id: newId, name: `${currNode.name}-复制` };
 
-    this.addNodeData(currNode.type, newNode);
-
+    this.addNodeData({
+      sourceNodeId: id,
+      nodeType: currNode.type,
+      defaultNodeData: newNode,
+    });
     return newNode;
   };
 
@@ -182,7 +220,8 @@ export class WorkflowAppProcessor {
   setActiveNodeById = (nodeId: string, type?: TNodeType) => {
     let nodeData = this.workflowData.nodeMap?.[nodeId].get();
     if (!nodeData && type) {
-      nodeData = this.addNodeData(type, { id: nodeId });
+      // TODO
+      // nodeData = this.addNodeData(type, { id: nodeId });
     }
     this.activeNode.set(nodeData);
   };

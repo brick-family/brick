@@ -9,7 +9,6 @@ import { CopyOutlined, DeleteOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import { BLoading } from '@brick/component';
 import { NodeAdd } from '../../../common';
-import { NodeBranchContainer } from './node-branch-container/NodeBranchContainer';
 
 export interface INodeContainerProps {
   style?: React.CSSProperties;
@@ -24,23 +23,15 @@ export interface INodeContainerProps {
 export const NodeContainer = (props: INodeContainerProps) => {
   const { layoutItem, showArrow = true } = props;
 
-  const [
-    graphProcessor,
-    setActiveNodeById,
-    activeNode,
-    nodeModule,
-    nodeMap,
-    removeNodeData,
-    copyNodeData,
-  ] = useWorkflowAppSelector((s) => [
-    s.graphProcessor,
-    s.setActiveNodeById,
-    s.activeNode,
-    s.nodeModule,
-    s.workflowData.nodeMap,
-    s.removeNodeData,
-    s.copyNodeData,
-  ]);
+  const [setActiveNodeById, activeNode, nodeModule, nodeMap, removeNodeData, copyNodeData] =
+    useWorkflowAppSelector((s) => [
+      s.setActiveNodeById,
+      s.activeNode,
+      s.nodeModule,
+      s.workflowData.nodeMap,
+      s.removeNodeData,
+      s.copyNodeData,
+    ]);
 
   const nodeId = layoutItem?.id;
   // const nodeId = node.id;
@@ -90,7 +81,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
   console.log('q=>workflowData-abc', nodeModule, NodeComponent, currNode);
 
   return (
-    <div className={s.node}>
+    <div node-id={layoutItem.id} className={classNames(s.node, 'workflow-node')}>
       <div
         className={classNames(s.container, {
           [s.selected]: isActive,
@@ -135,11 +126,11 @@ export const NodeContainer = (props: INodeContainerProps) => {
         )}
       </div>
       <div
-        className={classNames(s.nodeAdd, {
+        className={classNames(s.nodeAdd, 'workflow-node-add', {
           [s.hideArrow]: !showArrow,
         })}
       >
-        <NodeAdd />
+        <NodeAdd sourceNodeId={nodeId} />
       </div>
     </div>
   );

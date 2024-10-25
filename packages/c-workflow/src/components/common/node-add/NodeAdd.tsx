@@ -7,7 +7,7 @@ import s from './nodeAdd.module.less';
 export interface INodeAddProps extends INodeAddContentProps {}
 
 export const NodeAdd: FC<INodeAddProps> = (props) => {
-  const { id, ...otherProps } = props;
+  const { ...otherProps } = props;
   const [open, setOpen] = useState(false);
 
   const onOpenChange = (currOpen: boolean) => {

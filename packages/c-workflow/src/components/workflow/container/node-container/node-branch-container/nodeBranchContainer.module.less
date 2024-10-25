@@ -11,6 +11,7 @@
     position: relative;
     justify-content: center;
     // background: @main-bgc;
+    background: #fff;
 
 
 
@@ -43,6 +44,8 @@
       display: flex;
       justify-content: center;
 
+
+      // 控制条件内的子级
       &>div {
         z-index: 1; //防止连线跑到它上面
         margin-top: 40px;
@@ -50,15 +53,19 @@
         flex-direction: column;
         align-items: center;
 
-        &>.w-p-node:last-child {
-          :deep(.w-p-node-add) {
+        :global {
+          .workflow-node:last-child {
 
-            //分支最后一个节点要去除箭头，影响美观
-            &:after {
-              display: none !important;
+            .workflow-node-add {
+
+              //分支最后一个节点要去除箭头，影响美观
+              &:after {
+                display: none !important;
+              }
             }
           }
         }
+
       }
 
       &:before {
@@ -80,6 +87,7 @@
         width: 50%;
         top: 0;
         background: #fff;
+        // background: red;
       }
 
       &>div {
@@ -91,7 +99,8 @@
           width: 50%;
           bottom: 0;
           background: #fff;
-          bottom: -8px;
+          // background: red;
+          // bottom: -8px;
         }
       }
     }
@@ -152,6 +161,12 @@
       border-style: solid;
       border-width: 8px 6px 4px;
       border-color: var(--node-line-color) transparent transparent;
+    }
+  }
+
+  .hideArrow {
+    &:after {
+      display: none;
     }
   }
 }
