@@ -32,7 +32,6 @@ export const NodeAddContent: FC<INodeAddContentProps> = memo((props) => {
       nodeType: node.type,
       // defaultNodeData: { id },
     });
-    // workflowProcessor.setActiveNodeById(newNode.id);
     props?.setOpen?.(false);
   };
 

@@ -29,14 +29,16 @@ export const SettingFormItem: FC<ISettingFormItemProps> = (props) => {
   const { formItemProps, title, children, tips } = props;
   return (
     <div className={s.item}>
-      <div className={s.title}>
-        {title}
-        {tips && (
-          <Tooltip title={tips}>
-            <InfoCircleOutlined style={{ marginLeft: 8 }} />
-          </Tooltip>
-        )}
-      </div>
+      {(title || tips) && (
+        <div className={s.title}>
+          {title}
+          {tips && (
+            <Tooltip title={tips}>
+              <InfoCircleOutlined style={{ marginLeft: 8 }} />
+            </Tooltip>
+          )}
+        </div>
+      )}
       {formItemProps ? (
         <Form.Item noStyle {...formItemProps}>
           {children}

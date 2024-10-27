@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { FC, useRef } from 'react';
 import { Toolbar } from '../toolbar';
 import { useSetWorkflowData } from './hooks/useSetWorkflowData';
-import { useWorkflowInit } from './hooks/useWorkflowInit';
 import s from './workflow.less';
 import { SettingContainer, WorkflowContainer } from './container';
 import { IWorkflowEntity } from '@brick/types';
@@ -16,9 +15,6 @@ export interface IWorkflowProps {
 
 export const Workflow: FC<IWorkflowProps> = ({ style, className, data }) => {
   const classNameStr = classNames(s.workflow, className);
-
-  // const { graph } = useWorkflowInit(containerRef);
-
   useSetWorkflowData({
     data: data!,
   });

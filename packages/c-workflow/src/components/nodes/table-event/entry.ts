@@ -1,7 +1,12 @@
 import React from 'react';
-import { ENodeType, ITableEventNodeConfig } from '@brick/types';
+import { ENodeType, IBaseNodeConfig, ITableEventNodeConfig, IWorkflowNodeData } from '@brick/types';
 import { PlusOutlined } from '@ant-design/icons';
-import { BaseNode, ISettingPanelMetaData, TLazyFunctionComponent } from '../../common';
+import {
+  BaseNode,
+  ISettingPanelMetaData,
+  IValidationResult,
+  TLazyFunctionComponent,
+} from '../../common';
 
 export class TableEventNode extends BaseNode {
   static getNodeElement = (): TLazyFunctionComponent => {
@@ -22,5 +27,17 @@ export class TableEventNode extends BaseNode {
 
   static getDefaultConfigData = () => {
     return {} as ITableEventNodeConfig;
+  };
+
+  static validation = async (
+    nodeData: IWorkflowNodeData<ENodeType.TableEvent>
+  ): Promise<IValidationResult> => {
+    const config = nodeData?.config; // 类型断研
+    console.log('q=>config', config);
+    if (!config.triggerEvent) {
+      return { valid: false, message: '触发事件不能为空' };
+    }
+
+    return { valid: true };
   };
 }

@@ -1,7 +1,12 @@
 import React from 'react';
-import { ENAddDataType, ENodeType, IAddDataNodeConfig } from '@brick/types';
+import { ENAddDataType, ENodeType, IAddDataNodeConfig, IBaseNodeConfig } from '@brick/types';
 import { PlusOutlined } from '@ant-design/icons';
-import { BaseNode, ISettingPanelMetaData, TLazyFunctionComponent } from '../../common';
+import {
+  BaseNode,
+  ISettingPanelMetaData,
+  IValidationResult,
+  TLazyFunctionComponent,
+} from '../../common';
 import { getAppId } from '@brick/utils';
 
 export class AddDataNode extends BaseNode {
@@ -26,5 +31,12 @@ export class AddDataNode extends BaseNode {
       type: ENAddDataType.single,
       appId: getAppId(),
     } as IAddDataNodeConfig;
+  };
+
+  static validation = async (nodeData: IBaseNodeConfig): Promise<IValidationResult> => {
+    const config = nodeData as IAddDataNodeConfig;
+    return {
+      valid: true,
+    };
   };
 }

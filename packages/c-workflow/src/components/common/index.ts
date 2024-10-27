@@ -4,3 +4,4 @@ export * from './setting-checkbox-group';
 export * from './setting-radio-group';
 export * from './setting-field-value-set';
 export * from './node-add';
+export * from './node-icon-wrapper';

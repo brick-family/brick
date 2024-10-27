@@ -30,71 +30,10 @@ export const WorkflowDesignContent: FC<IWorkflowDesignContentProps> = (props) =>
     setWorkflowAppInstance(instance);
   });
 
-  // const onAdd1 = (edge: any) => {
-  //   const sourceId = uuid();
-  //   ref.current?.addNodeByEdge({
-  //     nodeType: ENodeType.GetMoreData,
-  //     data: {
-  //       data: {},
-  //     },
-  //     edge,
-  //   });
-  // };
-  //
-
-  const onAdd = () => {
-    const sourceId = uuid();
-    const endId = uuid();
-    workflowAppRef.current?.graphProcessor?.addNode(ENodeType.TableEvent, {
-      view: 'react-shape-view',
-      shape: 'SHAPE_NODE',
-      id: sourceId,
-      label: 'hello',
-      x: 0,
-      y: 0,
-      width: NODE_WIDTH,
-      height: NODE_HEIGHT,
-      data: {
-        id: 'node1',
-        table: '1',
-      },
-    });
-
-    workflowAppRef.current?.graphProcessor?.addNode(ENodeType.End, {
-      view: 'react-shape-view',
-      shape: 'SHAPE_NODE',
-      id: endId,
-      label: 'hello',
-      x: 0,
-      y: NODE_GAP + NODE_HEIGHT,
-      width: NODE_WIDTH,
-      height: NODE_HEIGHT,
-      data: {},
-    });
-
-    const edge = workflowAppRef.current?.graphProcessor?.addEdge(sourceId, endId);
-    // onAdd1(edge);
-    reset();
-  };
-
-  // @ts-ignore
-  window._add = onAdd;
-
-  useEffect(() => {
-    setTimeout(() => {
-      // onAdd();
-    }, 1000);
-  }, []);
-
-  //
-  const reset = () => {
-    workflowAppRef.current?.graphProcessor?.redraw();
-  };
   return (
     <div className={s.bg}>
       <WorkflowDesignHeader />
       <div className={s.content}>
-        {/* @ts-ignore */}
         <WorkflowApp
           ref={workflowAppRef}
           onReady={onWorkflowAppReady}

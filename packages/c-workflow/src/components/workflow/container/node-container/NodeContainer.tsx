@@ -78,7 +78,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
   // 是否有toolbar
   const hasToolbar = ![ENodeType.End, ENodeType.TableEvent].includes(nodeType as any);
 
-  console.log('q=>workflowData-abc', nodeModule, NodeComponent, currNode);
+  // console.log('q=>workflowData-abc', nodeModule, NodeComponent, currNode);
 
   return (
     <div node-id={layoutItem.id} className={classNames(s.node, 'workflow-node')}>
@@ -100,7 +100,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
                 {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
               </React.Suspense>
             </div>
-            <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 16 }} />
+            <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 14 }} />
           </div>
         )}
 

@@ -24,9 +24,13 @@ const Setting: FC<ISettingComponentProps<ENodeType.TableEvent>> = (props) => {
 
   const [workflowData] = useWorkflowAppSelector((s) => [s.workflowData]);
 
+  console.log('q=>node', nodeData, workflowData);
+
   return (
     <div>
-      <Alert message={`当前触发的表单：${workflowData?.refData?.title}`} type="info" showIcon />
+      <SettingFormItem title="">
+        <Alert message={`当前触发的表单：${workflowData?.refData?.title}`} type="info" showIcon />
+      </SettingFormItem>
       <SettingFormItem
         title={'触发事件'}
         formItemProps={{

@@ -19,6 +19,7 @@ export const getNodeModule = () => {
       settingComponent: item.getSettingPanel(),
       metaData,
       defaultNodeConfigData: item.getDefaultConfigData?.() || {},
+      validation: item.validation as any,
     };
     result[nodeType] = nodeModuleValue;
   });

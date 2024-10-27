@@ -14,14 +14,12 @@ import {
   recursiveRemoveNode,
 } from '../utils';
 import { TNodeModuleMap } from '../components/common';
-import { createGraphProcessor, GraphProcessor } from './poc';
 import { generateSetObservable, uuid } from '@brick/core';
 import { createResourceProcessor, ResourceProcessor } from '@brick/processor';
+import { message } from 'antd';
 
 export class WorkflowAppProcessor {
   self: WorkflowAppProcessor;
-
-  graphProcessor: GraphProcessor;
 
   private resourceProcessor: ResourceProcessor;
 
@@ -44,7 +42,7 @@ export class WorkflowAppProcessor {
     this.workflowElement = null;
 
     this.resourceProcessor = createResourceProcessor().processor;
-    this.graphProcessor = createGraphProcessor().processor;
+    // this.graphProcessor = createGraphProcessor().processor;
     this.nodeModule = getNodeModule();
 
     // @ts-ignore
@@ -66,7 +64,6 @@ export class WorkflowAppProcessor {
    * @param data
    */
   setWorkflowData = (data: IWorkflowEntity) => {
-    data.layouts = [{ id: ENodeType.TableEvent, children: [] }];
     this.workflowData.set(data);
   };
 
@@ -75,8 +72,28 @@ export class WorkflowAppProcessor {
    * @returns
    */
   getLiteFlowElData = () => {
-    const treeLevelData = this.graphProcessor?.getTreeLevelData();
-    return convertToLiteFlowScript(treeLevelData, this.workflowData?.nodeMap?.get?.());
+    return '';
+    // const treeLevelData = this.graphProcessor?.getTreeLevelData();
+    // return convertToLiteFlowScript(treeLevelData, this.workflowData?.nodeMap?.get?.());
+  };
+
+  /**
+   * 验证节点数据
+   */
+  validNodeData = async () => {
+    this.workflowData.graph?.forEach(async (node) => {
+      const nodeId = node.id.get();
+      const nodeData = this.workflowData.nodeMap?.[nodeId]?.get();
+      const result = await this.nodeModule[nodeData.type]?.validation?.(nodeData);
+
+      // 验证失败
+      if (result && result.valid === false) {
+        message.error(`${nodeData.name}节点【${result.message}】`);
+        return false;
+      }
+    });
+
+    return true;
   };
 
   /**
@@ -135,7 +152,7 @@ export class WorkflowAppProcessor {
       // 添加布局信息
       recursiveAddNode({
         sourceNodeId,
-        layouts: draft.layouts,
+        layouts: draft.graph,
         newLayoutItem: layoutItem,
         isChildrenInsert: sourceNodeData.type === ENodeType.ConditionItem,
       });
@@ -153,11 +170,11 @@ export class WorkflowAppProcessor {
     this.setWorkflowDataObservable((draft) => {
       const nodeType = draft.nodeMap[id].get().type;
 
-      console.log('q=>removeIds-删除前', JSON.stringify(draft.layouts.get()));
+      console.log('q=>removeIds-删除前', JSON.stringify(draft.graph.get()));
       // 删除布局信息
       const removeIds = recursiveRemoveNode({
         sourceNodeId: id,
-        layouts: draft.layouts,
+        layouts: draft.graph,
         deleteIfSingle: nodeType === ENodeType.ConditionItem,
       });
 

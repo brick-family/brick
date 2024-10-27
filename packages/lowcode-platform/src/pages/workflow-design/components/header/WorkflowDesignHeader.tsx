@@ -50,19 +50,24 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
   }, [wId]);
 
   const handleSave = async () => {
-    const graphData = workflowAppInstance?.graphProcessor.getData();
     const workflowData = workflowAppInstance?.workflowData?.get?.();
 
-    const elConfig = workflowAppInstance?.getLiteFlowElData();
-
-    console.log('q=>elConfig', elConfig, graphData, workflowData);
-
-    if (!elConfig) {
-      message.error('请添加节点');
+    const validResult = await workflowAppInstance?.validNodeData();
+    if (!validResult) {
       return;
     }
 
-    const result = { ...workflowData, graph: graphData, elData: elConfig };
+    // TODO 重新调整el data
+    const elConfig = workflowAppInstance?.getLiteFlowElData();
+
+    // console.log('q=>elConfig', elConfig, workflowData);
+
+    // if (!elConfig) {
+    //   message.error('请添加节点');
+    //   return;
+    // }
+
+    const result = { ...workflowData, elData: elConfig };
 
     await updateWorkflow(result, {
       onError() {

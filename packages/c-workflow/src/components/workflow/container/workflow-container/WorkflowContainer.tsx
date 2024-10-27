@@ -12,7 +12,7 @@ export const WorkflowContainer: FC<IWorkflowContainerProps> = (props) => {
 
   return (
     <div ref={containerRef} className={s.container} id="container">
-      {workflowData?.layouts?.map((item, index) => {
+      {workflowData?.graph?.map((item, index) => {
         if (item?.children?.length) {
           return (
             <NodeBranchContainer showArrow={true} index={index} key={item.id} layoutItem={item} />

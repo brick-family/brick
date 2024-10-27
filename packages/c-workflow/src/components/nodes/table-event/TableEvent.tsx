@@ -2,6 +2,7 @@ import React, { FC, useMemo } from 'react';
 import { INodeComponentProps } from '../../common';
 import { ENodeType } from '@brick/types';
 import { TableTriggerEventGroupData } from './Setting';
+import { NodePlaceholder } from '../../common/node-placeholder';
 
 const TableEvent: FC<INodeComponentProps<ENodeType.TableEvent>> = (props) => {
   const { nodeData } = props;
@@ -15,7 +16,7 @@ const TableEvent: FC<INodeComponentProps<ENodeType.TableEvent>> = (props) => {
         ?.map((item) => item?.label)
         ?.join(',');
     }
-    return '';
+    return <NodePlaceholder>请设置触发事件</NodePlaceholder>;
   }, [triggerEvent]);
 
   return <div>{text}</div>;

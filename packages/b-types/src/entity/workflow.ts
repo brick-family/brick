@@ -28,14 +28,9 @@ export interface IWorkflowEntity extends IBaseEntity {
   nodeMap: Record<string, IWorkflowNodeData>;
 
   /**
-   * 布局信息
-   */
-  layouts: TWorkflowLayouts;
-
-  /**
    * 拓扑信息
    */
-  graph: any;
+  graph: TWorkflowLayouts;
 
   /**
    * lite flow el配置

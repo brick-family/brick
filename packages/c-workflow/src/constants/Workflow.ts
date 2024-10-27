@@ -4,8 +4,13 @@ import {
   SearchOutlined,
   SyncOutlined,
   UserOutlined,
+  TableOutlined,
+  FileDoneOutlined,
+  FileSearchOutlined,
+  ForkOutlined,
 } from '@ant-design/icons';
 import React from 'react';
+import { NodeIconWrapper } from '../components/common/node-icon-wrapper';
 import { ENodeType } from '../types';
 
 // g6注册node常量
@@ -34,6 +39,14 @@ export const NODE_HEIGHT_SMALL = 40;
  */
 export const NODE_GAP = 65;
 
+const createIcon = (icon: any, color: string) => {
+  return React.createElement(
+    NodeIconWrapper,
+    { style: { background: color } },
+    React.createElement(icon)
+  );
+};
+
 /**
  * 系统节点数据
  */
@@ -42,7 +55,7 @@ const PANEL_SYSTEM_NODE = [
     id: ENodeType.TableEvent,
     type: ENodeType.TableEvent,
     label: '表单事件触发',
-    icon: React.createElement(PlusOutlined) as any,
+    icon: createIcon(FileDoneOutlined, '#000'),
   },
 ];
 
@@ -54,37 +67,37 @@ const PANEL_DATA_NODE = [
     id: ENodeType.AddData,
     type: ENodeType.AddData,
     label: '新增数据',
-    icon: React.createElement(PlusOutlined) as any,
+    icon: createIcon(PlusOutlined, '#3b87f7'),
   },
   {
     id: ENodeType.UpdateData,
     type: ENodeType.UpdateData,
     label: '更新数据',
-    icon: React.createElement(SyncOutlined) as any,
+    icon: createIcon(SyncOutlined, '#3b87f7'),
   },
   {
     id: ENodeType.GetOneData,
     type: ENodeType.GetOneData,
     label: '获取单条数据',
-    icon: React.createElement(SearchOutlined) as any,
+    icon: createIcon(SearchOutlined, '#3b87f7'),
   },
   {
     id: ENodeType.GetMoreData,
     type: ENodeType.GetMoreData,
     label: '获取多条数据',
-    icon: React.createElement(SearchOutlined) as any,
+    icon: createIcon(FileSearchOutlined, '#3b87f7'),
   },
   {
     id: ENodeType.DeleteData,
     type: ENodeType.DeleteData,
     label: '删除数据',
-    icon: React.createElement(DeleteOutlined) as any,
+    icon: createIcon(DeleteOutlined, '#3b87f7'),
   },
   {
     id: ENodeType.Condition,
     type: ENodeType.Condition,
     label: '条件分支',
-    icon: React.createElement(DeleteOutlined) as any,
+    icon: createIcon(DeleteOutlined, '#3b87f7'),
   },
   {
     id: ENodeType.ConditionItem,
@@ -113,13 +126,13 @@ const PANEL_DATA_LOGIC = [
     id: ENodeType.Condition,
     type: ENodeType.Condition,
     label: '条件分支',
-    icon: React.createElement(PlusOutlined) as any,
+    icon: createIcon(ForkOutlined, '#9161f2'),
   },
   {
     id: ENodeType.Loop,
     type: ENodeType.Loop,
     label: '循环分支',
-    icon: React.createElement(PlusOutlined) as any,
+    icon: createIcon(SyncOutlined, '#9161f2'),
   },
 ];
 
@@ -145,7 +158,13 @@ export const WORKFLOW_TABLE_NODE_DATA = [
     id: 1,
     label: '数据节点',
     children: PANEL_DATA_NODE.filter(
-      (item) => ![ENodeType.ConditionItem, ENodeType.Placeholder, ENodeType.End].includes(item.type)
+      (item) =>
+        ![
+          ENodeType.ConditionItem,
+          ENodeType.Condition,
+          ENodeType.Placeholder,
+          ENodeType.End,
+        ].includes(item.type)
     ),
   },
   {
@@ -153,9 +172,9 @@ export const WORKFLOW_TABLE_NODE_DATA = [
     label: '逻辑控制',
     children: PANEL_DATA_LOGIC,
   },
-  {
-    id: 3,
-    label: '人员节点',
-    children: PANEL_DATA_PERSON,
-  },
+  // {
+  //   id: 3,
+  //   label: '人员节点',
+  //   children: PANEL_DATA_PERSON,
+  // },
 ];

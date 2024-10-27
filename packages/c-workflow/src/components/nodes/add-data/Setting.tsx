@@ -23,6 +23,7 @@ export const AddDataTypeData = [
 // TODO app table select多个form更新
 const Setting: FC<ISettingComponentProps<ENodeType.AddData>> = (props) => {
   const { nodeData } = props;
+
   const tableNameKey = ['config', 'tableId'];
   return (
     <div>

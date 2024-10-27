@@ -85,7 +85,7 @@ export type TNodeTypeConfigMap = {
   [ENodeType.AddData]: IAddDataNodeConfig;
 };
 
-export interface IBaseNodeConfig<T extends TNodeType = TNodeType> {}
+export interface IBaseNodeConfig {}
 
 /**
  * 选择面板数据类型
