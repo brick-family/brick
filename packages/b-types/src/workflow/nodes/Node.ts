@@ -96,3 +96,19 @@ export interface IPanelDataNode {
   label: string;
   icon: any;
 }
+
+/**
+ * 节点校验结果
+ */
+export interface INodeValidationResult {
+  valid: boolean;
+  message?: string;
+}
+
+/**
+ * 错误节点信息
+ */
+export interface IErrorNodeInfo {
+  id: string;
+  info: INodeValidationResult;
+}

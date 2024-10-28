@@ -1,5 +1,10 @@
-import { async } from '@antv/x6/lib/registry/marker/async';
-import { ENodeType, IBaseNodeConfig, IWorkflowNodeData, TNodeType } from '@brick/types';
+import {
+  ENodeType,
+  IBaseNodeConfig,
+  INodeValidationResult,
+  IWorkflowNodeData,
+  TNodeType,
+} from '@brick/types';
 import React, { FunctionComponent } from 'react';
 
 export type TLazyFunctionComponent = React.LazyExoticComponent<React.FunctionComponent<any>>;
@@ -34,18 +39,10 @@ export interface INodeModuleValue {
 
   defaultNodeConfigData: IBaseNodeConfig;
 
-  validation: (nodeData: IBaseNodeConfig) => Promise<IValidationResult>;
+  validation: (nodeData: IBaseNodeConfig) => Promise<INodeValidationResult>;
 }
 
 export type TNodeModuleMap = Record<TNodeType, INodeModuleValue>;
-
-/**
- * 校验结果
- */
-export interface IValidationResult {
-  valid: boolean;
-  message?: string;
-}
 
 export abstract class BaseNode {
   static getNodeElement = (): TLazyFunctionComponent => {
@@ -64,7 +61,7 @@ export abstract class BaseNode {
     throw new Error('default config data is not implemented');
   };
 
-  static validation = async (nodeData: any): Promise<IValidationResult> => {
+  static validation = async (nodeData: any): Promise<INodeValidationResult> => {
     return { valid: true };
   };
 }

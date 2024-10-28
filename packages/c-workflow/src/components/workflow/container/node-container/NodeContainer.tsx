@@ -23,15 +23,23 @@ export interface INodeContainerProps {
 export const NodeContainer = (props: INodeContainerProps) => {
   const { layoutItem, showArrow = true } = props;
 
-  const [setActiveNodeById, activeNode, nodeModule, nodeMap, removeNodeData, copyNodeData] =
-    useWorkflowAppSelector((s) => [
-      s.setActiveNodeById,
-      s.activeNode,
-      s.nodeModule,
-      s.workflowData.nodeMap,
-      s.removeNodeData,
-      s.copyNodeData,
-    ]);
+  const [
+    setActiveNodeById,
+    activeNode,
+    nodeModule,
+    nodeMap,
+    removeNodeData,
+    copyNodeData,
+    errorNodeData,
+  ] = useWorkflowAppSelector((s) => [
+    s.setActiveNodeById,
+    s.activeNode,
+    s.nodeModule,
+    s.workflowData.nodeMap,
+    s.removeNodeData,
+    s.copyNodeData,
+    s.nodeProcessor.errorNodeData,
+  ]);
 
   const nodeId = layoutItem?.id;
   // const nodeId = node.id;
@@ -39,6 +47,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
   const nodeType = nodeData.type;
   // 是否激活
   const isActive = activeNode?.id === nodeId;
+  const isError = errorNodeData?.id === nodeId;
 
   const currNode = nodeMap?.[nodeId];
   const isEnd = nodeData.type === ENodeType.End;
@@ -66,9 +75,6 @@ export const NodeContainer = (props: INodeContainerProps) => {
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // 删除节点
-    // graphProcessor?.removeNode?.(node);
-
     // 删除节点数据
     removeNodeData(nodeId);
   };
@@ -85,6 +91,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
       <div
         className={classNames(s.container, {
           [s.selected]: isActive,
+          [s.error]: isError,
           [s.end]: isEnd,
         })}
         onClick={onNodeClick}

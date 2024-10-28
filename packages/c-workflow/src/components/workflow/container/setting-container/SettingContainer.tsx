@@ -8,13 +8,14 @@ import { BEditInput } from '@brick/component';
 export interface ISettingContainerProps {}
 
 export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
-  const [activeNode, clearActiveNode, nodeModule, updateNodeDataById, nodeMap] =
+  const [activeNode, clearActiveNode, nodeModule, updateNodeDataById, nodeMap, clearErrorNodeData] =
     useWorkflowAppSelector((s) => [
       s.activeNode,
       s.clearActiveNode,
       s.nodeModule,
       s.updateNodeDataById,
       s?.workflowData.nodeMap,
+      s.nodeProcessor.clearErrorNodeData,
     ]);
   // 表单值是否有变更
   const formValueIsChange = useRef(false);
@@ -63,9 +64,9 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
     try {
       const values = await form.validateFields();
 
-      console.log('q=>node-update', nodeId, values);
       updateNodeDataById(nodeId, values);
       clearActiveNode();
+      clearErrorNodeData(nodeId);
     } catch (error: any) {
       const errMessage = error?.errorFields?.[0]?.errors?.[0];
       message.error(errMessage);

@@ -53,6 +53,7 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
     const workflowData = workflowAppInstance?.workflowData?.get?.();
 
     const validResult = await workflowAppInstance?.validNodeData();
+    console.log('q=>validResult', validResult);
     if (!validResult) {
       return;
     }

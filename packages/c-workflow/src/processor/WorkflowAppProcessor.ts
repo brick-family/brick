@@ -1,6 +1,7 @@
 import { observable, Observable } from '@legendapp/state';
 import {
   ENodeType,
+  IErrorNodeInfo,
   IWorkflowEntity,
   IWorkflowLayoutItem,
   IWorkflowNodeData,
@@ -17,11 +18,14 @@ import { TNodeModuleMap } from '../components/common';
 import { generateSetObservable, uuid } from '@brick/core';
 import { createResourceProcessor, ResourceProcessor } from '@brick/processor';
 import { message } from 'antd';
+import { createNodeProcessor, NodeProcessor } from './poc/NodeProcessor';
 
 export class WorkflowAppProcessor {
   self: WorkflowAppProcessor;
 
   private resourceProcessor: ResourceProcessor;
+
+  nodeProcessor: NodeProcessor;
 
   workflowElement: HTMLElement | null;
 
@@ -38,11 +42,12 @@ export class WorkflowAppProcessor {
   constructor() {
     this.self = this;
     this.activeNode = observable(null);
+
     this.workflowData = observable({} as IWorkflowEntity);
     this.workflowElement = null;
 
     this.resourceProcessor = createResourceProcessor().processor;
-    // this.graphProcessor = createGraphProcessor().processor;
+    this.nodeProcessor = createNodeProcessor().processor;
     this.nodeModule = getNodeModule();
 
     // @ts-ignore
@@ -81,19 +86,46 @@ export class WorkflowAppProcessor {
    * 验证节点数据
    */
   validNodeData = async () => {
-    this.workflowData.graph?.forEach(async (node) => {
-      const nodeId = node.id.get();
+    // 定义递归函数
+    const validateNodeRecursively = async (node: IWorkflowLayoutItem): Promise<boolean> => {
+      // 获取节点数据
+      const nodeId = node.id;
       const nodeData = this.workflowData.nodeMap?.[nodeId]?.get();
+
+      // 验证当前节点
       const result = await this.nodeModule[nodeData.type]?.validation?.(nodeData);
 
-      // 验证失败
+      // 如果验证失败
       if (result && result.valid === false) {
+        this.nodeProcessor.errorNodeData.set({
+          id: node.id,
+          info: result,
+        });
         message.error(`${nodeData.name}节点【${result.message}】`);
         return false;
       }
-    });
 
-    return true;
+      // 如果有子节点，则递归验证每个子节点
+      if (node.children && node.children.length > 0) {
+        for (const child of node.children) {
+          const isValid = await validateNodeRecursively(child);
+          if (!isValid) {
+            return false; // 子节点验证失败，停止递归
+          }
+        }
+      }
+      return true; // 当前节点及其子节点验证通过
+    };
+
+    // 遍历并验证 graph 中的每个顶级节点
+    for (const node of this.workflowData.graph.get() || []) {
+      const isValid = await validateNodeRecursively(node);
+      if (!isValid) {
+        return false; // 如果某个顶级节点验证失败，立即返回 false
+      }
+    }
+    this.nodeProcessor.errorNodeData.set(null);
+    return true; // 所有节点验证通过
   };
 
   /**

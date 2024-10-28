@@ -1,12 +1,13 @@
 import React from 'react';
-import { ENodeType, IBaseNodeConfig, ITableEventNodeConfig, IWorkflowNodeData } from '@brick/types';
-import { PlusOutlined } from '@ant-design/icons';
 import {
-  BaseNode,
-  ISettingPanelMetaData,
-  IValidationResult,
-  TLazyFunctionComponent,
-} from '../../common';
+  ENodeType,
+  IBaseNodeConfig,
+  INodeValidationResult,
+  ITableEventNodeConfig,
+  IWorkflowNodeData,
+} from '@brick/types';
+import { PlusOutlined } from '@ant-design/icons';
+import { BaseNode, ISettingPanelMetaData, TLazyFunctionComponent } from '../../common';
 
 export class TableEventNode extends BaseNode {
   static getNodeElement = (): TLazyFunctionComponent => {
@@ -31,7 +32,7 @@ export class TableEventNode extends BaseNode {
 
   static validation = async (
     nodeData: IWorkflowNodeData<ENodeType.TableEvent>
-  ): Promise<IValidationResult> => {
+  ): Promise<INodeValidationResult> => {
     const config = nodeData?.config; // 类型断研
     console.log('q=>config', config);
     if (!config.triggerEvent) {

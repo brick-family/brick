@@ -1,12 +1,14 @@
 import React from 'react';
-import { ENAddDataType, ENodeType, IAddDataNodeConfig, IBaseNodeConfig } from '@brick/types';
-import { PlusOutlined } from '@ant-design/icons';
 import {
-  BaseNode,
-  ISettingPanelMetaData,
-  IValidationResult,
-  TLazyFunctionComponent,
-} from '../../common';
+  ENAddDataType,
+  ENodeType,
+  IAddDataNodeConfig,
+  IBaseNodeConfig,
+  INodeValidationResult,
+  IWorkflowNodeData,
+} from '@brick/types';
+import { PlusOutlined } from '@ant-design/icons';
+import { BaseNode, ISettingPanelMetaData, TLazyFunctionComponent } from '../../common';
 import { getAppId } from '@brick/utils';
 
 export class AddDataNode extends BaseNode {
@@ -33,8 +35,23 @@ export class AddDataNode extends BaseNode {
     } as IAddDataNodeConfig;
   };
 
-  static validation = async (nodeData: IBaseNodeConfig): Promise<IValidationResult> => {
-    const config = nodeData as IAddDataNodeConfig;
+  static validation = async (
+    nodeData: IWorkflowNodeData<ENodeType.AddData>
+  ): Promise<INodeValidationResult> => {
+    const config = nodeData.config;
+
+    if (!config.appId) {
+      return {
+        valid: false,
+        message: '应用不能为空',
+      };
+    }
+    if (!config.tableId) {
+      return {
+        valid: false,
+        message: '表格不能为空',
+      };
+    }
     return {
       valid: true,
     };
