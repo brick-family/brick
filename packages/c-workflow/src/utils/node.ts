@@ -45,6 +45,7 @@ export const getDefaultNodeData = (
   const nodeModule = getNodeModule();
 
   const { metaData, defaultNodeConfigData } = nodeModule?.[nodeType] || {};
+  console.log('q=>node-111-333', nodeType, metaData, defaultNodeConfigData, nodeModule);
   return {
     id: useNodeTypeId ? nodeType : uuid(),
     type: nodeType,
@@ -67,7 +68,6 @@ export function recursiveAddNode(params: {
 }): boolean {
   const { layouts, newLayoutItem, sourceNodeId, isChildrenInsert = false } = params;
 
-  console.log('q=>111122333', isChildrenInsert);
   layouts.forEach((item, i) => {
     if (item.id.get() === sourceNodeId) {
       // if (isChildrenInsert) {

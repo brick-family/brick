@@ -167,6 +167,7 @@ export class WorkflowAppProcessor {
 
         const c1NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, defaultNodeData);
         const c2NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, defaultNodeData);
+        console.log('q=>node-111-2222', c1NodeData, c2NodeData);
 
         // 添加布局信息
         layoutItem.children = [
@@ -179,8 +180,6 @@ export class WorkflowAppProcessor {
         nodeDataMap[c2Id] = c2NodeData;
       }
 
-      console.log('q=>1111', sourceNodeData.type === ENodeType.ConditionItem, sourceNodeData);
-
       // 添加布局信息
       recursiveAddNode({
         sourceNodeId,
@@ -192,6 +191,23 @@ export class WorkflowAppProcessor {
       draft.nodeMap.set({ ...draft.nodeMap.get(), ...nodeDataMap });
     });
     return currNodeData;
+  };
+
+  /**
+   * 添加分支节点数据
+   * @param addBranchNodeDataParams
+   */
+  addBranchNodeData = (addBranchNodeDataParams: { sourceNodeId: IWorkflowNodeData['id'] }) => {
+    const { sourceNodeId } = addBranchNodeDataParams;
+  };
+
+  /**
+   * 获取node数据
+   * @param id
+   * @returns
+   */
+  getNodeDataById = (id: string) => {
+    return this.workflowData.nodeMap?.[id]?.get();
   };
 
   /**

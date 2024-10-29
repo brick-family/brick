@@ -1,9 +1,9 @@
 import React from 'react';
-import { ConditionItemDataNodeConfig, ENodeType, IDeleteDataNodeConfig } from '@brick/types';
+import { ConditionItemDataNodeConfig, ENodeType } from '@brick/types';
 import { PlusOutlined } from '@ant-design/icons';
 import { BaseNode, ISettingPanelMetaData, TLazyFunctionComponent } from '../../common';
 
-export class DeleteDataNode extends BaseNode {
+export class ConditionItemDataNode extends BaseNode {
   static getNodeElement = (): TLazyFunctionComponent => {
     return React.lazy(() => import('./ConditionItemData'));
   };
@@ -15,7 +15,7 @@ export class DeleteDataNode extends BaseNode {
   static getMetadata = (): ISettingPanelMetaData => {
     return {
       name: '条件节点',
-      type: ENodeType.DeleteData,
+      type: ENodeType.ConditionItem,
       icon: React.createElement(PlusOutlined),
     };
   };

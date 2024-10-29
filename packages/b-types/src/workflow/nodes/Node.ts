@@ -1,5 +1,8 @@
 import { ITableEventNodeConfig } from './TableEventNodeConfig';
 import { IAddDataNodeConfig } from './AddDataNodeConfig';
+import { IGetOneDataNodeConfig } from './GetOneDataNodeConfig';
+import { IGetMoreDataNodeConfig } from './GetMoreNodeConfig';
+import { IDeleteDataNodeConfig } from './DeleteDataNodeConfig';
 
 /**
  * 节点类型枚举
@@ -83,6 +86,9 @@ export interface IWorkflowNodeData<T extends TNodeType = TNodeType> {
 export type TNodeTypeConfigMap = {
   [ENodeType.TableEvent]: ITableEventNodeConfig;
   [ENodeType.AddData]: IAddDataNodeConfig;
+  [ENodeType.GetOneData]: IGetOneDataNodeConfig;
+  [ENodeType.GetMoreData]: IGetMoreDataNodeConfig;
+  [ENodeType.DeleteData]: IDeleteDataNodeConfig;
 };
 
 export interface IBaseNodeConfig {}

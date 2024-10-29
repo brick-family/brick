@@ -22,12 +22,9 @@ export const Workflow: FC<IWorkflowProps> = ({ style, className, data }) => {
   return (
     <div style={style} className={classNameStr}>
       <div>
-        {/* {graph && (
-          <React.Fragment>
-            <Toolbar />
-          </React.Fragment>
-        )} */}
+        <Toolbar />
       </div>
+
       <WorkflowContainer />
       <SettingContainer />
     </div>

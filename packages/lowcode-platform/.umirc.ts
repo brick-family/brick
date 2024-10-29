@@ -11,6 +11,10 @@ const apiUrlServer = 'http://101.42.26.70';
 const apiUrlLocal = 'http://localhost:8888';
 // const apiUrl = 'http://13bdbf58.r7.cpolar.top';
 
+// 静态资源地址
+const staticeUrl =
+  (process.env.NODE_ENV === 'production' ? apiUrlServer : 'http://localhost:8000') + '/static-cdn';
+
 export default defineConfig({
   // layout: {
   //   title: 'Brick',
@@ -105,7 +109,7 @@ export default defineConfig({
       defer: false,
     },
     {
-      src: 'https://cdn.staticfile.org/antd/5.12.4/antd.min.js',
+      src: `${staticeUrl}/antd.min.js`,
       defer: false,
     },
     {

@@ -2,10 +2,12 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
 import s from './nodeBranchContainer.module.less';
-import { IWorkflowLayoutItem, IWorkflowNodeData } from '@brick/types';
+import { ENodeType, IWorkflowLayoutItem, IWorkflowNodeData } from '@brick/types';
 import { Button } from 'antd';
 import { NodeAdd } from '../../../../common';
 import { NodeContainer } from '../NodeContainer';
+import { useWorkflowAppSelector } from '../../../../../processor';
+import { NodeConditionItemContainer } from '../node-condition-item-container';
 
 export interface INodeBranchContainerProps {
   style?: React.CSSProperties;
@@ -18,8 +20,16 @@ export interface INodeBranchContainerProps {
 
 export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
   const { layoutItem, index, showArrow } = props;
+
+  const [addBranchNodeData, getNodeDataById] = useWorkflowAppSelector((s) => [
+    s.addBranchNodeData,
+    s.getNodeDataById,
+  ]);
+
   const addBranch = () => {
-    // TODO: 添加分支
+    addBranchNodeData({
+      sourceNodeId: layoutItem.id,
+    });
   };
 
   return (
@@ -29,6 +39,7 @@ export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
           <Button onClick={addBranch}>添加分支</Button>
         </div>
         {layoutItem?.children?.map((item, index) => {
+          const nodeData = getNodeDataById(item.id);
           return (
             <div
               key={item.id}
@@ -38,7 +49,11 @@ export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
               })}
             >
               <div>
-                <NodeContainer layoutItem={item} />
+                {nodeData?.type === ENodeType.ConditionItem ? (
+                  <NodeConditionItemContainer />
+                ) : (
+                  <NodeContainer layoutItem={item} />
+                )}
                 {item?.children?.map((childItem, childIndex) => {
                   // return <NodeContainer layoutItem={childItem} />
                   if (childItem?.children?.length) {

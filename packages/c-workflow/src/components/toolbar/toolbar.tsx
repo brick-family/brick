@@ -23,14 +23,14 @@ export interface IToolbarProps {
 
 export const Toolbar: FC<IToolbarProps> = memo((props) => {
   const { style, className } = props;
-  const [graph, setGraphCenter, setGraphContentCenter, setMinMapElement] = useWorkflowAppSelector(
-    (s) => [
-      s.graphProcessor.graph,
-      s.graphProcessor.setGraphCenter,
-      s.graphProcessor.setGraphContentCenter,
-      s.graphProcessor.setMinMapElement,
-    ]
-  );
+  // const [graph, setGraphCenter, setGraphContentCenter, setMinMapElement] = useWorkflowAppSelector(
+  //   (s) => [
+  //     s.graphProcessor.graph,
+  //     s.graphProcessor.setGraphCenter,
+  //     s.graphProcessor.setGraphContentCenter,
+  //     s.graphProcessor.setMinMapElement,
+  //   ]
+  // );
   const update = useUpdate();
 
   const [visible, setVisible] = useState(false);
@@ -40,7 +40,7 @@ export const Toolbar: FC<IToolbarProps> = memo((props) => {
       icon: <DragOutlined />,
       title: '快速定位',
       onClick: () => {
-        setGraphContentCenter?.();
+        // setGraphContentCenter?.();
       },
     },
     { icon: <UndoOutlined />, title: '撤销' },
@@ -67,22 +67,22 @@ export const Toolbar: FC<IToolbarProps> = memo((props) => {
       icon: <ZoomOutOutlined />,
       title: '缩小！',
       onClick: () => {
-        graph?.zoom(-0.1); // 将画布缩放级别减少 0.1
+        // graph?.zoom(-0.1); // 将画布缩放级别减少 0.1
         update();
       },
     },
-    {
-      icon: `${Math.floor((graph?.zoom() || 1) * 100)}%`,
-      style: {
-        background: 'unset',
-        margin: '0 4px',
-      },
-    },
+    // {
+    //   icon: `${Math.floor((graph?.zoom() || 1) * 100)}%`,
+    //   style: {
+    //     background: 'unset',
+    //     margin: '0 4px',
+    //   },
+    // },
     {
       icon: <ZoomInOutlined />,
       title: '放大！',
       onClick: () => {
-        graph?.zoom(0.1); // 将画布缩放级别减少 0.1
+        // graph?.zoom(0.1); // 将画布缩放级别减少 0.1
         update();
       },
     },
@@ -98,7 +98,7 @@ export const Toolbar: FC<IToolbarProps> = memo((props) => {
           <ActionGroup items={[...customItems2, ...customItems]} />
           {/*<ActionGroup items={customItems}/>*/}
         </Space>
-        {<MinMap style={{ opacity: visible ? 1 : 0 }} className={s.minmap} />}
+        {/* {<MinMap style={{ opacity: visible ? 1 : 0 }} className={s.minmap} />} */}
       </div>
     </>
   );

@@ -26,6 +26,7 @@ export const NodeAddContent: FC<INodeAddContentProps> = memo((props) => {
   }, [type]);
 
   const handleAddNode = (node: IPanelDataNode) => {
+    console.log('q=>node-111', node);
     // 添加节点数据
     const newNode = workflowProcessor.addNodeData({
       sourceNodeId,
