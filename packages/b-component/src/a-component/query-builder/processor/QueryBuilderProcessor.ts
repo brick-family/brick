@@ -20,6 +20,8 @@ export class QueryBuilderProcessor extends BaseProcessor {
 
   executeQueryFun: (value: RuleGroupType) => void;
 
+  disableAddRule: Observable<boolean>;
+
   constructor() {
     super();
     // this.appList = createDefaultResponseQuery();
@@ -28,6 +30,7 @@ export class QueryBuilderProcessor extends BaseProcessor {
     this.query = observable(initialQuery);
     this.hasClear = observable(false);
     this.executeQueryFun = () => {};
+    this.disableAddRule = observable(false);
     this.init();
   }
 
@@ -45,6 +48,10 @@ export class QueryBuilderProcessor extends BaseProcessor {
    */
   setExecuteQueryFun = (execFun: (value: RuleGroupType) => void) => {
     this.executeQueryFun = execFun;
+  };
+
+  setDisableAddRule = (value: boolean) => {
+    this.disableAddRule.set(value);
   };
 
   /**

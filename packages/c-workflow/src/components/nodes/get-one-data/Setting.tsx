@@ -53,7 +53,9 @@ const Setting: FC<ISettingComponentProps<ENodeType.AddOneData>> = (props) => {
           name: ['config', 'type'],
         }}
       >
-        {tableConfig?.columns?.length ? <QueryBuilder tableConfig={tableConfig} /> : null}
+        {tableConfig?.columns?.length ? (
+          <QueryBuilder tableConfig={tableConfig} hideFilter />
+        ) : null}
       </SettingFormItem>
       <Divider />
       <SettingFormItem

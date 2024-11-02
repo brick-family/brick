@@ -28,6 +28,7 @@ export interface IQueryBuilderContentProps {
   value?: RuleGroupType;
   onOk?: (value: RuleGroupType) => void;
   hasClear?: boolean;
+  hideFilter?: boolean;
 }
 
 const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
@@ -36,9 +37,37 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
   onChange,
   onOk,
   hasClear,
+  hideFilter,
 }) => {
   console.log('tableConfig?.columns?', tableConfig?.columns);
 
+  const [
+    query,
+    setQuery,
+    setExecuteQueryFun,
+    footerRef,
+    setReload,
+    setHasClear,
+    setDisableAddRule,
+  ] = useQueryBuilderSelector((s) => [
+    s.query,
+    s.setQuery,
+    s.setExecuteQueryFun,
+    s.footerRef,
+    s.setReload,
+    s.setHasClear,
+    s.setDisableAddRule,
+  ]);
+
+  const queryNameArr = useCreation(() => {
+    if (query?.rules?.length === tableConfig?.columns?.length) {
+      setDisableAddRule(true);
+    } else {
+      setDisableAddRule(false);
+    }
+    return query?.rules?.map((item) => item.field);
+  }, [JSON.stringify(query?.rules)]);
+  console.log('queryNameArr', queryNameArr);
   const fields = useCreation(() => {
     return (
       tableConfig?.columns?.map((item) => {
@@ -47,11 +76,12 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
             name: item.dbFieldName!,
             label: item.title,
             valueEditorType: 'radio',
-            defaultValue: item.columnConfig?.options[0]?.value,
-            values: item.columnConfig?.options?.map((item: any) => ({
-              name: item.value,
-              label: item.label,
-            })),
+            // defaultValue: item.columnConfig?.options[0]?.value,
+            // values: item.columnConfig?.options?.map((item: any) => ({
+            //   name: item.value,
+            //   label: item.label,
+            // })),
+            disabled: queryNameArr.includes(item.dbFieldName),
             ...item,
           };
         } else if (item.fieldType == 'CHECKBOX') {
@@ -59,23 +89,25 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
             name: item.dbFieldName!,
             label: item.title,
             valueEditorType: 'checkbox',
-            defaultValue: item.columnConfig?.options[0]?.value,
-            values: item.columnConfig?.options?.map((item: any) => ({
-              name: item.value,
-              label: item.label,
-            })),
+            // defaultValue: item.columnConfig?.options[0]?.value,
+            // values: item.columnConfig?.options?.map((item: any) => ({
+            //   name: item.value,
+            //   label: item.label,
+            // })),
+            disabled: queryNameArr.includes(item.dbFieldName),
             ...item,
           };
         }
         return {
           name: item.dbFieldName!,
           label: item.title,
-          defaultValue: item.dbFieldName!,
+          // defaultValue: item.dbFieldName!,
+          // disabled:  queryNameArr.includes(item.dbFieldName),
           ...item,
         };
       }) || []
     );
-  }, [JSON.stringify(tableConfig?.columns)]);
+  }, [JSON.stringify(tableConfig?.columns), JSON.stringify(query)]);
 
   useEffect(() => {
     if (fields?.length > 0) {
@@ -97,16 +129,7 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
 
   console.log('fields111', fields);
 
-  const [query, setQuery, setExecuteQueryFun, footerRef, setReload, setHasClear] =
-    useQueryBuilderSelector((s) => [
-      s.query,
-      s.setQuery,
-      s.setExecuteQueryFun,
-      s.footerRef,
-      s.setReload,
-      s.setHasClear,
-    ]);
-
+  console.log('query222', query);
   useEffect(() => {
     if (hasClear) {
       setHasClear(hasClear);
@@ -175,7 +198,7 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
 
   return (
     <div className={s.container} id="filterDropdown@1">
-      <div>筛选</div>
+      <div style={{ display: hideFilter ? 'none' : 'block' }}>筛选</div>
       <QueryBuilderAntD>
         <ReactQueryBuilder
           // 控制className

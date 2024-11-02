@@ -13,13 +13,15 @@ export const AntdAddRuleAction: FC<IAntdAddRuleActionProps> = ({
   ruleOrGroup,
   ...otherProps
 }) => {
-  const [footerRef, resetQuery, query, executeQueryFun, hasClear] = useQueryBuilderSelector((s) => [
-    s.footerRef,
-    s.resetQuery,
-    s.query,
-    s.executeQueryFun,
-    s.hasClear,
-  ]);
+  const [footerRef, resetQuery, query, executeQueryFun, hasClear, disableAddRule] =
+    useQueryBuilderSelector((s) => [
+      s.footerRef,
+      s.resetQuery,
+      s.query,
+      s.executeQueryFun,
+      s.hasClear,
+      s.disableAddRule,
+    ]);
 
   if (!footerRef?.current) {
     return <></>;
