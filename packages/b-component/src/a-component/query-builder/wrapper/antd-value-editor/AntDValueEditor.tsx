@@ -270,6 +270,32 @@ export const AntDValueEditor = (allProps: AntDValueEditorProps) => {
       );
     }
 
+    case 'dateRange': {
+      const dayjsArray = valueAsArray.slice(0, 2).map(dayjs) as [Dayjs, Dayjs];
+      return (
+        <DatePicker.RangePicker
+          value={dayjsArray.every((d) => d.isValid()) ? dayjsArray : undefined}
+          showTime={inputTypeCoerced === 'datetime-local'}
+          className={cls}
+          disabled={disabled}
+          getPopupContainer={() => document.getElementById('filterDropdown@1')!}
+          placeholder={[placeHolderText, placeHolderText]}
+          onChange={
+            /* istanbul ignore next */
+            (dates) => {
+              const timeFormat = inputTypeCoerced === 'datetime-local' ? 'THH:mm:ss' : '';
+              const format = `YYYY-MM-DD${timeFormat}`;
+              const dateArray = dates?.map((d) => (d?.isValid() ? d.format(format) : undefined));
+              handleOnChange(
+                dateArray ? (listsAsArrays ? dateArray : joinWith(dateArray, ',')) : dates
+              );
+            }
+          }
+          {...extraProps}
+        />
+      );
+    }
+
     case 'time': {
       const dateValue = dayjs(value, 'HH:mm:ss');
       return (

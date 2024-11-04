@@ -71,6 +71,8 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
   const fields = useCreation(() => {
     return (
       tableConfig?.columns?.map((item) => {
+        console.log('dbFieldName', item.dbFieldName, queryNameArr);
+        const disabled = queryNameArr.includes(item.dbFieldName);
         if (item.fieldType == 'RADIO') {
           return {
             name: item.dbFieldName!,
@@ -81,7 +83,7 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
             //   name: item.value,
             //   label: item.label,
             // })),
-            disabled: queryNameArr.includes(item.dbFieldName),
+            disabled: disabled,
             ...item,
           };
         } else if (item.fieldType == 'CHECKBOX') {
@@ -94,7 +96,15 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
             //   name: item.value,
             //   label: item.label,
             // })),
-            disabled: queryNameArr.includes(item.dbFieldName),
+            disabled: disabled,
+            ...item,
+          };
+        } else if (item.dbFieldName == 'update_user') {
+          return {
+            name: item.dbFieldName!,
+            label: item.title,
+            inputType: 'date',
+            disabled: disabled,
             ...item,
           };
         }
@@ -103,11 +113,12 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
           label: item.title,
           // defaultValue: item.dbFieldName!,
           // disabled:  queryNameArr.includes(item.dbFieldName),
+          disabled: disabled,
           ...item,
         };
       }) || []
     );
-  }, [JSON.stringify(tableConfig?.columns), JSON.stringify(query)]);
+  }, [JSON.stringify(tableConfig?.columns), JSON.stringify(query?.rules)]);
 
   useEffect(() => {
     if (fields?.length > 0) {
@@ -161,11 +172,25 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
     return FieldOperations[fieldType] || operators;
   });
 
+  const isRangeOperator = (operator: string) => {
+    return operator === ' BETWEEN ';
+  };
+
   const getInputType = useMemoizedFn(
     (field: string, operator: string, msic: { fieldData: Field }) => {
       // console.log('q=>inputType', field, operator, msic);
       const columnEntity = msic.fieldData as unknown as IColumnEntity;
       const fieldType = columnEntity?.fieldType;
+      console.log(
+        'fieldType',
+        FieldInputType[fieldType],
+        fieldType,
+        operator,
+        isRangeOperator(operator)
+      );
+      if (FieldInputType[fieldType] == 'date') {
+        return isRangeOperator(operator) ? 'dateRange' : 'date';
+      }
       return FieldInputType[fieldType] || 'text';
     }
   );
