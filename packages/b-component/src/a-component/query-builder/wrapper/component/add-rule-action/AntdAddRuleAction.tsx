@@ -13,13 +13,15 @@ export const AntdAddRuleAction: FC<IAntdAddRuleActionProps> = ({
   ruleOrGroup,
   ...otherProps
 }) => {
-  const [footerRef, resetQuery, query, executeQueryFun, hasClear] = useQueryBuilderSelector((s) => [
-    s.footerRef,
-    s.resetQuery,
-    s.query,
-    s.executeQueryFun,
-    s.hasClear,
-  ]);
+  const [footerRef, resetQuery, query, executeQueryFun, hasClear, disableAddRule] =
+    useQueryBuilderSelector((s) => [
+      s.footerRef,
+      s.resetQuery,
+      s.query,
+      s.executeQueryFun,
+      s.hasClear,
+      s.disableAddRule,
+    ]);
 
   if (!footerRef?.current) {
     return <></>;
@@ -35,7 +37,13 @@ export const AntdAddRuleAction: FC<IAntdAddRuleActionProps> = ({
   return ReactDOM.createPortal(
     <div className={s.content}>
       <Flex justify={hasClear ? 'space-between' : 'flex-start'}>
-        <Button {...otherProps} type="text" icon={<PlusOutlined />} onClick={add}>
+        <Button
+          {...otherProps}
+          type="text"
+          icon={<PlusOutlined />}
+          onClick={add}
+          disabled={disableAddRule}
+        >
           条件
         </Button>
         {hasClear && query?.rules?.length > 0 ? (
