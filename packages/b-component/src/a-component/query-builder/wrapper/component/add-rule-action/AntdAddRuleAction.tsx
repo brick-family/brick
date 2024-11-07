@@ -30,7 +30,7 @@ export const AntdAddRuleAction: FC<IAntdAddRuleActionProps> = ({
   console.log('hasClear', hasClear);
 
   const add = (e: React.MouseEvent) => {
-    console.log('q=>ruleOrGroup', ruleOrGroup, otherProps);
+    console.log('q=>ruleOrGroup', ruleOrGroup, otherProps, handleOnClick);
     handleOnClick(e);
     // (e) => handleOnClick(e)
   };

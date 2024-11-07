@@ -26,9 +26,9 @@ export const QueryFilter: FC<IQueryFilterProps> = ({ tableConfig, onChange }) =>
     boxShadow: token.boxShadowSecondary,
   };
 
-  const onChangeQuery = useMemoizedFn((value: RuleGroupType) => {
-    currValueRef.current = value;
-  });
+  // const onChangeQuery = useMemoizedFn((value: RuleGroupType) => {
+  //   currValueRef.current = value;
+  // });
 
   const onOk = (value: RuleGroupType) => {
     const rules = value?.rules as RuleType[];
@@ -41,7 +41,7 @@ export const QueryFilter: FC<IQueryFilterProps> = ({ tableConfig, onChange }) =>
   const dropdownRender = useMemoizedFn(() => {
     return (
       <div style={contentStyle}>
-        <QueryBuilder onOk={onOk} onChange={onChangeQuery} tableConfig={tableConfig!} hasClear />
+        <QueryBuilder onOk={onOk} tableConfig={tableConfig!} hasClear />
       </div>
     );
   });
