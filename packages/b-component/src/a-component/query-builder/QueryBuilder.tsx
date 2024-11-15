@@ -136,7 +136,7 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
         ],
       });
     }
-  }, [JSON.stringify(fields)]);
+  }, [fields.length]);
 
   console.log('fields111', fields);
 
@@ -215,6 +215,7 @@ const QueryBuilderContent: FC<IQueryBuilderContentProps> = ({
   });
 
   const onQueryChange = useMemoizedFn((queryValue) => {
+    console.log('q=>onQueryChange', queryValue);
     onChange && onChange(queryValue);
     setQuery(queryValue);
   });
