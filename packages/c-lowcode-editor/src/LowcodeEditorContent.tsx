@@ -104,8 +104,17 @@ async function registerPlugins() {
   // });
 }
 
+console.log('q=>registor11');
 (async function main() {
+  // @ts-ignore
+  if (window.__LOW_CODE_REGISTER) {
+    return;
+  }
+  console.log('q=>registor');
   await registerPlugins();
+
+  //@ts-ignore
+  window.__LOW_CODE_REGISTER = true;
   config.setConfig({
     // locale: 'zh-CN',
     // device: 'phone',

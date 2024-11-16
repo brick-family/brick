@@ -14,7 +14,7 @@ export class ConditionItemDataNode extends BaseNode {
 
   static getMetadata = (): ISettingPanelMetaData => {
     return {
-      name: '条件节点',
+      name: '条件',
       type: ENodeType.ConditionItem,
       icon: React.createElement(PlusOutlined),
     };

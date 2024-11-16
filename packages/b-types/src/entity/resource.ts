@@ -8,6 +8,7 @@ import { ITableEntity } from './table/Table';
 export enum EResourceType {
   'TABLE' = 'TABLE',
   'GROUP' = 'GROUP',
+  'PROGRESS_TABLE' = 'PROGRESS_TABLE',
 }
 
 /**

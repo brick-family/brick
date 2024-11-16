@@ -17,9 +17,7 @@ export const WorkflowContainer: FC<IWorkflowContainerProps> = (props) => {
       </InfiniteViewerContainer> */}
       {workflowData?.graph?.map((item, index) => {
         if (item?.children?.length) {
-          return (
-            <NodeBranchContainer showArrow={true} index={index} key={item.id} layoutItem={item} />
-          );
+          return <NodeBranchContainer showArrow={true} key={item.id} layoutItem={item} />;
         }
         return <NodeContainer key={item.id} layoutItem={item} />;
       })}

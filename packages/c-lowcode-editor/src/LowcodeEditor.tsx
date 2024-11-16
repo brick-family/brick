@@ -14,10 +14,12 @@ export const LowcodeEditorWrapper: FC<ILowcodeEditorWrapperProps> = (props) => {
   //     console.log('q=>load---destory',);
   //   }
   // }, [])
+  console.log('tableData', tableData);
   if (loading || !tableData) {
     return <BSpin className={s.spin} />;
   }
 
+  // return <div>sfsdf</div>
   // 显示loadding
   return <LowcodeEditorContent />;
 };
