@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from '@alifd/next';
 import { project } from '@alilc/lowcode-engine';
 import { Divider } from 'antd';
 
@@ -11,9 +10,9 @@ const devices = [
   { key: 'phone' },
 ];
 
-const CustomIcon = Icon.createFromIconfontCN({
-  scriptUrl: 'https://at.alicdn.com/t/c/font_4058713_zovbpz02h3h.js',
-});
+// const CustomIcon = Icon.createFromIconfontCN({
+//   scriptUrl: 'https://at.alicdn.com/t/c/font_4058713_zovbpz02h3h.js',
+// });
 
 export class SimulatorResizePane extends React.Component {
   static displayName = 'SimulatorResizePane';
@@ -56,16 +55,17 @@ export class SimulatorResizePane extends React.Component {
   };
 
   renderItemSVG(device: string) {
-    switch (device) {
-      case 'default':
-        return <CustomIcon size="large" type="iconic_PC_Select" />;
-      case 'tablet':
-        return <CustomIcon size="large" type="iconic_Tablet_Select" />;
-      case 'phone':
-        return <CustomIcon size="large" type="iconic_smartphone" />;
-      default:
-        return <CustomIcon size="large" type="iconic_PC_Select" />;
-    }
+    return <></>;
+    // switch (device) {
+    //   case 'default':
+    //     return <CustomIcon size="large" type="iconic_PC_Select" />;
+    //   case 'tablet':
+    //     return <CustomIcon size="large" type="iconic_Tablet_Select" />;
+    //   case 'phone':
+    //     return <CustomIcon size="large" type="iconic_smartphone" />;
+    //   default:
+    //     return <CustomIcon size="large" type="iconic_PC_Select" />;
+    // }
   }
 
   // @ts-ignore

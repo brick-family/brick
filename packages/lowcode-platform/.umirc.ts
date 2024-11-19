@@ -61,7 +61,7 @@ export default defineConfig({
   title: 'brick',
   styles: [
     'https://alifd.alicdn.com/npm/@alilc/lowcode-engine@latest/dist/css/engine-core.css',
-    'https://g.alicdn.com/code/lib/alifd__next/1.23.24/next.min.css',
+    // 'https://g.alicdn.com/code/lib/alifd__next/1.23.24/next.min.css',
     'https://alifd.alicdn.com/npm/@alifd/theme-lowcode-light/0.2.0/next.min.css',
     'https://alifd.alicdn.com/npm/@alilc/lowcode-engine-ext@latest/dist/css/engine-ext.css',
   ],
@@ -105,7 +105,7 @@ export default defineConfig({
       defer: false,
     },
     {
-      src: ' https://cdn.staticfile.org/dayjs/1.11.6/dayjs.min.js',
+      src: `${staticeUrl}/dayjs.min.js`,
       defer: false,
     },
     {

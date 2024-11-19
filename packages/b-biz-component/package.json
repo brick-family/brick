@@ -13,6 +13,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepublishOnly": "father doctor && npm run build"
   },
+  "sideEffects": false,
   "authors": [],
   "license": "MIT",
   "files": [
@@ -27,30 +28,32 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@brick/core": "workspace:0.0.1",
     "@brick/component": "workspace:0.0.1",
+    "@brick/core": "workspace:0.0.1",
+    "@brick/lowcode-editor": "workspace:0.0.1",
+    "@brick/processor": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
     "@brick/types": "workspace:0.0.1",
     "@brick/utils": "workspace:0.0.1",
-    "@brick/services": "workspace:0.0.1",
-    "@brick/processor": "workspace:0.0.1",
-    "@brick/lowcode-editor": "workspace:0.0.1",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
   "dependencies": {
     "@douyinfe/semi-ui": "^2.54.1",
+    "@loadable/component": "^5.16.4",
     "react-infinite-scroll-component": "^6.1.0"
   },
   "devDependencies": {
-    "@brick/core": "workspace:0.0.1",
     "@brick/component": "workspace:0.0.1",
+    "@brick/core": "workspace:0.0.1",
+    "@brick/lowcode-editor": "workspace:0.0.1",
+    "@brick/processor": "workspace:0.0.1",
+    "@brick/services": "workspace:0.0.1",
     "@brick/types": "workspace:0.0.1",
     "@brick/utils": "workspace:0.0.1",
-    "@brick/services": "workspace:0.0.1",
-    "@brick/processor": "workspace:0.0.1",
-    "@brick/lowcode-editor": "workspace:0.0.1",
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "@types/loadable__component": "^5.13.9",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",

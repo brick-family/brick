@@ -13,6 +13,7 @@
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepublishOnly": "father doctor && npm run build"
   },
+  "sideEffects": false,
   "authors": [],
   "license": "MIT",
   "files": [
