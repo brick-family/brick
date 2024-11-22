@@ -47,7 +47,7 @@ async function registerPlugins() {
   });
 
   // 注册我们自定义插件
-  await plugins.register(topAreaPlugin);
+  // await plugins.register(topAreaPlugin);
 
   // toolbar 插件
   await plugins.register(SimulatorPlugin as any);

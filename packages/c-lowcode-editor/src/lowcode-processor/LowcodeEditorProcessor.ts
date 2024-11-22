@@ -1,5 +1,5 @@
-import { AppProcessor, appProcessor, resourceProcessor, ResourceProcessor } from '@brick/processor';
-import { EResourceType, ITableEntity } from '@brick/types';
+import { resourceProcessor, ResourceProcessor } from '@brick/processor';
+import { EResourceType, IResourceEntityIncludeResource, ITableEntity } from '@brick/types';
 import { BaseProcessor, generateSetObservable } from '@brick/core';
 import { batch, observable, Observable } from '@legendapp/state';
 import { project } from '@alilc/lowcode-engine';
@@ -19,22 +19,10 @@ import {
 } from './LowcodeEditorPreviewProcessor';
 
 export class LowcodeEditorProcessor extends BaseProcessor {
-  /**
-   * 资源id
-   */
-  resourceId: Observable<string>;
-
-  /**
-   * 应用id
-   */
-  applicationId: Observable<string>;
-
   // 表格数据
-  // tableData: Observable<ITableEntity | null>;
+  resourceData: Observable<IResourceEntityIncludeResource | null>;
   // 页面数据
   pageData: Observable<any>;
-
-  appProcessor: AppProcessor;
 
   resourceProcessor: ResourceProcessor;
 
@@ -45,11 +33,9 @@ export class LowcodeEditorProcessor extends BaseProcessor {
 
   constructor() {
     super();
-    this.resourceId = observable('');
-    this.applicationId = observable('');
-    // this.tableData = observable(null);
+
+    this.resourceData = observable(null);
     this.pageData = observable();
-    this.appProcessor = appProcessor;
     this.resourceProcessor = resourceProcessor;
     this.previewProcessor = createLowcodeEditorPreviewProcessor().processor;
     this.init();
@@ -58,26 +44,13 @@ export class LowcodeEditorProcessor extends BaseProcessor {
     this.listeners();
   };
 
-  get appData() {
-    return this.appProcessor.getApplicationResponse.data;
-  }
-
-  get resourceData() {
-    return this.resourceProcessor.getResourceIncludeResourceResponse.data;
-  }
-
   get tableData() {
-    return this.resourceProcessor.getResourceIncludeResourceResponse?.data?.resource;
+    return this.resourceData.get()?.resource;
   }
-  /**
-   * 是否显示loading
-   */
-  get loading() {
-    return (
-      this.appProcessor.getApplicationResponse.loading ||
-      this.resourceProcessor.getResourceIncludeResourceResponse.loading
-    );
-  }
+
+  setResourceData = (data: IResourceEntityIncludeResource) => {
+    this.resourceData.set(data);
+  };
 
   /**
    * 返回资源类型
@@ -93,21 +66,9 @@ export class LowcodeEditorProcessor extends BaseProcessor {
     return generateSetObservable(this.resourceProcessor.getResourceIncludeResourceResponse.data);
   }
 
-  /**
-   * 设置id
-   * @param appId
-   * @param resourceId
-   */
-  setId = (appId: string, resourceId: string) => {
-    batch(() => {
-      this.resourceId.set(resourceId);
-      this.applicationId.set(appId);
-    });
-  };
-
   get schemaData() {
     if (this.resourceType.get() === EResourceType.TABLE) {
-      return this.tableData.get()?.schema;
+      return this.tableData?.schema;
     }
     console.warn('没有匹配到对应的类型');
     return null;
@@ -138,11 +99,11 @@ export class LowcodeEditorProcessor extends BaseProcessor {
       return;
     }
 
-    const currTableData = this.tableData.peek();
+    const currTableData = this.tableData;
     const columns = getColumnDataBySchema(pageScheme, currTableData?.columns!);
     console.log('q=>-save->columns1', columns);
     try {
-      if (this.resourceData.resourceType.peek() === 'TABLE') {
+      if (this.resourceData.get()?.resourceType === 'TABLE') {
         const currTable = currTableData;
         const newTableData: ITableEntity = {
           ...currTable,
@@ -173,27 +134,7 @@ export class LowcodeEditorProcessor extends BaseProcessor {
   /**
    * 开启监听器
    */
-  private listeners = () => {
-    this.resourceId.onChange(async (changeData) => {
-      if (changeData.value) {
-        // 获取资源内容
-        const result = await this.resourceProcessor.getResourceIncludeResource(changeData.value);
-        // 设置表格数据
-
-        if (result.resourceType === EResourceType.TABLE) {
-          console.log('q=>result-resource', result.resource);
-          this.tableData.set(result.resource);
-        }
-      }
-    });
-
-    this.applicationId.onChange(async (changeData) => {
-      if (changeData.value) {
-        // 获取app内容
-        const result = await this.appProcessor.getApplication(changeData.value);
-      }
-    });
-  };
+  private listeners = () => {};
 }
 
 export const createLowcodeEditorProcessor = () => {

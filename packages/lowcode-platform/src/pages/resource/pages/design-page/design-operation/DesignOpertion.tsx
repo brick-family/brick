@@ -1,27 +1,28 @@
-import React, { FC } from 'react';
-import { Button, Drawer, Space } from 'antd';
+import { SamplePreview } from '@brick/lowcode-editor';
 import { useMemoizedFn } from 'ahooks';
-import styles from './right.less';
-import { SamplePreview, useLowcodeEditorSelector } from '@brick/lowcode-editor';
+import { Button, Drawer, Space } from 'antd';
+import React, { FC, memo } from 'react';
+import { useResourcePageSelector } from '../../../resource-page-processor';
+import s from './designOperation.less';
 
-export interface IRightProps {}
+export interface IDesignOperationProps {
+  onSave: () => Promise<void>;
+}
 
-export const Right: FC<IRightProps> = (props) => {
-  const [tableData, saveSchema, setOpen, open] = useLowcodeEditorSelector((s) => [
+export const DesignOperation: FC<IDesignOperationProps> = memo((props) => {
+  const { onSave } = props;
+  const [tableData, setOpen, open] = useResourcePageSelector((s) => [
     s.tableData,
-    s.saveSchema,
     s.previewProcessor.setOpen,
     s.previewProcessor.open,
   ]);
 
-  // const open = previewProcessor.open.get();
-
-  // console.log('q=>tableData', tableData);
   const handleSave = async () => {
-    saveSchema();
+    await onSave();
   };
+
   const handlePreview = useMemoizedFn(async () => {
-    await saveSchema();
+    // await saveSchema();
     // await tableProcessor.getTable({ id: resourceId! }, store$);
     setOpen(true);
   });
@@ -36,7 +37,7 @@ export const Right: FC<IRightProps> = (props) => {
       </Space>
       {open && (
         <Drawer
-          rootClassName={styles.preview}
+          rootClassName={s.preview}
           title="预览"
           size={'large'}
           placement="bottom"
@@ -50,4 +51,4 @@ export const Right: FC<IRightProps> = (props) => {
       )}
     </div>
   );
-};
+});

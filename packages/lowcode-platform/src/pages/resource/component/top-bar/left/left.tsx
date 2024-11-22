@@ -6,6 +6,7 @@ import { history } from '@brick/utils';
 import { useLowcodeEditorSelector } from '@brick/lowcode-editor';
 import { BEditInput } from '@brick/component';
 import { IconSelect } from '@brick/biz-component';
+import { useDesignSelector } from '../../../resource-page-processor';
 
 export interface ILeftProps {}
 
@@ -44,7 +45,7 @@ interface ITableName {
 }
 
 const TableName = (props: ITableName) => {
-  const [resourceData, updateResource, setResourceObserver] = useLowcodeEditorSelector((s) => [
+  const [resourceData, updateResource, setResourceObserver] = useDesignSelector((s) => [
     s.resourceData,
     s.resourceProcessor?.updateResource,
     s.setResourceObserver,
@@ -71,7 +72,7 @@ const TableName = (props: ITableName) => {
 };
 
 export const Left: FC<ILeftProps> = (props) => {
-  const [tableData, appData] = useLowcodeEditorSelector((s) => [s.resourceData, s.appData]);
+  const [tableData, appData] = useDesignSelector((s) => [s.resourceData, s.appData]);
   console.log('q=>result-resource-left', tableData, appData);
   return (
     <div className={styles.left}>

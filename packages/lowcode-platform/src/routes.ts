@@ -5,6 +5,7 @@ export enum ELayoutType {
   'simple' = 'simple',
   'main' = 'main',
   'none' = 'none',
+  'resource' = 'resource',
 }
 
 export const routes = [
@@ -46,9 +47,23 @@ export const routes = [
     ],
   },
   {
-    path: '/app/:aId/:resourceId/design',
+    path: '/app/:aId/:resourceId',
     type: ELayoutType.none,
-    component: '@/pages/design/design',
+    component: '@/pages/resource/resource-layout/ResourceLayout',
+    routes: [
+      {
+        path: 'design',
+        component: '@/pages/resource/pages/design-page/DesignPage',
+      },
+      {
+        path: 'process',
+        component: '@/pages/resource/pages/process-page/ProcessPage',
+      },
+      {
+        path: 'setting',
+        component: '@/pages/resource/pages/setting-page/SettingPage',
+      },
+    ],
   },
   {
     path: '/app/:aId/workflow/:wId/design',

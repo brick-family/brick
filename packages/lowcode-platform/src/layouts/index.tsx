@@ -5,6 +5,7 @@ import { MainLayout } from './main-layout';
 import { ELayoutType, routes } from '@/routes';
 import { useCreation } from 'ahooks';
 import { useSetAppId, useUserInfo } from './hooks';
+import { ResourceLayout } from '../pages/resource/resource-layout';
 
 /**
  * 获取router layout type
@@ -68,6 +69,12 @@ export default function LayoutContainer() {
         </MainLayout>
       );
     }
+
+    // if (type === ELayoutType.resource) {
+    //   return <ResourceLayout>
+    //     <Outlet />
+    //   </ResourceLayout>
+    // }
     return <Outlet />;
   };
 

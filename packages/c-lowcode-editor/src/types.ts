@@ -10,14 +10,10 @@ export type TSchema = Record<string, any>[];
 export type LowcodeType = keyof typeof ELowcodeType;
 
 /**
- * 低代码编辑器
+ * 低代码编辑器实例子
  */
-export interface ILowcodeEditor {
-  // 表id
-  tId?: string;
-
-  // 页面id
-  pId?: string;
+export interface ILowcodeEditorInstance {
+  saveSchema: () => Promise<void>;
 }
 
 export enum EFiledComponentType {

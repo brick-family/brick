@@ -36,6 +36,7 @@ export interface IResourceEntity extends IBaseEntity {
 export type TResourceMap = {
   [EResourceType.TABLE]: ITableEntity;
   [EResourceType.GROUP]: null;
+  [EResourceType.PROGRESS_TABLE]: ITableEntity;
 };
 
 /**

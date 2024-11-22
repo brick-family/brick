@@ -1,11 +1,15 @@
 import React, { FC } from 'react';
 import { Tabs } from 'antd';
 import styles from './center.less';
+import { history } from '@umijs/max';
 
 export interface ICenterProps {}
 
 export const Center: FC<ICenterProps> = (props) => {
-  const onChange = () => {};
+  const onChange = (key: string) => {
+    console.log('q=>key', key);
+    history.push(key);
+  };
 
   return (
     <div className={styles.center}>
@@ -15,17 +19,17 @@ export const Center: FC<ICenterProps> = (props) => {
         items={[
           {
             label: `表单设计`,
-            key: '1',
+            key: 'design',
             // children: `Content of Tab Pane 1`,
           },
           {
-            label: `扩展功能`,
-            key: '2',
+            label: `流程设计`,
+            key: 'process',
             // children: `Content of Tab Pane 2`,
           },
           {
-            label: `表单发布`,
-            key: '3',
+            label: `页面设置`,
+            key: 'setting',
             // children: `Content of Tab Pane 3`,
           },
           {
