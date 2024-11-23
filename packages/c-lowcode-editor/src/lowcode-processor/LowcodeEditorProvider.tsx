@@ -32,6 +32,9 @@ export const LowcodeEditorProvider = React.forwardRef<ILowcodeEditorInstance, ID
       () => {
         return {
           saveSchema: processor.saveSchema,
+          getTableData: () => {
+            return processor.tableData;
+          },
         } as ILowcodeEditorInstance;
       },
       [processor]

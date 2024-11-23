@@ -1,18 +1,22 @@
 import { SamplePreview } from '@brick/lowcode-editor';
+import { ITableEntity } from '@brick/types';
 import { useMemoizedFn } from 'ahooks';
 import { Button, Drawer, Space } from 'antd';
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useRef } from 'react';
 import { useResourcePageSelector } from '../../../resource-page-processor';
 import s from './designOperation.less';
 
 export interface IDesignOperationProps {
   onSave: () => Promise<void>;
+  getTableData: () => ITableEntity;
 }
 
 export const DesignOperation: FC<IDesignOperationProps> = memo((props) => {
-  const { onSave } = props;
-  const [tableData, setOpen, open] = useResourcePageSelector((s) => [
-    s.tableData,
+  const { onSave, getTableData } = props;
+
+  const tableDataRef = useRef<ITableEntity>();
+
+  const [setOpen, open] = useResourcePageSelector((s) => [
     s.previewProcessor.setOpen,
     s.previewProcessor.open,
   ]);
@@ -22,8 +26,7 @@ export const DesignOperation: FC<IDesignOperationProps> = memo((props) => {
   };
 
   const handlePreview = useMemoizedFn(async () => {
-    // await saveSchema();
-    // await tableProcessor.getTable({ id: resourceId! }, store$);
+    tableDataRef.current = getTableData();
     setOpen(true);
   });
 
@@ -46,7 +49,7 @@ export const DesignOperation: FC<IDesignOperationProps> = memo((props) => {
           bodyStyle={{ padding: 0 }}
         >
           {/* TODO 调用新的预览 */}
-          {tableData && <SamplePreview table={tableData!} />}
+          {tableDataRef.current && <SamplePreview table={tableDataRef.current!} />}
         </Drawer>
       )}
     </div>

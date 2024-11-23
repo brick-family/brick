@@ -20,10 +20,14 @@ export const DesignPage: FC<IDesignPageProps> = (props) => {
     await lowcodeRef.current?.saveSchema();
   };
 
+  const getTableData = () => {
+    return lowcodeRef.current?.getTableData()!;
+  };
+
   return (
     <>
       <OperationRightPortal>
-        <DesignOperation onSave={onSaveSchema} />
+        <DesignOperation onSave={onSaveSchema} getTableData={getTableData} />
       </OperationRightPortal>
       <div className={s.container}>
         {loading ? <BSpin /> : <LowcodeEditor ref={lowcodeRef} resourceData={resourceData} />}

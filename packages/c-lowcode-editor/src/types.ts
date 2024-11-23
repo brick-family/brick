@@ -1,4 +1,4 @@
-import { EFieldType, EResourceType } from '@brick/types';
+import { EFieldType, EResourceType, ITableEntity } from '@brick/types';
 
 export enum ELowcodeType {
   TABLE = EResourceType.TABLE,
@@ -14,6 +14,7 @@ export type LowcodeType = keyof typeof ELowcodeType;
  */
 export interface ILowcodeEditorInstance {
   saveSchema: () => Promise<void>;
+  getTableData: () => ITableEntity;
 }
 
 export enum EFiledComponentType {
