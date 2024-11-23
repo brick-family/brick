@@ -77,7 +77,7 @@ export interface IDeleteDataParams extends IGetDataParams {}
  * @returns
  */
 export async function createData(params: IDataParams) {
-  return Request.post(`/application/${params.tableId}/data/`, params.data);
+  return Request.post(`/application/${params.tableId}/data`, params.data);
 }
 
 /**

@@ -24,6 +24,7 @@
   border: none !important;
   box-shadow: none !important;
   color: rgba(0, 0, 0, 0.45) !important;
+
   &:hover {
     opacity: 1;
     background: rgba(0, 0, 0, 0.06) !important;
@@ -35,6 +36,7 @@ body {
   font-family: PingFangSC-Regular, Roboto, Helvetica Neue, Helvetica, Tahoma, Arial,
     PingFang SC-Light, Microsoft YaHei;
   font-size: 12px;
+
   * {
     box-sizing: border-box;
   }
@@ -57,6 +59,7 @@ body,
   -webkit-text-size-adjust: none;
   -webkit-touch-callout: none;
   -webkit-font-smoothing: antialiased;
+
   #engine {
     width: 100%;
     height: 100%;
@@ -67,24 +70,26 @@ html {
   min-width: 1024px;
 }
 
-.save-sample {
-  width: 80px;
-  height: 30px;
-  background-color: #5584ff;
-  border: none;
-  outline: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-}
+.b-layout {
+  height: 100%;
 
-.load-assets {
-  width: 100px;
-  height: 30px;
-  background-color: #5584ff;
-  border: none;
-  outline: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
+  &-header {
+    display: flex;
+    height: 52px;
+    box-shadow: inset 0 -1px 0 0 #e5e6e8;
+    padding: 0 10px;
+    background: #fff;
+    min-height: 52px;
+
+    // :global {
+
+    // }
+    .ant-tabs-nav-list {
+      height: 52px;
+    }
+
+    .ant-tabs-nav {
+      margin: 0 !important;
+    }
+  }
 }

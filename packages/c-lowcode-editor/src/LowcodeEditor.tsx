@@ -11,7 +11,7 @@ export interface ILowcodeEditorWrapperProps {}
 export const LowcodeEditorWrapper: FC<ILowcodeEditorWrapperProps> = (props) => {
   const [resourceData] = useLowcodeEditorSelector((s) => [s.resourceData]);
 
-  console.log('resourceData', resourceData);
+  console.log('q=>tableSchema-resourceData', resourceData);
   if (!resourceData) {
     return <BSpin className={s.spin} />;
   }

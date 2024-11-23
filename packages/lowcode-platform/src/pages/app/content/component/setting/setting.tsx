@@ -23,8 +23,8 @@ export const SettingButton: FC<ISettingProps> = ({}) => {
   ];
 
   const goToEdit = () => {
-    location.href = `/app/${aId}/${resourceId}/design`;
-    // history.push(`/app/${aId}/${resourceId}/design`);
+    // location.href = `/app/${aId}/${resourceId}/design`;
+    history.push(`/app/${aId}/${resourceId}/design`);
     // location.reload();
   };
   return (

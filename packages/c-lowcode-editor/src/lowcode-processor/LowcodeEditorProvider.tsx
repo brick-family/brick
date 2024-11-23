@@ -1,11 +1,6 @@
 import React, { createContext, FC, useImperativeHandle, useLayoutEffect, useRef } from 'react';
-import {
-  createLowcodeEditorProcessor,
-  lowcodeEditorProcessor,
-  LowcodeEditorProcessor,
-} from './LowcodeEditorProcessor';
+import { lowcodeEditorProcessor, LowcodeEditorProcessor } from './LowcodeEditorProcessor';
 import { generateSelector, WipeObservable } from '@brick/core';
-import { useCreation } from 'ahooks';
 import { ILowcodeEditorProps } from '../LowcodeEditor';
 import { ILowcodeEditorInstance } from '../types';
 
@@ -13,43 +8,38 @@ import { ILowcodeEditorInstance } from '../types';
 export type DesignProcessorWipe = WipeObservable<typeof LowcodeEditorProcessor.prototype>;
 export interface IDesignProviderProps extends ILowcodeEditorProps {
   children: React.ReactElement;
-  ref: React.ForwardedRef<ILowcodeEditorInstance>;
 }
 
 const Context = createContext({} as LowcodeEditorProcessor);
 
-export const LowcodeEditorProvider: FC<IDesignProviderProps> = ({
-  children,
-  // appId,
-  // resourceId,
-  resourceData,
-  ref,
-}) => {
-  // TODO 目前只能用单实例
-  // const processorAction = useCreation(() => {
-  //   return createLowcodeEditorProcessor();
-  // }, []);
-  // const { processor, getRoot, destroy } = processorAction || {};
+export const LowcodeEditorProvider = React.forwardRef<ILowcodeEditorInstance, IDesignProviderProps>(
+  ({ children, resourceData }, ref) => {
+    // TODO 目前只能用单实例
+    // const processorAction = useCreation(() => {
+    //   return createLowcodeEditorProcessor();
+    // }, []);
+    // const { processor, getRoot, destroy } = processorAction || {};
 
-  const processorRef = useRef(lowcodeEditorProcessor);
-  const processor = processorRef.current;
+    const processorRef = useRef(lowcodeEditorProcessor);
+    const processor = processorRef.current;
 
-  useLayoutEffect(() => {
-    processor.setResourceData(resourceData);
-  }, [resourceData]);
+    useLayoutEffect(() => {
+      processor.setResourceData(resourceData);
+    }, [resourceData]);
 
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        saveSchema: processor.saveSchema,
-      } as ILowcodeEditorInstance;
-    },
-    []
-  );
+    useImperativeHandle(
+      ref,
+      () => {
+        return {
+          saveSchema: processor.saveSchema,
+        } as ILowcodeEditorInstance;
+      },
+      [processor]
+    );
 
-  return <Context.Provider value={processor!}>{children}</Context.Provider>;
-};
+    return <Context.Provider value={processor!}>{children}</Context.Provider>;
+  }
+);
 
 /**
  * selector选择器

@@ -34,3 +34,5 @@ export const DataTable: FC<IDataTableProps> = ({ style, className, ...otherProps
     </DataTableProvider>
   );
 };
+
+export default DataTable;

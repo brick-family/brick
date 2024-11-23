@@ -1,3 +1,5 @@
+import { project } from '@alilc/lowcode-engine';
+import { IPublicTypeProjectSchema } from '@alilc/lowcode-types';
 import { EFieldType, IColumnEntity } from '@brick/types';
 import { EFieldTypeByComponentType, TFieldTypeByComponentType, TSchema } from '../types';
 
@@ -71,4 +73,15 @@ export const getSchemaObject = (schemaStr: string) => {
   }
 
   return result;
+};
+
+/**
+ * 更新schema，并重新渲染
+ * @param schema
+ */
+export const updateSchema = (schema: IPublicTypeProjectSchema) => {
+  project?.importSchema(schema);
+  project?.simulatorHost?.rerender();
+  // 加载 schema
+  // project?.openDocument(defaultSchema);
 };

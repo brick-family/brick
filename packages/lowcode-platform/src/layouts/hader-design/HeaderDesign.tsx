@@ -53,7 +53,7 @@ export const HeaderDesign: FC<IHeaderDesignProps> = (props) => {
   };
 
   return (
-    <div className={s.header}>
+    <div className={'b-layout-header'}>
       <HeaderDesignProvider>{isAppAdmin ? renderAppAdmin() : renderDefault()}</HeaderDesignProvider>
     </div>
   );

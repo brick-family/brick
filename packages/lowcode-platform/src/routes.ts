@@ -48,6 +48,11 @@ export const routes = [
   },
   {
     path: '/app/:aId/:resourceId',
+    type: ELayoutType.main,
+    component: '@/pages/app/app',
+  },
+  {
+    path: '/app/:aId/:resourceId',
     type: ELayoutType.none,
     component: '@/pages/resource/resource-layout/ResourceLayout',
     routes: [
@@ -105,10 +110,6 @@ export const routes = [
             component: '@/pages/app-admin/intelligent/intelligent',
           },
         ],
-      },
-      {
-        path: '/app/:aId/:resourceId',
-        component: '@/pages/app/app',
       },
     ],
   },

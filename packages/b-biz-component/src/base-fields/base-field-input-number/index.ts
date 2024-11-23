@@ -1,2 +1,2 @@
 export * from './BaseFieldInputNumber';
-export * from './asyncLoad';
+export * from './lazyExport';

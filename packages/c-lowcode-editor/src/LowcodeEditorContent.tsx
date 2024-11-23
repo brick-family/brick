@@ -18,10 +18,11 @@ import DefaultSettersRegistryPlugin from './plugins/plugin-default-setters-regis
 // import PreviewSamplePlugin from './plugins/plugin-preview-sample';
 // import SimulatorResizerPlugin from '@alilc/lowcode-plugin-simulator-select';
 // 我们自己写的插件
-import { topAreaPlugin } from './my-plugins/top-area';
+// import { topAreaPlugin } from './my-plugins/top-area';
 
 import { SimulatorPlugin, UndoRedoPlugin } from './my-plugins/toolbar-area';
 import s from './global.less';
+import { useLowcodeEditorSelector } from './lowcode-processor';
 
 /**
  * 注册插件
@@ -47,7 +48,6 @@ async function registerPlugins() {
   });
 
   // 注册我们自定义插件
-  // await plugins.register(topAreaPlugin);
 
   // toolbar 插件
   await plugins.register(SimulatorPlugin as any);
@@ -82,9 +82,6 @@ async function registerPlugins() {
   // 注册出码插件
   // await plugins.register(CodeGenPlugin);
 
-  // 注册保存面板
-  // await plugins.register(SaveSamplePlugin);
-
   // 注册预览面板
   // await plugins.register(PreviewSamplePlugin);
 
@@ -107,7 +104,7 @@ async function registerPlugins() {
 console.log('q=>registor11');
 (async function main() {
   // @ts-ignore
-  if (window.__LOW_CODE_REGISTER) {
+  if (window.__LOW_CODE_REGISTER || window?.parent?.__LOW_CODE_REGISTER) {
     return;
   }
   console.log('q=>registor');
@@ -132,20 +129,27 @@ export interface ILowcodeEditorContentProps {}
 
 export const LowcodeEditorContent: FC<ILowcodeEditorContentProps> = (props) => {
   /** 插件是否已初始化成功，因为必须要等插件初始化后才能渲染 Workbench */
-  const [hasPluginInited, setHasPluginInited] = useState(false);
+  const [hasPluginInit, setHasPluginInit] = useState(false);
+  const [setSchema] = useLowcodeEditorSelector((s) => [s.setSchema]);
 
   useEffect(() => {
     plugins
       .init({})
       .then(() => {
         setTimeout(() => {
-          setHasPluginInited(true);
+          setHasPluginInit(true);
         }, 0);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  if (!hasPluginInited) {
+  useEffect(() => {
+    if (hasPluginInit) {
+      setSchema();
+    }
+  }, [hasPluginInit]);
+
+  if (!hasPluginInit) {
     return null;
   }
   const Workbench = common.skeletonCabin.Workbench;

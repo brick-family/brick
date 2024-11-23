@@ -3,10 +3,10 @@ import { Tooltip } from 'antd';
 import { RightOutlined } from '@ant-design/icons';
 import styles from './left.less';
 import { history } from '@brick/utils';
-import { useLowcodeEditorSelector } from '@brick/lowcode-editor';
 import { BEditInput } from '@brick/component';
 import { IconSelect } from '@brick/biz-component';
-import { useDesignSelector } from '../../../resource-page-processor';
+import { useResourcePageSelector } from '../../../resource-page-processor';
+import { useMatch, useParams } from '@umijs/max';
 
 export interface ILeftProps {}
 
@@ -17,10 +17,9 @@ interface IAppName {
 
 const AppName = (props: IAppName) => {
   const { name } = props;
-
+  const { resourceId, aId } = useParams();
   const handleClick = () => {
-    // TODO history
-    history.go(-1);
+    history.push(`/app/${aId}/${resourceId}`);
   };
 
   return (
@@ -30,7 +29,7 @@ const AppName = (props: IAppName) => {
           defaultSelectFirst={false}
           readonly
           type="app"
-          size={20}
+          size={30}
           style={{ marginRight: 0, marginLeft: 2, borderRadius: 4 }}
           data={props.icon}
         />
@@ -45,7 +44,7 @@ interface ITableName {
 }
 
 const TableName = (props: ITableName) => {
-  const [resourceData, updateResource, setResourceObserver] = useDesignSelector((s) => [
+  const [resourceData, updateResource, setResourceObserver] = useResourcePageSelector((s) => [
     s.resourceData,
     s.resourceProcessor?.updateResource,
     s.setResourceObserver,
@@ -72,13 +71,12 @@ const TableName = (props: ITableName) => {
 };
 
 export const Left: FC<ILeftProps> = (props) => {
-  const [tableData, appData] = useDesignSelector((s) => [s.resourceData, s.appData]);
-  console.log('q=>result-resource-left', tableData, appData);
+  const [tableData, appData] = useResourcePageSelector((s) => [s.resourceData, s.appData]);
   return (
-    <div className={styles.left}>
+    <>
       <AppName name={appData?.name!} icon={appData?.extraParam?.icon} />
       <RightOutlined style={{ fontSize: 13 }} />
       <TableName name={tableData?.title!} />
-    </div>
+    </>
   );
 };

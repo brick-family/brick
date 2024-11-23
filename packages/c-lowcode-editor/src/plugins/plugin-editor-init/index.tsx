@@ -22,7 +22,7 @@ const EditorInitPlugin = (ctx: IPublicModelPluginContext, options: any) => {
       await material.setAssets(await injectAssets(assets));
 
       // 设置lowcode projectApi
-      getLp()?.setSchema();
+      // getLp()?.setSchema();
       // dataService.lowcodeSetSchema();
 
       // TODO 临时设置成移动端展示
@@ -35,26 +35,4 @@ const EditorInitPlugin = (ctx: IPublicModelPluginContext, options: any) => {
   };
 };
 EditorInitPlugin.pluginName = 'EditorInitPlugin';
-// EditorInitPlugin.meta = {
-//   preferenceDeclaration: {
-//     title: '保存插件配置',
-//     properties: [
-//       {
-//         key: 'scenarioName',
-//         type: 'string',
-//         description: '用于localstorage存储key',
-//       },
-//       {
-//         key: 'displayName',
-//         type: 'string',
-//         description: '用于显示的场景名',
-//       },
-//       {
-//         key: 'info',
-//         type: 'object',
-//         description: '用于扩展信息',
-//       }
-//     ],
-//   },
-// };
 export default EditorInitPlugin;

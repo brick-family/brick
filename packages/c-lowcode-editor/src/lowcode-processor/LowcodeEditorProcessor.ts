@@ -9,14 +9,16 @@ import {
   getSchema,
   getSchemaObject,
   getSchemaString,
+  updateSchema,
 } from '../utils';
 import { message } from 'antd';
 import { updateTable } from '@brick/services';
-import { delBaseEntityAttr } from '@brick/utils';
+import { delBaseEntityAttr, isTableResourceByType } from '@brick/utils';
 import {
   createLowcodeEditorPreviewProcessor,
   LowcodeEditorPreviewProcessor,
 } from './LowcodeEditorPreviewProcessor';
+import { defaultSchema } from '../services/defaultSchema';
 
 export class LowcodeEditorProcessor extends BaseProcessor {
   // 表格数据
@@ -24,7 +26,7 @@ export class LowcodeEditorProcessor extends BaseProcessor {
   // 页面数据
   pageData: Observable<any>;
 
-  resourceProcessor: ResourceProcessor;
+  private resourceProcessor: ResourceProcessor;
 
   /**
    * 预览相关
@@ -56,7 +58,7 @@ export class LowcodeEditorProcessor extends BaseProcessor {
    * 返回资源类型
    */
   get resourceType() {
-    return this.resourceProcessor.getResourceIncludeResourceResponse.data?.resourceType;
+    return this.resourceData.get()?.resourceType;
   }
 
   /**
@@ -67,24 +69,19 @@ export class LowcodeEditorProcessor extends BaseProcessor {
   }
 
   get schemaData() {
-    if (this.resourceType.get() === EResourceType.TABLE) {
+    if (isTableResourceByType(this.resourceType!)) {
       return this.tableData?.schema;
     }
-    console.warn('没有匹配到对应的类型');
     return null;
   }
 
   setSchema = async () => {
     let tableSchema = this.schemaData;
     if (tableSchema) {
-      // 默认schema
-      project?.importSchema(getSchemaObject(tableSchema));
-      project?.simulatorHost?.rerender();
+      updateSchema(getSchemaObject(tableSchema));
       return;
     }
-    const defaultSchema = await getPageSchema();
-    // 加载 schema
-    project?.openDocument(defaultSchema);
+    updateSchema(defaultSchema as any);
   };
 
   saveSchema = async () => {
@@ -101,9 +98,9 @@ export class LowcodeEditorProcessor extends BaseProcessor {
 
     const currTableData = this.tableData;
     const columns = getColumnDataBySchema(pageScheme, currTableData?.columns!);
-    console.log('q=>-save->columns1', columns);
+    // console.log('q=>saveSchema', this.resourceType, this.resourceData);
     try {
-      if (this.resourceData.get()?.resourceType === 'TABLE') {
+      if (isTableResourceByType(this.resourceType!)) {
         const currTable = currTableData;
         const newTableData: ITableEntity = {
           ...currTable,
@@ -116,16 +113,11 @@ export class LowcodeEditorProcessor extends BaseProcessor {
         delBaseEntityAttr(newTableData);
 
         const resourceData = await updateTable(newTableData);
-        this.resourceProcessor.getResourceIncludeResourceResponse?.data?.resource.set(resourceData);
-        // this.tableData.set(resourceData);
-        // setLowcodeData(resourceData);
-        // dataService.lowcodeSetSchema();
+        this.resourceData.set({ ...this.resourceData.get()!, resource: resourceData });
         this.setSchema();
       }
 
       message.success('保存成功');
-      // 返回上一级
-      // history.go(-1);
     } catch (error) {
       message.error('Error saving schema');
     }

@@ -17,7 +17,6 @@ export const DesignPage: FC<IDesignPageProps> = (props) => {
   const lowcodeRef = useRef<ILowcodeEditorInstance>(null);
 
   const onSaveSchema = async () => {
-    console.log('q=>save-111');
     await lowcodeRef.current?.saveSchema();
   };
 

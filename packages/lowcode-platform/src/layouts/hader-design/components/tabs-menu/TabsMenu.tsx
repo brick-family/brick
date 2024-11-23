@@ -3,6 +3,7 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { history, useLocation, useParams } from '@umijs/max';
 
 import s from './tabsMenu.less';
+
 export interface ITabsMenuProps {}
 
 export const TabsMenu: FC<ITabsMenuProps> = (props) => {
