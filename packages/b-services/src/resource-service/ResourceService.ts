@@ -81,7 +81,7 @@ export async function queryResourceByResourceType(params: {
   resourceType: ResourceType;
   appId?: string;
 }) {
-  return Request.get<IResourceEntity[]>(`/app/resource/query/`, {
+  return Request.get<IResourceEntity[]>(`/app/resource/query`, {
     params: params,
   });
 }

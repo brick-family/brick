@@ -20,6 +20,12 @@ export enum ENodeType {
   DeleteData = 'DeleteData', //删除数据
 
   /**
+   * 审计节点
+   */
+  ProcessStart = 'ProcessStart', //流程开始
+  ProcessAudit = 'ProcessAudit', //流程审批
+
+  /**
    * 人工节点
    */
   SendAudit = 'SendAudit', //发送审批

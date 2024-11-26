@@ -52,6 +52,14 @@ export const NodeContainer = (props: INodeContainerProps) => {
   const currNode = nodeMap?.[nodeId];
   const isEnd = nodeData.type === ENodeType.End;
 
+  // 节点大小
+  const size = useMemo(() => {
+    if (nodeData.type === ENodeType.ProcessStart) {
+      return 'small';
+    }
+    return 'medium';
+  }, [nodeData.type]);
+
   const panelData = useMemo(() => {
     return PANEL_ALL_DATA.find((f) => f.type === nodeData.type);
   }, [nodeData.type]);
@@ -79,7 +87,18 @@ export const NodeContainer = (props: INodeContainerProps) => {
   const NodeComponent = nodeModule?.[nodeType]?.nodeComponent;
 
   // 是否有toolbar
-  const hasToolbar = ![ENodeType.End, ENodeType.TableEvent].includes(nodeType as any);
+  const hasToolbar = ![ENodeType.End, ENodeType.TableEvent, ENodeType.ProcessStart].includes(
+    nodeType as any
+  );
+
+  // 渲染node节点组件
+  const renderNodeComponent = () => {
+    return (
+      <React.Suspense fallback={<BLoading />}>
+        {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
+      </React.Suspense>
+    );
+  };
 
   const renderConditionContainer = () => {
     return (
@@ -89,11 +108,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
         </div>
         {!isEnd && (
           <div className={s.content}>
-            <div className={s.left}>
-              <React.Suspense fallback={<BLoading />}>
-                {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
-              </React.Suspense>
-            </div>
+            <div className={s.left}>{renderNodeComponent()}</div>
             <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 14 }} />
           </div>
         )}
@@ -110,11 +125,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
         </div>
         {!isEnd && (
           <div className={s.content}>
-            <div className={s.left}>
-              <React.Suspense fallback={<BLoading />}>
-                {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
-              </React.Suspense>
-            </div>
+            <div className={s.left}>{renderNodeComponent()}</div>
             <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 14 }} />
           </div>
         )}
@@ -122,17 +133,49 @@ export const NodeContainer = (props: INodeContainerProps) => {
     );
   };
 
+  const renderEmptyContainer = () => {
+    return (
+      <div className={s['title-empty']}>
+        <span className={s.icon}>{panelData?.icon}</span>
+        <span>{panelData?.label}</span>
+        <RightOutlined style={{ fontSize: 12 }} />
+      </div>
+    );
+  };
+
+  const renderNode = () => {
+    if (nodeType === ENodeType.ProcessStart) {
+      return renderEmptyContainer();
+    }
+
+    if (nodeType === ENodeType.ConditionItem) {
+      return renderConditionContainer();
+    }
+
+    return renderContainer();
+  };
+
   return (
-    <div node-id={layoutItem.id} className={classNames(s.node, 'workflow-node')}>
+    <div
+      node-id={layoutItem.id}
+      className={classNames(
+        s.node,
+        {
+          [s.small]: size === 'small',
+        },
+        'workflow-node'
+      )}
+    >
       <div
         className={classNames(s.container, {
+          [s['container-small']]: size === 'small',
           [s.selected]: isActive,
           [s.error]: isError,
           [s.end]: isEnd,
         })}
         onClick={onNodeClick}
       >
-        {nodeType === ENodeType.ConditionItem ? renderConditionContainer() : renderContainer()}
+        {renderNode()}
 
         {hasToolbar && (
           <div className={s.toolbar}>

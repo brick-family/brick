@@ -60,6 +60,24 @@ const PANEL_SYSTEM_NODE = [
 ];
 
 /**
+ * 流程节点
+ */
+const PANEL_PROCESS_NODE = [
+  {
+    id: ENodeType.ProcessStart,
+    type: ENodeType.ProcessStart,
+    label: '开始',
+    icon: createIcon(UserOutlined, 'unset'),
+  },
+  {
+    id: ENodeType.ProcessAudit,
+    type: ENodeType.ProcessAudit,
+    label: '审批人',
+    icon: createIcon(UserOutlined, '#3b87f7'),
+  },
+];
+
+/**
  * 数据节点
  */
 const PANEL_DATA_NODE = [
@@ -148,7 +166,12 @@ const PANEL_DATA_PERSON = [
 /**
  * 节点选择面板所有数据
  */
-export const PANEL_ALL_DATA = [...PANEL_SYSTEM_NODE, ...PANEL_DATA_NODE, ...PANEL_DATA_PERSON];
+export const PANEL_ALL_DATA = [
+  ...PANEL_PROCESS_NODE,
+  ...PANEL_SYSTEM_NODE,
+  ...PANEL_DATA_NODE,
+  ...PANEL_DATA_PERSON,
+];
 
 /**
  * 工作流表类型的node data
@@ -156,6 +179,11 @@ export const PANEL_ALL_DATA = [...PANEL_SYSTEM_NODE, ...PANEL_DATA_NODE, ...PANE
 export const WORKFLOW_TABLE_NODE_DATA = [
   {
     id: 1,
+    label: '审批节点',
+    children: PANEL_PROCESS_NODE.filter((item) => ![ENodeType.ProcessStart].includes(item.type)),
+  },
+  {
+    id: 2,
     label: '数据节点',
     children: PANEL_DATA_NODE.filter(
       (item) =>
@@ -168,7 +196,7 @@ export const WORKFLOW_TABLE_NODE_DATA = [
     ),
   },
   {
-    id: 2,
+    id: 3,
     label: '逻辑控制',
     children: PANEL_DATA_LOGIC,
   },
