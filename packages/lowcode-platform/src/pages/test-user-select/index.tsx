@@ -1,29 +1,7 @@
-import React, { FC, useState } from 'react';
-import { BaseFieldUserSelect } from '@brick/biz-component';
+import React from 'react';
+import { PageContainer } from '@ant-design/pro-layout';
+import TableTest from './Table';
 
-export interface ITestUserSelectProps {}
-export type IValue = string | null | string[];
-const TestUserSelect: FC<ITestUserSelectProps> = (props) => {
-  const [value, setValue] = useState(null as IValue);
-  const onChange = (curValue: string | null | string[]) => {
-    setValue(curValue);
-  };
-
-  return (
-    <div>
-      <BaseFieldUserSelect
-        columnConfig={{
-          selectType: 1,
-          defaultValue: undefined,
-          defaultValueType: '1',
-          description: '',
-          status: 0,
-        }}
-        value={value}
-        onChange={onChange}
-      />
-    </div>
-  );
+export default () => {
+  return <TableTest />;
 };
-
-export default TestUserSelect;
