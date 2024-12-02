@@ -6,12 +6,11 @@ import {
   withProcessorServiceWrapper,
 } from '@brick/core';
 import { queryFlowModelByKey, saveFlowModel } from '@brick/services';
-import { IFlowModelEntity } from '@brick/types';
-import { Observable } from '@legendapp/state';
+import { IFlowModelVo } from '@brick/types';
 
 export class FlowModelProcessor extends BaseProcessor {
   saveModelResponse: TObservableResponse<void>;
-  queryFlowModelByKeyResponse: TObservableResponse<IFlowModelEntity[]>;
+  queryFlowModelByKeyResponse: TObservableResponse<IFlowModelVo[]>;
   constructor() {
     super();
     this.queryFlowModelByKeyResponse = createDefaultResponseQuery();

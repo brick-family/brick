@@ -1,4 +1,4 @@
-import { IFlowModelDto, IFlowModelEntity, IRelationDataEntity } from '@brick/types';
+import { IFlowModelDto, IFlowModelEntity, IFlowModelVo, IRelationDataEntity } from '@brick/types';
 import { Request } from '@brick/utils';
 import { IQueryPage, IResponse } from '../types';
 
@@ -16,7 +16,7 @@ export async function saveFlowModel(data: IFlowModelDto) {
  * @returns
  */
 export async function queryFlowModelByKey(key: string) {
-  return Request.get<IFlowModelEntity[]>(`/flow/queryByKey/${key}`);
+  return Request.get<IFlowModelVo[]>(`/flow/queryByKey/${key}`);
 }
 
 /**

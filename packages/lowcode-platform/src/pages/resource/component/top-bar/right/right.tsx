@@ -14,7 +14,7 @@ export const Right: FC<IRightProps> = (props) => {
 
   return (
     <>
-      1-<div ref={rightRef}></div>
+      <div ref={rightRef}></div>
     </>
   );
 };

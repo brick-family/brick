@@ -22,6 +22,17 @@ export interface IProcessorRequestOptions<T extends any = any> {
   onError?: (error: any) => void;
 }
 
+/**
+ * Observable React Portal类型
+ */
+export type TObservablePortal<
+  T extends React.FunctionComponent<any> = React.FunctionComponent<{ children: React.ReactNode }>
+> = Observable<{
+  _update_key?: number;
+  Portal: T;
+}>;
+// Observable<{ Portal: React.FunctionComponent<{ children: React.ReactNode }> }>
+
 // type MyAwaited<T extends ObservableObject<unknown>> = T extends ObservableObject<infer X> ? X : never;
 
 // export type TSelector<S extends any, R extends any> = ((s: S) => R extends Array<any> ? Array<string> : R);

@@ -1,5 +1,5 @@
 import { WorkflowApp, WorkflowAppProcessor } from '@brick/workflow';
-import { useParams } from '@umijs/max';
+import { useParams, useSearchParams } from '@umijs/max';
 import { useMemoizedFn } from 'ahooks';
 import React, { FC, useEffect } from 'react';
 import { useResourcePageSelector } from '../../resource-page-processor';
@@ -10,21 +10,40 @@ export interface IContentProps {}
 
 const Content: FC<IContentProps> = (props) => {
   const { resourceId } = useParams();
-  const [currWorkflowData, setResourceId, setWorkflowAppInstance] = useProcessPageSelector((s) => [
-    s.currWorkflowData,
-    s.setResourceId,
-    s.setWorkflowAppInstance,
-  ]);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [currWorkflowData, setWorkflowId, setResourceId, setWorkflowAppInstance, selectVersion] =
+    useProcessPageSelector((s) => [
+      s.currWorkflowData,
+      s.setWorkflowId,
+      s.setResourceId,
+      s.setWorkflowAppInstance,
+      s.selectVersion,
+    ]);
+
+  const workflowId = searchParams.get('wid');
+
+  useEffect(() => {
+    if (workflowId) {
+      setWorkflowId(workflowId!);
+      return;
+    }
+
+    if (selectVersion?.metaInfo) {
+      setSearchParams({ wid: selectVersion.metaInfo });
+    }
+  }, [workflowId, selectVersion]);
 
   useEffect(() => {
     if (resourceId) {
       setResourceId(resourceId!);
     }
   }, [resourceId]);
-  console.log('q=>workflowList', currWorkflowData);
+
+  // console.log('q=>workflowList', currWorkflowData);
 
   const onWorkflowAppReady = useMemoizedFn((instance: WorkflowAppProcessor) => {
-    console.log('q=>ready', instance);
+    // console.log('q=>ready', instance);
     setWorkflowAppInstance(instance);
   });
 
@@ -40,14 +59,12 @@ export const ProgressPage: FC<IProgressPageProps> = (props) => {
     s.portalProcessor?.OperationRightPortal,
   ]);
 
-  console.log('q=>OperationRightPortal', OperationRightPortal);
-
   return (
     <ProcessPageProvider>
       <>
-        <OperationRightPortal>
+        <OperationRightPortal.Portal>
           <ProcessOperation />
-        </OperationRightPortal>
+        </OperationRightPortal.Portal>
         <Content />
       </>
     </ProcessPageProvider>

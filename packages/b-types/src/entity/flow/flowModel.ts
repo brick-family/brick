@@ -29,6 +29,11 @@ export interface IFlowModelEntity {
    * 版本
    */
   version: number;
+
+  /**
+   * 元数据信息,目前用来存工作流id"
+   */
+  metaInfo: string;
 }
 
 export enum EFlowModelStatus {
@@ -52,5 +57,5 @@ export interface IFlowModelVo extends IFlowModelEntity {
   /**
    * 当前流程状态， 1 设计中 2 使用中 3 历史
    */
-  status: TFloeModelStatus;
+  status: EFlowModelStatus;
 }

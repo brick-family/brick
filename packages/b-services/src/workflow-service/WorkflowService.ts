@@ -2,6 +2,17 @@ import { IProcessXMLModel, IWorkflowEntity } from '@brick/types';
 import { Request } from '@brick/utils';
 import { IQueryPage, IResponse } from '../types';
 
+export interface IWorkflowCreateAndUpdateDto extends Partial<IWorkflowEntity> {
+  /**
+   * xml模型数据
+   */
+  processXMLModel: IProcessXMLModel;
+  /**
+   * 是否是新版本
+   */
+  newVersion: boolean;
+}
+
 /**
  * 返回的内容
  */
@@ -12,8 +23,8 @@ export type IWorkflowResponse = IResponse<IWorkflowEntity>;
  * @returns
  * @param workflow
  */
-export async function createWorkflow(workflow: IWorkflowEntity) {
-  return Request.post('/workflow', workflow);
+export async function createWorkflow(workflow: IWorkflowCreateAndUpdateDto) {
+  return Request.post<IWorkflowEntity>('/workflow', workflow);
 }
 
 export interface IQueryWorkflowParams {
@@ -62,19 +73,12 @@ export async function queryWorkflowAll(queryParams: IQueryWorkflowParams) {
 }
 
 /**
- * 更新工作流参数
- */
-export type IUpdateWorkflowParams = Partial<IWorkflowEntity> & {
-  processXMLModel: IProcessXMLModel;
-};
-
-/**
  *
  * @param 修改
  * @param workflowEntity
  * @returns
  */
-export async function updateWorkflow(params: IUpdateWorkflowParams) {
+export async function updateWorkflow(params: IWorkflowCreateAndUpdateDto) {
   return Request.put<boolean>(`/workflow`, params);
 }
 

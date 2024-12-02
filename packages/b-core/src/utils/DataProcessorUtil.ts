@@ -1,8 +1,8 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 
 import { batch, isArray, isFunction, isObservable, Observable, observable } from '@legendapp/state';
 import { useSelector } from '@legendapp/state/react';
-import { IProcessorRequestOptions, IResponseQuery } from '../types';
+import { IProcessorRequestOptions, IResponseQuery, TObservablePortal } from '../types';
 import { generateRequest } from './generateRequest';
 
 export function getObservableValue(currState: unknown) {
@@ -78,6 +78,14 @@ export const createDefaultResponseQuery = () => {
   return observable<IResponseQuery>({ loading: false, data: null });
 };
 
+/**
+ * 创建默认的React Portal数据
+ * @returns
+ */
+export const createDefaultObservablePortal = () => {
+  return observable({ Portal: () => React.createElement(React.Fragment) }) as any;
+};
+
 // public setDataObservable = (updateCallback: (d: Observable<IPermSelectData>) => void) => {
 //   updateCallback(this.data);
 // };
@@ -93,6 +101,21 @@ export const generateSetObservable = <T = any>(dataObservable: Observable<T>) =>
       updateCallback(dataObservable);
     });
   };
+};
+
+/**
+ * 设置Observable React Portal数据
+ * @param params { dataObservable: 当前observable对象 , portalFunction: React Portal函数 }
+ */
+export const setObservablePortal = (params: {
+  dataObservable: TObservablePortal;
+  portalFunction: React.FunctionComponent<any>;
+}) => {
+  const { dataObservable, portalFunction } = params;
+  dataObservable?.set({
+    Portal: portalFunction,
+    _update_key: Math.random(),
+  });
 };
 
 type FunctionWithParams<T extends any[], R> = (...args: T) => Promise<R>;

@@ -1,4 +1,11 @@
-import { BaseProcessor } from '@brick/core';
+import {
+  BaseProcessor,
+  generateSetObservable,
+  TObservablePortal,
+  createDefaultObservablePortal,
+  setObservablePortal,
+} from '@brick/core';
+import { Observable, observable } from '@legendapp/state';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -6,17 +13,16 @@ export class ResourcePagePortalProcessor extends BaseProcessor {
   /**
    * 顶部操作栏ref
    */
-  topBarRightRef: React.RefObject<HTMLDivElement> | null;
+  topBarRightRef: Observable<React.RefObject<HTMLDivElement> | null>;
 
   /**
    * 顶部操作栏Portal
    */
-  OperationRightPortal: React.FunctionComponent<{ children: React.ReactNode }>;
-
+  OperationRightPortal: TObservablePortal;
   constructor() {
     super();
-    this.topBarRightRef = null;
-    this.OperationRightPortal = () => React.createElement(React.Fragment);
+    this.topBarRightRef = observable(null);
+    this.OperationRightPortal = createDefaultObservablePortal();
     this.init();
   }
   private init = async () => {
@@ -24,9 +30,15 @@ export class ResourcePagePortalProcessor extends BaseProcessor {
   };
 
   setTopBarRightRef = (ref: React.RefObject<HTMLDivElement>) => {
-    this.topBarRightRef = ref;
-    this.OperationRightPortal = ({ children }: any) =>
-      ReactDOM.createPortal(children, ref?.current!);
+    this.topBarRightRef.set(ref);
+
+    // 设置顶部操作栏Portal
+    setObservablePortal({
+      dataObservable: this.OperationRightPortal,
+      portalFunction: ({ children }: any) => {
+        return ReactDOM.createPortal(children, ref?.current!);
+      },
+    });
   };
 
   /**
