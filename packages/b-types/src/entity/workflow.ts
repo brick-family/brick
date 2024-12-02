@@ -1,6 +1,25 @@
 import { IBaseEntity } from './base';
 import { IResourceEntity } from './resource';
-import { IWorkflowLayoutItem, IWorkflowNodeData, TWorkflowLayouts } from '../workflow';
+import { IWorkflowNodeData, TNodeType, TWorkflowLayouts } from '../workflow';
+
+/**
+ * 流程数据
+ */
+export interface IProcessNode {
+  // 节点id
+  id: string;
+  // 父节点id
+  pid?: string;
+  // 节点名称
+  name: string;
+
+  type: TNodeType;
+  // 事件监听器
+  executionListeners?: any[];
+  // 子节点
+  child?: IProcessNode;
+  branchId?: string;
+}
 
 export interface IWorkflowEntity extends IBaseEntity {
   applicationId: string;
@@ -23,6 +42,11 @@ export interface IWorkflowEntity extends IBaseEntity {
   status: number;
 
   /**
+   * 版本号
+   */
+  version: number;
+
+  /**
    * 配置信息
    */
   nodeMap: Record<string, IWorkflowNodeData>;
@@ -33,9 +57,9 @@ export interface IWorkflowEntity extends IBaseEntity {
   graph: TWorkflowLayouts;
 
   /**
-   * lite flow el配置
+   * 流程节点数据
    */
-  elData: string;
+  processNodeData: IProcessNode;
 
   /**
    * 扩展参数

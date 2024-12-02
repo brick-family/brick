@@ -1,6 +1,11 @@
 import { BaseProcessor, createDefaultResponseQuery, IResponseQuery } from '@brick/core';
-import { createWorkflowProcessor, WorkflowProcessor } from '@brick/processor';
-import { IWorkflowEntity, WorkflowAppProcessor } from '@brick/workflow';
+import {
+  createFlowModelProcessor,
+  createWorkflowProcessor,
+  FlowModelProcessor,
+  WorkflowProcessor,
+} from '@brick/processor';
+import { IFlowModelEntity, IWorkflowEntity, WorkflowAppProcessor } from '@brick/workflow';
 import { Observable, observable } from '@legendapp/state';
 
 export class ProcessPageProcessor extends BaseProcessor {
@@ -10,25 +15,59 @@ export class ProcessPageProcessor extends BaseProcessor {
    * 工作流api
    */
   private workflowProcessor: WorkflowProcessor;
+  /**
+   * app 实例相关的processor
+   */
+  workflowAppInstance: Observable<WorkflowAppProcessor | null>;
+
+  /**
+   * 流程模型api
+   */
+  private flowModelProcessor: FlowModelProcessor;
+
+  /**
+   * 当前选中的版本
+   */
+  selectVersion: Observable<IFlowModelEntity | null>;
+
   constructor() {
     super();
     this.workflowProcessor = createWorkflowProcessor().processor;
+    this.flowModelProcessor = createFlowModelProcessor().processor;
     this.currWorkflowData = observable(null);
+    this.workflowAppInstance = observable(null);
+    this.selectVersion = observable(null);
     this.init();
   }
   private init = async () => {
     this.listeners();
   };
 
-  // get workflowList() {
-  //   return this.workflowProcessor.workflowList?.data;
-  // }
+  /**
+   * 获取版本列表
+   */
+  get versionList() {
+    return this.flowModelProcessor.queryFlowModelByKeyResponse.data;
+  }
 
   setResourceId = (id: string) => {
     this.workflowProcessor.queryWorkflowParams.set({
       type: 1,
       refId: id,
     });
+
+    // 获取版本列表
+    this.flowModelProcessor.queryFlowModelByKey(id).then((res) => {
+      this.selectVersion.set(res?.[0] || null);
+    });
+  };
+
+  /**
+   * 设置workflow app processor
+   * @param workflowAppInstance
+   */
+  setWorkflowAppInstance = (workflowAppInstance: WorkflowAppProcessor) => {
+    this.workflowAppInstance.set(workflowAppInstance);
   };
 
   /**

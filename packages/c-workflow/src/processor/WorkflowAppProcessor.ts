@@ -2,12 +2,14 @@ import { observable, Observable } from '@legendapp/state';
 import {
   ENodeType,
   IErrorNodeInfo,
+  IProcessNode,
   IWorkflowEntity,
   IWorkflowLayoutItem,
   IWorkflowNodeData,
   TNodeType,
 } from '../types';
 import {
+  buildNodeId,
   convertToLiteFlowScript,
   getDefaultNodeData,
   getLayoutsChildrenCount,
@@ -79,7 +81,72 @@ export class WorkflowAppProcessor {
    */
   getLiteFlowElData = () => {
     // const treeLevelData = this.graphProcessor?.getTreeLevelData();
-    return convertToLiteFlowScript(treeLevelData, this.workflowData?.nodeMap?.get?.());
+    return '';
+    // return convertToLiteFlowScript(treeLevelData, this.workflowData?.nodeMap?.get?.());
+  };
+
+  /**
+   * 获取流程需要的数据
+   */
+  getProcessNodeData = (): IProcessNode | null => {
+    const currWorkflowData = this.workflowData.get?.();
+    let processNode: IProcessNode | null = null;
+
+    const graphLength = currWorkflowData?.graph?.length;
+    if (!graphLength) {
+      return null;
+    }
+
+    const firstId = currWorkflowData?.graph?.[0]?.id;
+    const firstNode = currWorkflowData.nodeMap?.[firstId];
+    processNode = {
+      id: buildNodeId(firstNode.id),
+      type: firstNode?.type!,
+      name: firstNode?.name!,
+      executionListeners: [],
+      child: null as any,
+    };
+
+    const buildProcessNode = (node: IWorkflowLayoutItem) => {
+      const nodeData = currWorkflowData.nodeMap?.[node.id];
+      if (!nodeData) {
+        return;
+      }
+      const processNodeItem: IProcessNode = {
+        id: buildNodeId(nodeData.id),
+        type: nodeData.type,
+        name: nodeData.name,
+        executionListeners: [],
+        // child: null as any
+      };
+      return processNodeItem;
+    };
+
+    let resultProcessNode: IProcessNode | null = null;
+    let prevProcessNode: IProcessNode | null = null;
+    currWorkflowData?.graph?.forEach?.((item, index) => {
+      // const nodeData = currWorkflowData.nodeMap?.[item.id];
+      const currProcessNode = buildProcessNode(item);
+      if (!resultProcessNode) {
+        resultProcessNode = currProcessNode!;
+      }
+      if (prevProcessNode && currProcessNode) {
+        currProcessNode.pid = prevProcessNode.id;
+        prevProcessNode.child = currProcessNode!;
+      }
+      prevProcessNode = currProcessNode!;
+
+      if (index === graphLength - 1) {
+        prevProcessNode.child = {
+          id: 'end',
+          pid: prevProcessNode.id,
+          type: ENodeType.End,
+          name: '流程结束',
+          executionListeners: [],
+        };
+      }
+    });
+    return resultProcessNode;
   };
 
   /**

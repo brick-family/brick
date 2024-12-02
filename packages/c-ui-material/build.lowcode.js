@@ -7,6 +7,7 @@ module.exports = {
     // '@/lowcode/*': ['./lowcode/*'],
   },
   plugins: [
+    './build.plugin.js',
     [
       // '@alifd/build-plugin-lowcode', //插件名称做了调整
       'brick-build-plugin-lowcode',

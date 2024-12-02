@@ -98,3 +98,12 @@ export const convertToLevelTree = (data: Array<IConnectionData>) => {
 
   return result;
 };
+
+/**
+ * 根据节点id生成节点id
+ * @param id
+ * @returns
+ */
+export const buildNodeId = (id: string) => {
+  return `node-${id}`;
+};

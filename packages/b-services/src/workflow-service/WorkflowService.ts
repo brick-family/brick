@@ -1,4 +1,4 @@
-import { IWorkflowEntity } from '@brick/types';
+import { IProcessXMLModel, IWorkflowEntity } from '@brick/types';
 import { Request } from '@brick/utils';
 import { IQueryPage, IResponse } from '../types';
 
@@ -62,13 +62,20 @@ export async function queryWorkflowAll(queryParams: IQueryWorkflowParams) {
 }
 
 /**
+ * 更新工作流参数
+ */
+export type IUpdateWorkflowParams = Partial<IWorkflowEntity> & {
+  processXMLModel: IProcessXMLModel;
+};
+
+/**
  *
  * @param 修改
  * @param workflowEntity
  * @returns
  */
-export async function updateWorkflow(workflowEntity: Partial<IWorkflowEntity>) {
-  return Request.put<boolean>(`/workflow`, workflowEntity);
+export async function updateWorkflow(params: IUpdateWorkflowParams) {
+  return Request.put<boolean>(`/workflow`, params);
 }
 
 /**

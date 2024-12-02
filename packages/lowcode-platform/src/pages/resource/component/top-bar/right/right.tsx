@@ -12,5 +12,9 @@ export const Right: FC<IRightProps> = (props) => {
     setTopBarRightRef(rightRef);
   }, [rightRef]);
 
-  return <div ref={rightRef}></div>;
+  return (
+    <>
+      1-<div ref={rightRef}></div>
+    </>
+  );
 };

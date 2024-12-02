@@ -23,7 +23,7 @@ export const FieldInputNumber: FC<IFieldInputNumberProps> = (props) => {
   return (
     <BaseWrapper {...props}>
       {isExists && (
-        <BaseFieldInputNumber
+        <BaseFieldInputNumberLazy
           className={className}
           inputNumberProps={{
             disabled: readonly || columnConfig?.status === EFieldStatus.disable,

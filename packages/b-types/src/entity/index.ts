@@ -16,3 +16,4 @@ export * from './user';
 export * from './vo';
 export * from './workflow';
 export * from './table';
+export * from './flow';

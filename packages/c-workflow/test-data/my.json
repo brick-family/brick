@@ -1,0 +1,110 @@
+{
+  "id": "1860675214329614338",
+  "createTime": "2024-11-24 13:21:55",
+  "updateTime": null,
+  "createUser": "1",
+  "updateUser": null,
+  "isDeleted": 0,
+  "applicationId": "1793484053442326529",
+  "name": "test",
+  "type": 1,
+  "refId": "1793484110166093825",
+  "status": 1,
+  "graph": [
+    {
+      "id": "1",
+      "children": []
+    },
+    {
+      "id": "2",
+      "children": []
+    },
+    {
+      "id": "3",
+      "children": [
+        {
+          "id": "4",
+          "children": [
+            {
+              "id": "5",
+              "children": []
+            },
+            {
+              "id": "6",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "7",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "children": []
+    }
+  ],
+  "nodeMap": {
+    "TableEvent": {
+      "id": "TableEvent",
+      "type": "TableEvent",
+      "name": "表单事件触发",
+      "config": {
+        "triggerEvent": ["create"]
+      }
+    },
+    "01ba1525-19c4-4256-8061-32339718a63a": {
+      "id": "01ba1525-19c4-4256-8061-32339718a63a",
+      "type": "ProcessAudit",
+      "name": "流程审批",
+      "config": {}
+    },
+    "4db84480-a09b-4f95-930b-b6645e10fcdf": {
+      "id": "4db84480-a09b-4f95-930b-b6645e10fcdf",
+      "type": "Condition",
+      "config": {}
+    },
+    "70670208-9d91-4e79-9d68-27e6301e3e5e": {
+      "id": "238db7c7-1d98-4c16-84dc-8a77ee715c85",
+      "type": "ConditionItem",
+      "name": "条件1",
+      "config": {}
+    },
+    "520a5930-e738-4899-b3a8-cd1f958253ba": {
+      "id": "42cb4718-ebfd-4cf0-9182-c3513a8513fe",
+      "type": "ConditionItem",
+      "name": "条件2",
+      "config": {}
+    },
+    "62f73cdf-311e-43e5-8179-720b2c7597fa": {
+      "id": "62f73cdf-311e-43e5-8179-720b2c7597fa",
+      "type": "ProcessAudit",
+      "name": "流程审批",
+      "config": {}
+    },
+    "b1f28ac3-a0b3-42e1-b47d-210907a0eca6": {
+      "id": "b1f28ac3-a0b3-42e1-b47d-210907a0eca6",
+      "type": "ProcessAudit",
+      "name": "流程审批（en d）",
+      "config": {}
+    }
+  },
+  "extraParam": null,
+  "refData": {
+    "id": "1793484110166093825",
+    "createTime": "2024-05-23 03:28:27",
+    "updateTime": "2024-11-18 14:01:09",
+    "createUser": "1",
+    "updateUser": "1",
+    "isDeleted": 0,
+    "applicationId": "1793484053442326529",
+    "resourceType": "TABLE",
+    "title": "未命名的表单t t",
+    "parentId": "",
+    "refId": null,
+    "extraParam": null
+  },
+  "elData": ""
+}

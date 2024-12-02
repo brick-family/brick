@@ -11,3 +11,4 @@ export * from './color';
 export * from './urlUtil';
 export * from './fieldUtil';
 export * from './tableUtil';
+export * from './workflowUtil';

@@ -1,0 +1,225 @@
+{
+  "code": "test",
+  "name": "测试",
+  "icon": {
+    "name": "el:HomeFilled",
+    "color": "#409EFF"
+  },
+  "process": {
+    "id": "root",
+    "type": "start",
+    "name": "发起人",
+    "executionListeners": [],
+    "formProperties": [],
+    "child": {
+      "id": "node_7c5wh",
+      "pid": "root",
+      "type": "approval",
+      "name": "审批人",
+      "executionListeners": [],
+      "child": {
+        "id": "node_q8ey8",
+        "pid": "node_7c5wh",
+        "name": "消息通知",
+        "type": "notify",
+        "child": {
+          "id": "node_3sj13",
+          "pid": "node_q8ey8",
+          "type": "exclusive",
+          "name": "独占网关",
+          "child": {
+            "id": "node_ka4aj",
+            "pid": "node_3sj13",
+            "type": "approval",
+            "name": "审批人（end）",
+            "executionListeners": [],
+            "child": {
+              "id": "end",
+              "pid": "node_ka4aj",
+              "type": "end",
+              "name": "流程结束",
+              "executionListeners": []
+            },
+            "assigneeType": "user",
+            "formUser": "",
+            "formRole": "",
+            "users": [],
+            "roles": [],
+            "leader": 1,
+            "orgLeader": 1,
+            "choice": false,
+            "self": false,
+            "multi": "sequential",
+            "multiPercent": 100,
+            "nobody": "pass",
+            "nobodyUsers": [],
+            "formProperties": [
+              {
+                "id": "field_da2w55",
+                "name": "请假人",
+                "readonly": false,
+                "hidden": false,
+                "required": true
+              },
+              {
+                "id": "field_fa2w40",
+                "name": "请假天数",
+                "readonly": false,
+                "hidden": false,
+                "required": true
+              },
+              {
+                "id": "field_d42t45",
+                "name": "请假事由",
+                "readonly": false,
+                "hidden": false,
+                "required": true
+              },
+              {
+                "id": "field_522g58",
+                "name": "请假原因",
+                "readonly": false,
+                "hidden": false,
+                "required": true
+              }
+            ],
+            "operations": {
+              "complete": true,
+              "refuse": true,
+              "back": true,
+              "transfer": true,
+              "delegate": true,
+              "addMulti": false,
+              "minusMulti": false
+            }
+          },
+          "children": [
+            {
+              "id": "node_pn7gn",
+              "pid": "node_3sj13",
+              "type": "condition",
+              "def": false,
+              "name": "条件2",
+              "conditions": {
+                "operator": "and",
+                "conditions": [],
+                "groups": []
+              },
+              "child": {
+                "id": "node_ckke9",
+                "pid": "node_pn7gn",
+                "type": "approval",
+                "name": "审批人(条件1)",
+                "executionListeners": [],
+                "assigneeType": "user",
+                "formUser": "",
+                "formRole": "",
+                "users": [],
+                "roles": [],
+                "leader": 1,
+                "orgLeader": 1,
+                "choice": false,
+                "self": false,
+                "multi": "sequential",
+                "multiPercent": 100,
+                "nobody": "pass",
+                "nobodyUsers": [],
+                "formProperties": [
+                  {
+                    "id": "field_da2w55",
+                    "name": "请假人",
+                    "readonly": false,
+                    "hidden": false,
+                    "required": true
+                  },
+                  {
+                    "id": "field_fa2w40",
+                    "name": "请假天数",
+                    "readonly": false,
+                    "hidden": false,
+                    "required": true
+                  },
+                  {
+                    "id": "field_d42t45",
+                    "name": "请假事由",
+                    "readonly": false,
+                    "hidden": false,
+                    "required": true
+                  },
+                  {
+                    "id": "field_522g58",
+                    "name": "请假原因",
+                    "readonly": false,
+                    "hidden": false,
+                    "required": true
+                  }
+                ],
+                "operations": {
+                  "complete": true,
+                  "refuse": true,
+                  "back": true,
+                  "transfer": true,
+                  "delegate": true,
+                  "addMulti": false,
+                  "minusMulti": false
+                }
+              }
+            },
+            {
+              "id": "node_gewx4",
+              "pid": "node_3sj13",
+              "type": "condition",
+              "def": true,
+              "name": "默认条件",
+              "conditions": {
+                "operator": "and",
+                "conditions": [],
+                "groups": []
+              }
+            }
+          ]
+        },
+        "assigneeType": "user",
+        "formUser": "",
+        "formRole": "",
+        "users": [],
+        "roles": [],
+        "leader": 1,
+        "orgLeader": 1,
+        "choice": false,
+        "self": false,
+        "types": ["site"],
+        "subject": "",
+        "content": ""
+      },
+      "assigneeType": "user",
+      "formUser": "",
+      "formRole": "",
+      "users": [],
+      "roles": [],
+      "leader": 1,
+      "orgLeader": 1,
+      "choice": false,
+      "self": false,
+      "multi": "sequential",
+      "multiPercent": 100,
+      "nobody": "pass",
+      "nobodyUsers": [],
+      "formProperties": [],
+      "operations": {
+        "complete": true,
+        "refuse": true,
+        "back": true,
+        "transfer": true,
+        "delegate": true,
+        "addMulti": false,
+        "minusMulti": false
+      }
+    }
+  },
+  "enable": true,
+  "version": 1,
+  "sort": 0,
+  "groupId": "",
+  "remark": ""
+}

@@ -5,6 +5,7 @@ import { useWorkflowDesignSelector } from '@/pages/workflow-design/workflow-desi
 import { history, useParams } from 'umi';
 import { Button, message, Space } from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
+import { WorkflowSave } from '../../../../components';
 
 export interface IWorkflowName {
   name: string;
@@ -30,55 +31,16 @@ export interface IWorkflowDesignHeaderProps {}
 
 export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
   const { wId, aId } = useParams();
-  const [
-    getWorkflow,
-    workflowResponse,
-    workflowAppInstance,
-    updateWorkflow,
-    updateWorkflowResponse,
-  ] = useWorkflowDesignSelector((s) => [
+  const [getWorkflow, workflowResponse, workflowAppInstance] = useWorkflowDesignSelector((s) => [
     s.workflowProcessor.getWorkflow,
     s.workflowProcessor.getWorkflowResponse,
     s.workflowAppInstance,
-    s.workflowProcessor.updateWorkflow,
-    s.workflowProcessor.updateWorkflowResponse,
   ]);
   useEffect(() => {
     if (wId) {
       getWorkflow(wId);
     }
   }, [wId]);
-
-  const handleSave = async () => {
-    const workflowData = workflowAppInstance?.workflowData?.get?.();
-
-    const validResult = await workflowAppInstance?.validNodeData();
-    console.log('q=>validResult', validResult);
-    if (!validResult) {
-      return;
-    }
-
-    // TODO 重新调整el data
-    const elConfig = workflowAppInstance?.getLiteFlowElData();
-
-    // console.log('q=>elConfig', elConfig, workflowData);
-
-    // if (!elConfig) {
-    //   message.error('请添加节点');
-    //   return;
-    // }
-
-    const result = { ...workflowData, elData: elConfig };
-
-    await updateWorkflow(result, {
-      onError() {
-        // message.error('修改失败！');
-      },
-      onSuccess: () => {
-        message.success('保存成功！');
-      },
-    });
-  };
 
   const handleDeploy = () => {};
 
@@ -95,9 +57,7 @@ export const WorkflowDesignHeader: FC<IWorkflowDesignHeaderProps> = (props) => {
 
       <div className={s.right}>
         <Space>
-          <Button loading={updateWorkflowResponse.loading} onClick={handleSave}>
-            保存
-          </Button>
+          <WorkflowSave workflowAppInstance={workflowAppInstance!} />
           <Button type="primary" onClick={handleDeploy}>
             发布
           </Button>
