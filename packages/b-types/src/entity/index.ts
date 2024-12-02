@@ -17,3 +17,4 @@ export * from './vo';
 export * from './workflow';
 export * from './table';
 export * from './flow';
+export * from './AppLog';

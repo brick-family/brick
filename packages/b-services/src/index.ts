@@ -18,3 +18,4 @@ export * from './workflow-service';
 export * from './relation-data-service';
 export * from './relation-info-service';
 export * from './flow-service';
+export * from './app-log';
