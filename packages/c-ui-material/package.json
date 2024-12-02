@@ -25,6 +25,7 @@
     "b": "npm run lowcode:build",
     "server": "http-server -p 7002  -a"
   },
+  "sideEffects": false,
   "directories": {
     "test": "test"
   },

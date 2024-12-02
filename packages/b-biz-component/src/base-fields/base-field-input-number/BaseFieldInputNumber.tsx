@@ -61,3 +61,5 @@ export const BaseFieldInputNumber: FC<IBaseFieldInputNumberProps> = (props) => {
     />
   );
 };
+
+export default BaseFieldInputNumber;

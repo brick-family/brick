@@ -46,7 +46,7 @@ interface ITableName {
 const TableName = (props: ITableName) => {
   const [resourceData, updateResource, setResourceObserver] = useLowcodeEditorSelector((s) => [
     s.resourceData,
-    s.resourceProcessor.updateResource,
+    s.resourceProcessor?.updateResource,
     s.setResourceObserver,
   ]);
 

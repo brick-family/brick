@@ -39,8 +39,8 @@ export { FieldRelation } from './components/fields';
 export type { IFieldLayoutProps } from './components/fields';
 export { FieldLayout } from './components/fields';
 
-export type { IFieldSubTableProps } from './components/fields';
-export { FieldSubTable } from './components/fields';
+// export type { IFieldSubTableProps } from './components/fields';
+// export { FieldSubTable } from './components/fields';
 
 export type { IColProps } from './components/fields';
 export { FieldLayoutCol } from './components/fields';

@@ -10,6 +10,7 @@ import {
 import {
   convertToLiteFlowScript,
   getDefaultNodeData,
+  getLayoutsChildrenCount,
   getNodeModule,
   recursiveAddNode,
   recursiveRemoveNode,
@@ -77,9 +78,8 @@ export class WorkflowAppProcessor {
    * @returns
    */
   getLiteFlowElData = () => {
-    return '';
     // const treeLevelData = this.graphProcessor?.getTreeLevelData();
-    // return convertToLiteFlowScript(treeLevelData, this.workflowData?.nodeMap?.get?.());
+    return convertToLiteFlowScript(treeLevelData, this.workflowData?.nodeMap?.get?.());
   };
 
   /**
@@ -137,18 +137,24 @@ export class WorkflowAppProcessor {
     return getDefaultNodeData(nodeType, { defaultNodeData, useNodeTypeId: false });
   };
 
-  _addConditionNodeData = () => {};
-
   addNodeData = (addNodeDataParams: {
     sourceNodeId: IWorkflowNodeData['id'];
     nodeType: TNodeType;
     defaultNodeData?: Partial<IWorkflowNodeData>;
+    // 是否是分支节点插入
+    isBrandNode?: boolean;
   }) => {
-    const { sourceNodeId, nodeType, defaultNodeData } = addNodeDataParams;
+    const { sourceNodeId, nodeType, defaultNodeData, isBrandNode = false } = addNodeDataParams;
 
     const sourceNodeData = this.workflowData.nodeMap?.[sourceNodeId]?.get();
-    // 拆分node节点
+
+    // node节点
     const currNodeData = this._getDefaultNodeData(nodeType, defaultNodeData);
+    // 如果分支节点，修复数量
+    if (isBrandNode) {
+      const count = getLayoutsChildrenCount(this.workflowData.graph.get(), sourceNodeId);
+      currNodeData.name = `${currNodeData.name}${count + 1}`;
+    }
 
     this.setWorkflowDataObservable((draft) => {
       let layoutItem: IWorkflowLayoutItem = {
@@ -160,13 +166,20 @@ export class WorkflowAppProcessor {
         [currNodeData.id]: currNodeData,
       };
 
-      if (nodeType === ENodeType.Condition) {
+      // 不是分支节点，并且是条件节点
+      if (!isBrandNode && nodeType === ENodeType.Condition) {
         // 添加布局信息和节点信息
         const c1Id = uuid();
         const c2Id = uuid();
 
-        const c1NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, defaultNodeData);
-        const c2NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, defaultNodeData);
+        const c1NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, {
+          ...defaultNodeData,
+          name: '条件1',
+        });
+        const c2NodeData = this._getDefaultNodeData(ENodeType.ConditionItem, {
+          ...defaultNodeData,
+          name: '条件2',
+        });
         console.log('q=>node-111-2222', c1NodeData, c2NodeData);
 
         // 添加布局信息
@@ -180,16 +193,23 @@ export class WorkflowAppProcessor {
         nodeDataMap[c2Id] = c2NodeData;
       }
 
+      // 子集节点插入 (条件节点点击添加，或者是分支节点)
+      const isChildrenInsert = sourceNodeData.type === ENodeType.ConditionItem || isBrandNode;
+
+      // 如果是分支节点，在节点后插入
+      const childrenInsertDirect = isBrandNode ? 'after' : 'before';
       // 添加布局信息
       recursiveAddNode({
         sourceNodeId,
         layouts: draft.graph,
         newLayoutItem: layoutItem,
-        isChildrenInsert: sourceNodeData.type === ENodeType.ConditionItem,
+        isChildrenInsert,
+        childrenInsertDirect,
       });
 
       draft.nodeMap.set({ ...draft.nodeMap.get(), ...nodeDataMap });
     });
+
     return currNodeData;
   };
 
@@ -199,6 +219,11 @@ export class WorkflowAppProcessor {
    */
   addBranchNodeData = (addBranchNodeDataParams: { sourceNodeId: IWorkflowNodeData['id'] }) => {
     const { sourceNodeId } = addBranchNodeDataParams;
+    this.addNodeData({
+      sourceNodeId,
+      nodeType: ENodeType.ConditionItem,
+      isBrandNode: true,
+    });
   };
 
   /**

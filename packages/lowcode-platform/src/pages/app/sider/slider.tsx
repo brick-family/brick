@@ -52,7 +52,12 @@ export const Sider: FC<ISliderProps> = (props) => {
   };
 
   const handleTaskForm = () => {
-    message.info('敬请期待～');
+    const resource = getDefaultResource(EResourceType.PROGRESS_TABLE);
+    createResource(resource, {
+      onSuccess: (data) => {
+        history.push(`/app/${aId}/${data.id}/design`);
+      },
+    });
   };
 
   const handleCreateGroup = useMemoizedFn(() => {

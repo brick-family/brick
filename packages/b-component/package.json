@@ -20,6 +20,7 @@
     "prepublishOnly": "father doctor && npm run build",
     "start": "npm run dev"
   },
+  "sideEffects": false,
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"

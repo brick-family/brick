@@ -66,9 +66,6 @@ export const NodeContainer = (props: INodeContainerProps) => {
 
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // 画布复制节点
-    // const newNodeId = graphProcessor.copyNode(node);
-
     // 工作流 nodeMap 复制节点 (复制节点数据)
     // const newNode = copyNodeData(nodeId, newNodeId);
   };
@@ -84,18 +81,29 @@ export const NodeContainer = (props: INodeContainerProps) => {
   // 是否有toolbar
   const hasToolbar = ![ENodeType.End, ENodeType.TableEvent].includes(nodeType as any);
 
-  // console.log('q=>workflowData-abc', nodeModule, NodeComponent, currNode);
+  const renderConditionContainer = () => {
+    return (
+      <>
+        <div className={s.conditionTitle}>
+          <span>{currNode?.name || panelData?.label}</span>
+        </div>
+        {!isEnd && (
+          <div className={s.content}>
+            <div className={s.left}>
+              <React.Suspense fallback={<BLoading />}>
+                {NodeComponent && currNode && <NodeComponent nodeData={currNode!} />}
+              </React.Suspense>
+            </div>
+            <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 14 }} />
+          </div>
+        )}
+      </>
+    );
+  };
 
-  return (
-    <div node-id={layoutItem.id} className={classNames(s.node, 'workflow-node')}>
-      <div
-        className={classNames(s.container, {
-          [s.selected]: isActive,
-          [s.error]: isError,
-          [s.end]: isEnd,
-        })}
-        onClick={onNodeClick}
-      >
+  const renderContainer = () => {
+    return (
+      <>
         <div className={s.title}>
           <span className={s.icon}>{panelData?.icon}</span>
           <span>{currNode?.name || panelData?.label}</span>
@@ -110,6 +118,21 @@ export const NodeContainer = (props: INodeContainerProps) => {
             <RightOutlined style={{ marginLeft: 4, color: '#555', fontSize: 14 }} />
           </div>
         )}
+      </>
+    );
+  };
+
+  return (
+    <div node-id={layoutItem.id} className={classNames(s.node, 'workflow-node')}>
+      <div
+        className={classNames(s.container, {
+          [s.selected]: isActive,
+          [s.error]: isError,
+          [s.end]: isEnd,
+        })}
+        onClick={onNodeClick}
+      >
+        {nodeType === ENodeType.ConditionItem ? renderConditionContainer() : renderContainer()}
 
         {hasToolbar && (
           <div className={s.toolbar}>
@@ -132,13 +155,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
           </div>
         )}
       </div>
-      <div
-        className={classNames(s.nodeAdd, 'workflow-node-add', {
-          [s.hideArrow]: !showArrow,
-        })}
-      >
-        <NodeAdd sourceNodeId={nodeId} />
-      </div>
+      <NodeAdd className="workflow-node-add" showArrow={showArrow} sourceNodeId={nodeId} />
     </div>
   );
 };

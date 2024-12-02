@@ -4,7 +4,6 @@ import { getPageSchema, getSchemaObject } from '../utils';
 import { ITableEntity } from '@brick/types';
 import { IPublicApiProject, IPublicEnumTransformStage } from '@alilc/lowcode-types';
 import { project } from '@alilc/lowcode-engine';
-import { table } from 'console';
 
 export interface ILowcodeDataService {}
 class DataService {

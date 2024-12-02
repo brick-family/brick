@@ -22,7 +22,7 @@ export const FieldAdd: FC<IFieldAddProps> = (props) => {
     const result: any = [];
 
     fields?.forEach((item) => {
-      if (!value.find((f) => f.fieldId === item.id)) {
+      if (!value.find((f) => f.fieldId === item.dbFieldName)) {
         result.push({
           label: item.title!,
           key: item.dbFieldName!,

@@ -1,30 +1,23 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-
 import s from './nodeBranchContainer.module.less';
-import { ENodeType, IWorkflowLayoutItem, IWorkflowNodeData } from '@brick/types';
+import { IWorkflowLayoutItem, IWorkflowNodeData } from '@brick/types';
 import { Button } from 'antd';
 import { NodeAdd } from '../../../../common';
 import { NodeContainer } from '../NodeContainer';
 import { useWorkflowAppSelector } from '../../../../../processor';
-import { NodeConditionItemContainer } from '../node-condition-item-container';
 
 export interface INodeBranchContainerProps {
   style?: React.CSSProperties;
   className?: string;
   layoutItem: IWorkflowLayoutItem;
-  index: number;
-
   showArrow?: boolean;
 }
 
 export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
-  const { layoutItem, index, showArrow } = props;
+  const { layoutItem, showArrow } = props;
 
-  const [addBranchNodeData, getNodeDataById] = useWorkflowAppSelector((s) => [
-    s.addBranchNodeData,
-    s.getNodeDataById,
-  ]);
+  const [addBranchNodeData] = useWorkflowAppSelector((s) => [s.addBranchNodeData]);
 
   const addBranch = () => {
     addBranchNodeData({
@@ -39,7 +32,6 @@ export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
           <Button onClick={addBranch}>添加分支</Button>
         </div>
         {layoutItem?.children?.map((item, index) => {
-          const nodeData = getNodeDataById(item.id);
           return (
             <div
               key={item.id}
@@ -49,17 +41,12 @@ export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
               })}
             >
               <div>
-                {nodeData?.type === ENodeType.ConditionItem ? (
-                  <NodeConditionItemContainer />
-                ) : (
-                  <NodeContainer layoutItem={item} />
-                )}
+                <NodeContainer layoutItem={item} />
                 {item?.children?.map((childItem, childIndex) => {
                   // return <NodeContainer layoutItem={childItem} />
                   if (childItem?.children?.length) {
                     return (
                       <NodeBranchContainer
-                        index={index}
                         showArrow={false}
                         key={childItem.id}
                         layoutItem={childItem}
@@ -73,15 +60,7 @@ export const NodeBranchContainer = (props: INodeBranchContainerProps) => {
           );
         })}
       </div>
-      <div
-        className={classNames(s.nodeAdd, {
-          'node-add-end': true,
-          [s.hideArrow]: !showArrow,
-          [layoutItem?.children?.length + '-' + (index + 1)]: true,
-        })}
-      >
-        <NodeAdd sourceNodeId={layoutItem.id} />
-      </div>
+      <NodeAdd className="node-add-end" showArrow={showArrow} sourceNodeId={layoutItem.id} />
     </div>
   );
 };

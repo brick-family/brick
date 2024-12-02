@@ -45,7 +45,6 @@ export const getDefaultNodeData = (
   const nodeModule = getNodeModule();
 
   const { metaData, defaultNodeConfigData } = nodeModule?.[nodeType] || {};
-  console.log('q=>node-111-333', nodeType, metaData, defaultNodeConfigData, nodeModule);
   return {
     id: useNodeTypeId ? nodeType : uuid(),
     type: nodeType,
@@ -64,23 +63,28 @@ export function recursiveAddNode(params: {
   sourceNodeId: string;
   layouts: Observable<TWorkflowLayouts>;
   newLayoutItem: IWorkflowLayoutItem;
-  isChildrenInsert?: boolean; // 是否子级插入
+  isChildrenInsert: boolean; // 是否子级插入
+  childrenInsertDirect: 'before' | 'after'; // 子级插入方向
 }): boolean {
-  const { layouts, newLayoutItem, sourceNodeId, isChildrenInsert = false } = params;
+  const {
+    layouts,
+    newLayoutItem,
+    sourceNodeId,
+    isChildrenInsert = false,
+    childrenInsertDirect = 'before',
+  } = params;
 
   layouts.forEach((item, i) => {
     if (item.id.get() === sourceNodeId) {
-      // if (isChildrenInsert) {
-      //   layouts.unshift(newLayoutItem);
-      //   console.log('q=>111122');
-
-      // } else {
-      //   layouts.splice(i + 1, 0, newLayoutItem);
-      // }
-      // console.log('q=>111122');
-      // layouts.splice(i + 1, 0, newLayoutItem);
+      // 添加children, 并在第一个位置插入
       if (isChildrenInsert) {
-        item?.children?.get().unshift?.(newLayoutItem);
+        const arr = item.children?.get() || [];
+        if (childrenInsertDirect === 'before') {
+          arr.unshift?.(newLayoutItem);
+        } else {
+          // 在最后一个位置前插入
+          arr.splice(arr.length - 1, 0, newLayoutItem);
+        }
       } else {
         layouts.splice(i + 1, 0, newLayoutItem);
       }
@@ -94,6 +98,7 @@ export function recursiveAddNode(params: {
         layouts: item.children as Observable<TWorkflowLayouts>,
         newLayoutItem,
         isChildrenInsert,
+        childrenInsertDirect,
       })
     ) {
       return true;
@@ -194,4 +199,34 @@ function recursiveRemoveParentNode(layouts: Observable<TWorkflowLayouts>): strin
   }
 
   return parentIds;
+}
+
+/**
+ * // 递归查找节点并获取一级子节点数量
+ * @param layouts
+ * @param targetId
+ * @returns
+ */
+export function getLayoutsChildrenCount(layouts: TWorkflowLayouts, targetId: string): number {
+  // 递归遍历树，查找目标节点
+  function findNode(node: IWorkflowLayoutItem): number | undefined {
+    if (node.id === targetId) {
+      return node.children ? node.children.length : 0; // 返回一级子节点数量
+    }
+    if (node.children) {
+      for (const child of node.children) {
+        const result = findNode(child);
+        if (result !== undefined) return result;
+      }
+    }
+    return undefined;
+  }
+
+  // 遍历树的每个根节点
+  for (const root of layouts) {
+    const result = findNode(root);
+    if (result !== undefined) return result;
+  }
+
+  return 0; // 如果未找到目标节点，则返回0
 }
