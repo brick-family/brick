@@ -13,17 +13,13 @@ export interface ICompanyLogProps extends Omit<IAdminPermLogProviderProps, 'chil
 }
 
 export const CompanyLogContent: FC<ICompanyLogProps> = (props) => {
-  return (
-    <ProCard>
-      <AppLogTable />
-    </ProCard>
-  );
+  return <AppLogTable />;
 };
 
 export const CompanyLog: FC<ICompanyLogProps> = ({ style, className, ...otherProps }) => {
   return (
     <AdminPermLogProvider {...otherProps}>
-      <div style={style} className={classNames(className)}>
+      <div style={style} className={classNames('admin-layout-container', className)}>
         <CompanyLogContent />
       </div>
     </AdminPermLogProvider>

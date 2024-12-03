@@ -55,7 +55,7 @@ export const AdminLayout: FC<IAdminLayoutProps> = (props) => {
         )}
         {...settings}
       >
-        <PageContainer>{children}</PageContainer>
+        <PageContainer className={s.pageContainer}>{children}</PageContainer>
       </ProLayout>
     </div>
   );

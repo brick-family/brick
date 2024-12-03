@@ -159,7 +159,6 @@ export const AppLogTable = forwardRef<IAppLogTableRef, IAppLogTableProps>(({}, r
 
   return (
     <ProTable<TableListItem>
-      className={s.logTable}
       columns={columns}
       request={(params, sorter, filter) => {
         // 表单搜索项会从 params 传入，传递给后端接口。
