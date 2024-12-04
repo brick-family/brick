@@ -41,6 +41,7 @@ export const WorkflowCreateProcess: FC<IWorkflowCreateProcessProps> = (props) =>
     try {
       if (!reqData) return;
       const result = await runAsync(reqData);
+      console.log('q=>-create-result', result);
       onCreateSuccess?.(result);
       message.success('保存成功！');
     } catch (error) {}

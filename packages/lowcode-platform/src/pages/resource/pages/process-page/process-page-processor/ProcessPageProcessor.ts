@@ -6,6 +6,7 @@ import {
   WorkflowProcessor,
 } from '@brick/processor';
 import {
+  EFlowModelStatus,
   IFlowModelEntity,
   IFlowModelVo,
   IWorkflowEntity,
@@ -75,7 +76,9 @@ export class ProcessPageProcessor extends BaseProcessor {
       batch(() => {
         const workflowId = this.workflowId.get();
         const selectVersion =
-          (workflowId && res.find((f) => f.metaInfo === workflowId)) || res?.[0] || null;
+          (workflowId && res.find((f) => f.metaInfo === workflowId)) ||
+          res?.find((f) => f.status === EFlowModelStatus.USING) ||
+          null;
         // 从response中获取最大版本号
         const maxVersion = Math.max(...res.map((model) => model.version));
         this.maxVersion.set(maxVersion || 0);
@@ -104,7 +107,7 @@ export class ProcessPageProcessor extends BaseProcessor {
   };
 
   setResourceId = (id: string) => {
-    // this.setResourceId(id);
+    this.resourceId.set(id);
     this.getProcessList(id);
   };
 

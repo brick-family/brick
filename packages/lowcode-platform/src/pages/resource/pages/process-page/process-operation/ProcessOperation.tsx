@@ -1,8 +1,13 @@
 import { EFlowModelStatus, IFlowModelVo, IWorkflowEntity } from '@brick/types';
 import { useParams, useSearchParams } from '@umijs/max';
 import { Space } from 'antd';
-import React, { FC, useEffect } from 'react';
-import { WorkflowCreateProcess, WorkflowDeploy, WorkflowSave } from '../../../../../components';
+import React, { FC, useEffect, useRef } from 'react';
+import {
+  IWorkflowSaveRef,
+  WorkflowCreateProcess,
+  WorkflowDeploy,
+  WorkflowSave,
+} from '../../../../../components';
 import { useProcessPageSelector } from '../process-page-processor';
 import { VersionList } from './version-list';
 
@@ -22,6 +27,8 @@ export const ProcessOperation: FC<IProcessOperationProps> = (props) => {
   const isHistory = selectVersion?.status === EFlowModelStatus.HISTORY; // 历史版本，可以有发布和创建新流程
   const isUsing = selectVersion?.status === EFlowModelStatus.USING; // 使用中，只有创建新流程
 
+  const saveButtonRef = useRef<IWorkflowSaveRef>(null);
+
   const handleSelectVersion = (selectVersion: IFlowModelVo) => {
     if (selectVersion?.metaInfo) {
       setSearchParams({ wid: selectVersion.metaInfo });
@@ -30,8 +37,17 @@ export const ProcessOperation: FC<IProcessOperationProps> = (props) => {
   };
 
   const handleCreateSuccess = (workflowEntity: IWorkflowEntity) => {
+    // 刷新部署列表
+    getProcessList();
     if (workflowEntity.id) {
       setSearchParams({ wid: workflowEntity.id });
+    }
+  };
+
+  const handleDeployBefore = async () => {
+    const res = await saveButtonRef?.current?.save();
+    if (!res) {
+      throw new Error('工作流保存失败！');
     }
   };
 
@@ -44,6 +60,7 @@ export const ProcessOperation: FC<IProcessOperationProps> = (props) => {
     const btnMap = {
       save: (
         <WorkflowSave
+          ref={saveButtonRef}
           key="save"
           modeId={selectVersion?.id!}
           workflowAppInstance={workflowAppInstance!}
@@ -54,6 +71,7 @@ export const ProcessOperation: FC<IProcessOperationProps> = (props) => {
           key="deploy"
           modeId={selectVersion?.id!}
           onDeploySuccess={handleDeploySuccess}
+          onDeployBefore={handleDeployBefore}
         />
       ),
       create: (

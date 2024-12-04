@@ -3,7 +3,7 @@ import { getProcessXMLModel } from '@brick/utils';
 import { IProcessXMLModel, WorkflowAppProcessor } from '@brick/workflow';
 import { useRequest } from 'ahooks';
 import { Button, message } from 'antd';
-import React, { FC, memo } from 'react';
+import React, { FC, memo, useImperativeHandle } from 'react';
 
 /**
  * 获取工作流的创建和更新数据
@@ -59,22 +59,43 @@ export interface IWorkflowSaveProps {
   workflowAppInstance: WorkflowAppProcessor;
 }
 
-export const WorkflowSave: FC<IWorkflowSaveProps> = memo((props) => {
+export interface IWorkflowSaveRef {
+  save: () => Promise<boolean>;
+}
+
+export const WorkflowSave = React.forwardRef<IWorkflowSaveRef, IWorkflowSaveProps>((props, ref) => {
   const { workflowAppInstance, modeId } = props;
 
   const { loading, data, runAsync } = useRequest(updateWorkflow, {
     manual: true,
   });
 
-  const handleSave = async () => {
+  const save = async () => {
     const result = await getWorkflowSaveRequestData({
       modeId,
       workflowAppInstance,
       isNewVersion: false,
     });
 
+    if (result) {
+      return await runAsync(result);
+    }
+    return false;
+  };
+
+  useImperativeHandle(
+    ref,
+    () => {
+      return {
+        save,
+      };
+    },
+    [modeId, workflowAppInstance]
+  );
+
+  const handleSave = async () => {
     try {
-      result && (await runAsync(result));
+      await save();
       message.success('保存成功！');
     } catch (error) {}
   };

@@ -26,13 +26,14 @@ const Content: FC<IContentProps> = (props) => {
   useEffect(() => {
     if (workflowId) {
       setWorkflowId(workflowId!);
-      return;
     }
+  }, [workflowId]);
 
+  useEffect(() => {
     if (selectVersion?.metaInfo) {
       setSearchParams({ wid: selectVersion.metaInfo });
     }
-  }, [workflowId, selectVersion]);
+  }, [selectVersion]);
 
   useEffect(() => {
     if (resourceId) {

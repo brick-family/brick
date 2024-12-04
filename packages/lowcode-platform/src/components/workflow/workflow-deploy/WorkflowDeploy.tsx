@@ -13,6 +13,8 @@ export interface IWorkflowDeployProps {
    * 发布成功回调
    */
   onDeploySuccess?: () => void;
+
+  onDeployBefore?: () => Promise<void>;
 }
 
 /**
@@ -21,13 +23,14 @@ export interface IWorkflowDeployProps {
  * @returns
  */
 export const WorkflowDeploy: FC<IWorkflowDeployProps> = (props) => {
-  const { modeId, onDeploySuccess } = props;
+  const { modeId, onDeploySuccess, onDeployBefore } = props;
   const { loading, data, runAsync } = useRequest(deployFlowModel, {
     manual: true,
   });
 
   const handleDeploy = async () => {
     try {
+      await onDeployBefore?.();
       await runAsync(modeId);
       onDeploySuccess?.();
       message.success('发布成功！');
