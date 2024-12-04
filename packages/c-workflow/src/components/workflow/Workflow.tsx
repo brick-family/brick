@@ -21,9 +21,7 @@ export const Workflow: FC<IWorkflowProps> = ({ style, className, data }) => {
 
   return (
     <div style={style} className={classNameStr}>
-      <div>
-        <Toolbar />
-      </div>
+      <Toolbar />
 
       <WorkflowContainer />
       <SettingContainer />

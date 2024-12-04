@@ -30,7 +30,7 @@ const Content: FC<IContentProps> = (props) => {
   return (
     <Flex className="b-layout" gap={0} vertical>
       <TopBar />
-      <Flex flex={1}>
+      <Flex flex={1} style={{ height: 'calc(100vh - 52px)' }}>
         <Outlet />
       </Flex>
     </Flex>
