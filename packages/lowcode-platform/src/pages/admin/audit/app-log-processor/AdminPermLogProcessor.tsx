@@ -5,16 +5,20 @@ import {
   BaseProcessor,
   TObservableResponse,
 } from '@brick/core';
-import { queryAppLogList } from '@brick/services';
-import { IAppLogEntity } from '@brick/types';
+import { queryAppLogList, getCreateUserList, getOperationTypeList } from '@brick/services';
+import { IAppLogData, IAppLogEntity } from '@brick/types';
 
 export class AdminPermLogProcessor extends BaseProcessor {
-  queryAppLogResponse: TObservableResponse<IAppLogEntity>;
+  queryAppLogResponse: TObservableResponse<IAppLogData>;
+  createUsers: TObservableResponse<Array<string>>;
+  operationType: TObservableResponse<Array<string>>;
 
   constructor() {
     super();
     console.log('queryAppLogList2222', queryAppLogList);
     this.queryAppLogResponse = createDefaultResponseQuery();
+    this.createUsers = createDefaultResponseQuery();
+    this.operationType = createDefaultResponseQuery();
     this.init();
   }
   private init = async () => {
@@ -30,6 +34,19 @@ export class AdminPermLogProcessor extends BaseProcessor {
     return withProcessorServiceWrapper(queryAppLogList, this.queryAppLogResponse);
   }
 
+  /**
+   * 获取操作人列表
+   */
+  get getCreateUserList() {
+    return withProcessorServiceWrapper(getCreateUserList, this.createUsers);
+  }
+
+  /**
+   * 获取操作类型列表
+   */
+  get getOperationTypeList() {
+    return withProcessorServiceWrapper(getOperationTypeList, this.operationType);
+  }
   /**
    * 开启监听器
    */

@@ -1,176 +1,147 @@
-import { EllipsisOutlined, SearchOutlined } from '@ant-design/icons';
-import { useEffect, forwardRef, useImperativeHandle, useRef, FC } from 'react';
-import s from './AppLogTable.less';
-import type { ProColumns } from '@ant-design/pro-components';
-import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Dropdown, Input } from 'antd';
-import { queryAppLogList } from '@brick/services';
+import { useEffect, forwardRef, useRef } from 'react';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
+import { ProTable } from '@ant-design/pro-components';
+import { message } from 'antd';
+import { deleteAppLog } from '@brick/services';
 import { useAdminPermLogSelector } from '@/pages/admin/audit/app-log-processor/AdminPermLogProvider';
-
-const valueEnum = {
-  0: 'close',
-  1: 'running',
-  2: 'online',
-  3: 'error',
-};
-
-export type TableListItem = {
-  key: number;
-  name: string;
-  containers: number;
-  creator: string;
-  status: string;
-  createdAt: number;
-  progress: number;
-  money: number;
-  memo: string;
-};
-
-// const columns: ProColumns<TableListItem>[] = [
-//   {
-//     title: '排序',
-//     dataIndex: 'index',
-//     valueType: 'indexBorder',
-//     width: 48,
-//   },
-//   {
-//     title: '应用名称',
-//     dataIndex: 'name',
-//     render: (_) => <a>{_}</a>,
-//     // 自定义筛选项功能具体实现请参考 https://ant.design/components/table-cn/#components-table-demo-custom-filter-panel
-//     filterDropdown: () => (
-//       <div style={{ padding: 8 }}>
-//         <Input style={{ width: 188, marginBlockEnd: 8, display: 'block' }} />
-//       </div>
-//     ),
-//     filterIcon: (filtered) => (
-//       <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
-//     ),
-//   },
-//   {
-//     title: '创建者',
-//     dataIndex: 'creator',
-//     valueEnum: {
-//       all: { text: '全部' },
-//       付小小: { text: '付小小' },
-//       曲丽丽: { text: '曲丽丽' },
-//       林东东: { text: '林东东' },
-//       陈帅帅: { text: '陈帅帅' },
-//       兼某某: { text: '兼某某' },
-//     },
-//   },
-//   {
-//     title: '状态',
-//     dataIndex: 'status',
-//     initialValue: 'all',
-//     filters: true,
-//     onFilter: true,
-//     valueEnum: {
-//       all: { text: '全部', status: 'Default' },
-//       close: { text: '关闭', status: 'Default' },
-//       running: { text: '运行中', status: 'Processing' },
-//       online: { text: '已上线', status: 'Success' },
-//       error: { text: '异常', status: 'Error' },
-//     },
-//   },
-//   {
-//     title: '备注',
-//     dataIndex: 'memo',
-//     ellipsis: true,
-//     copyable: true,
-//   },
-//   {
-//     title: '操作',
-//     width: 180,
-//     key: 'option',
-//     valueType: 'option',
-//     render: () => [
-//       <a key="link">链路</a>,
-//       <a key="link2">报警</a>,
-//       <a key="link3">监控</a>,
-//       <TableDropdown
-//         key="actionGroup"
-//         menus={[
-//           { key: 'copy', name: '复制' },
-//           { key: 'delete', name: '删除' },
-//         ]}
-//       />,
-//     ],
-//   },
-// ];
-
-const columns: ProColumns<TableListItem>[] = [
-  {
-    title: '操作人',
-    dataIndex: 'operatorName',
-    // ellipsis: true,
-  },
-  {
-    title: '操作时间',
-    dataIndex: 'updateTime',
-    ellipsis: true,
-  },
-  {
-    title: '操作类型',
-    dataIndex: 'operationType',
-  },
-  {
-    title: '操作对象',
-    dataIndex: 'serviceName',
-  },
-  {
-    title: '描述',
-    dataIndex: 'description',
-  },
-];
+import { IAppLogEntity } from '@brick/types';
 
 export interface IAppLogTableProps {}
 
 export interface IAppLogTableRef {}
 
-const creators = ['付小小', '曲丽丽', '林东东', '陈帅帅', '兼某某'];
-const tableListDataSource: TableListItem[] = [];
-for (let i = 0; i < 5; i += 1) {
-  tableListDataSource.push({
-    key: i,
-    name: 'AppName',
-    containers: Math.floor(Math.random() * 20),
-    creator: creators[Math.floor(Math.random() * creators.length)],
-    status: valueEnum[((Math.floor(Math.random() * 10) % 4) + '') as '0'],
-    createdAt: Date.now() - Math.floor(Math.random() * 2000),
-    money: Math.floor(Math.random() * 2000) * i,
-    progress: Math.ceil(Math.random() * 100) + 1,
-    memo: i % 2 === 1 ? '很长很长很长很长很长很长很长的文字要展示但是要留下尾巴' : '简短备注文案',
-  });
-}
-
 export const AppLogTable = forwardRef<IAppLogTableRef, IAppLogTableProps>(({}, ref) => {
-  const [appLogList, queryAppLogList] = useAdminPermLogSelector((s) => [
+  const [
+    appLogList,
+    queryAppLogList,
+    createUsers,
+    getCreateUserList,
+    operationType,
+    getOperationTypeList,
+  ] = useAdminPermLogSelector((s) => [
     s.queryAppLogResponse,
     s.getAppLogList,
+    s.createUsers,
+    s.getCreateUserList,
+    s.operationType,
+    s.getOperationTypeList,
   ]);
 
-  // useEffect(() => {
-  //   console.log('queryAppLogList222222', queryAppLogList, appLogList);
-  //   queryAppLogList({ currentPage: 1, pageSize: 10 });
-  // }, []);
+  const actionRef = useRef<ActionType>();
 
-  console.log('appLogList', appLogList, appLogList?.data?.records);
+  useEffect(() => {
+    getCreateUserList();
+    getOperationTypeList();
+  }, []);
+
+  const handleDelete = (id: string) => {
+    deleteAppLog(id)
+      .then(() => {
+        actionRef.current?.reload();
+        message.success('删除成功');
+      })
+      .catch(() => {
+        message.error('删除失败');
+      });
+  };
+
+  const columns: ProColumns<IAppLogEntity>[] = [
+    {
+      title: '操作人',
+      key: 'createUser',
+      dataIndex: 'createUser',
+      valueType: 'select',
+      valueEnum:
+        createUsers?.data?.reduce(
+          (acc, user) => ({
+            ...acc,
+            [user]: { text: user },
+          }),
+          {}
+        ) || {},
+      // ellipsis: true,
+    },
+    {
+      title: '操作状态',
+      key: 'success',
+      dataIndex: 'success',
+      valueType: 'select',
+      valueEnum: {
+        true: { text: '操作成功' },
+        false: { text: '操作失败' },
+      },
+      render: (_, record) => {
+        return record.success ? '操作成功' : '操作失败';
+      },
+    },
+    {
+      title: '操作类型',
+      key: 'operationType',
+      dataIndex: 'operationType',
+      valueType: 'select',
+      valueEnum:
+        operationType?.data?.reduce(
+          (acc, type) => ({
+            ...acc,
+            [type]: { text: type },
+          }),
+          {}
+        ) || {},
+    },
+    {
+      title: '创建时间',
+      key: 'createTime',
+      dataIndex: 'createTime',
+      valueType: 'dateTimeRange',
+      search: {
+        transform: (value: any) => ({
+          startCreateTime: value[0],
+          endCreateTime: value[1],
+        }),
+      },
+      render: (_, record) => {
+        return record.createTime;
+      },
+    },
+    {
+      title: '描述',
+      key: 'description',
+      search: false,
+      dataIndex: 'description',
+    },
+    {
+      title: '操作',
+      key: 'option',
+      width: 120,
+      valueType: 'option',
+      render: (_, record) => [
+        <a
+          onClick={() => {
+            handleDelete(record?.id!);
+          }}
+          key="2"
+        >
+          删除
+        </a>,
+      ],
+    },
+  ];
 
   return (
-    <ProTable<TableListItem>
+    <ProTable<IAppLogEntity>
+      actionRef={actionRef}
       columns={columns}
-      request={(params, sorter, filter) => {
+      request={async ({ current, pageSize, ...params }) => {
         // 表单搜索项会从 params 传入，传递给后端接口。
         console.log('params2', params);
         return queryAppLogList({
-          currentPage: params.current,
-          pageSize: params.pageSize,
-          keyword: params.keyword,
+          currentPage: params?.current,
+          pageSize: params?.pageSize,
+          ...params,
         }).then((res) => {
-          console.log('res', res);
           return {
             data: res?.records,
+            total: res?.total,
             success: true,
           };
         });
