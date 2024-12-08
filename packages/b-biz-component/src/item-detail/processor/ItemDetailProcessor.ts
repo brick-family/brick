@@ -6,8 +6,10 @@ import { DataTableProcessor } from '@brick/biz-component';
 import { IPreviewRef } from '@brick/lowcode-editor';
 import {
   createDataProcessor,
+  createProcessProcessor,
   createTableProcessor,
   DataProcessor,
+  ProcessProcessor,
   TableProcessor,
 } from '@brick/processor';
 import { ITableEntity } from '@brick/types';
@@ -47,6 +49,11 @@ export class ItemDetailProcessor {
   dataProcessor: DataProcessor;
 
   /**
+   * 流程处理器
+   */
+  processProcessor: ProcessProcessor;
+
+  /**
    * 当前data table数据处理器
    */
   dataTableProcessor: Observable<DataTableProcessor>;
@@ -66,7 +73,7 @@ export class ItemDetailProcessor {
     this.openProps = observable({ open: false });
     this.dataTableProcessor = observable();
     this.dataProcessor = createDataProcessor().processor;
-
+    this.processProcessor = createProcessProcessor().processor;
     this.tableProcessor = createTableProcessor().processor;
 
     // window._openType = this.openType;
@@ -100,6 +107,13 @@ export class ItemDetailProcessor {
     return (
       this.dataProcessor.createDataResponse.loading || this.dataProcessor.updateDataResponse.loading
     );
+  }
+
+  /**
+   * 提交流程loading
+   */
+  get submitProcessLoading() {
+    return this.processProcessor.startProcessResponse.loading;
   }
 
   private requestTable = async () => {
@@ -201,12 +215,44 @@ export class ItemDetailProcessor {
   };
 
   /**
-   * 保存或者更新数据
+   * 获取form data数据
+   * @returns
    */
-  saveData = async (options: { isRefreshTableList: boolean }) => {
+  private getFormData = async () => {
     const formValues = await getFormValues(this.formRef!);
     console.log('q=>mode->formValues', formValues);
     const formData = convertFormValuesToItemData(formValues, this.table.peek().data.columns);
+    return formData;
+  };
+
+  /**
+   * 保存流程数据
+   * @param options
+   */
+  saveProcessData = async (options: { isRefreshTableList: boolean }) => {
+    const formData = await this.getFormData();
+    const currItem = this.itemData?.peek?.()?.data;
+    const params = {
+      tableId: this.tableId.peek(),
+      data: this.mode.peek() === EMode.create ? formData : { id: currItem?.id, ...formData },
+    };
+    const currMode = this.mode.peek();
+    if (currMode === EMode.create) {
+      await this.processProcessor.startProcess(params);
+    } else {
+      // TODO
+    }
+
+    if (options?.isRefreshTableList) {
+      this.dataTableProcessor?.refresh?.();
+    }
+  };
+
+  /**
+   * 保存或者更新数据
+   */
+  saveData = async (options: { isRefreshTableList: boolean }) => {
+    const formData = await this.getFormData();
     const currItem = this.itemData?.peek?.()?.data;
     const params = {
       tableId: this.tableId.peek(),

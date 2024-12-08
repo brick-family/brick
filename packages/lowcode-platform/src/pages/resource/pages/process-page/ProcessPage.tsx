@@ -12,14 +12,21 @@ const Content: FC<IContentProps> = (props) => {
   const { resourceId } = useParams();
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const [currWorkflowData, setWorkflowId, setResourceId, setWorkflowAppInstance, selectVersion] =
-    useProcessPageSelector((s) => [
-      s.currWorkflowData,
-      s.setWorkflowId,
-      s.setResourceId,
-      s.setWorkflowAppInstance,
-      s.selectVersion,
-    ]);
+  const [
+    currWorkflowData,
+    setWorkflowId,
+    setResourceId,
+    setWorkflowAppInstance,
+    selectVersion,
+    readonly,
+  ] = useProcessPageSelector((s) => [
+    s.currWorkflowData,
+    s.setWorkflowId,
+    s.setResourceId,
+    s.setWorkflowAppInstance,
+    s.selectVersion,
+    s.readonly,
+  ]);
 
   const workflowId = searchParams.get('wid');
 
@@ -49,7 +56,11 @@ const Content: FC<IContentProps> = (props) => {
   });
 
   return (
-    <>{currWorkflowData && <WorkflowApp onReady={onWorkflowAppReady} data={currWorkflowData} />}</>
+    <>
+      {currWorkflowData && (
+        <WorkflowApp readonly={readonly} onReady={onWorkflowAppReady} data={currWorkflowData} />
+      )}
+    </>
   );
 };
 

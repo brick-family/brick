@@ -23,4 +23,7 @@ export interface ITableEntity extends IBaseEntity {
 
   // 列状态信息
   columnState?: Record<string, any>;
+
+  // 是否是流程表
+  isProcess?: boolean;
 }

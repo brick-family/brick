@@ -1,5 +1,13 @@
 import { generateSelector, WipeObservable } from '@brick/core';
-import React, { createContext, useImperativeHandle, useLayoutEffect, useState } from 'react';
+import { useCreation } from 'ahooks';
+import React, {
+  createContext,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { destroy, setWorkflowProcessor } from './WorkflowAppManager';
 import { WorkflowAppProcessor } from './WorkflowAppProcessor';
 
@@ -9,14 +17,21 @@ export type WorkflowProcessorWipe = WipeObservable<typeof WorkflowAppProcessor.p
 export interface WorkflowProviderProps {
   children: React.ReactNode;
   onReady?: (workflowInstance: WorkflowAppProcessor) => void;
+
+  /**
+   * 是否只读
+   */
+  readonly?: boolean;
 }
 
 const Context = createContext({} as WorkflowAppProcessor);
 
 export const WorkflowAppProvider = React.forwardRef<WorkflowAppProcessor, WorkflowProviderProps>(
   (props, ref) => {
-    const { onReady } = props;
+    const { onReady, readonly } = props;
     const [currWorkflowProcessor, setCurrWorkflowProcessor] = useState<WorkflowAppProcessor>();
+
+    const wp = useCreation(() => new WorkflowAppProcessor(), []);
 
     useImperativeHandle(
       ref,
@@ -26,8 +41,12 @@ export const WorkflowAppProvider = React.forwardRef<WorkflowAppProcessor, Workfl
       [currWorkflowProcessor]
     );
 
+    // 更新readonly状态
+    useEffect(() => {
+      wp?.setReadonly(readonly!);
+    }, [readonly]);
+
     useLayoutEffect(() => {
-      const wp = new WorkflowAppProcessor();
       setCurrWorkflowProcessor(wp);
       setWorkflowProcessor(wp);
       //@ts-ignore

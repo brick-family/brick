@@ -1,7 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { Tabs } from 'antd';
 import styles from './center.less';
 import { history, useLocation, useParams } from '@umijs/max';
+import { useResourcePageSelector } from '../../../resource-page-processor';
+import { EResourceType } from '@brick/types';
 
 const tabsData = [
   {
@@ -29,6 +31,17 @@ export const Center: FC<ICenterProps> = (props) => {
 
   const [activeKey, setActiveKey] = useState('design');
 
+  const [resourceData] = useResourcePageSelector((s) => [s.resourceData]);
+
+  const resourceType = resourceData?.resourceType;
+
+  const tabsDataResult = useMemo(() => {
+    if (resourceType === EResourceType.TABLE) {
+      return tabsData?.filter((item) => item.key !== 'process');
+    }
+    return tabsData;
+  }, [resourceType]);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -44,5 +57,5 @@ export const Center: FC<ICenterProps> = (props) => {
     history.push(key);
   };
 
-  return <Tabs activeKey={activeKey} onChange={onChange} items={tabsData} />;
+  return <Tabs activeKey={activeKey} onChange={onChange} items={tabsDataResult} />;
 };

@@ -8,15 +8,23 @@ import { BEditInput } from '@brick/component';
 export interface ISettingContainerProps {}
 
 export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
-  const [activeNode, clearActiveNode, nodeModule, updateNodeDataById, nodeMap, clearErrorNodeData] =
-    useWorkflowAppSelector((s) => [
-      s.activeNode,
-      s.clearActiveNode,
-      s.nodeModule,
-      s.updateNodeDataById,
-      s?.workflowData.nodeMap,
-      s.nodeProcessor.clearErrorNodeData,
-    ]);
+  const [
+    activeNode,
+    clearActiveNode,
+    nodeModule,
+    updateNodeDataById,
+    nodeMap,
+    clearErrorNodeData,
+    readonly,
+  ] = useWorkflowAppSelector((s) => [
+    s.activeNode,
+    s.clearActiveNode,
+    s.nodeModule,
+    s.updateNodeDataById,
+    s?.workflowData.nodeMap,
+    s.nodeProcessor.clearErrorNodeData,
+    s.readonly,
+  ]);
   // 表单值是否有变更
   const formValueIsChange = useRef(false);
 
@@ -95,7 +103,7 @@ export const SettingContainer: FC<ISettingContainerProps> = memo((props) => {
       <div className={s.footer}>
         <Space>
           <Button onClick={onClose}>取消</Button>
-          <Button type={'primary'} onClick={onOk}>
+          <Button type={'primary'} disabled={readonly} onClick={onOk}>
             确定
           </Button>
         </Space>

@@ -8,10 +8,7 @@ export interface IUseSetWorkflowData {
 }
 
 export const useSetWorkflowData = ({ data }: IUseSetWorkflowData) => {
-  const [setWorkflowData, graphProcessor] = useWorkflowAppSelector((s) => [
-    s.setWorkflowData,
-    s.graphProcessor,
-  ]);
+  const [setWorkflowData] = useWorkflowAppSelector((s) => [s.setWorkflowData]);
   useEffect(() => {
     if (data) {
       setWorkflowData(data);

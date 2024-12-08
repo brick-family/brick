@@ -31,6 +31,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
     removeNodeData,
     copyNodeData,
     errorNodeData,
+    readonly,
   ] = useWorkflowAppSelector((s) => [
     s.setActiveNodeById,
     s.activeNode,
@@ -39,6 +40,7 @@ export const NodeContainer = (props: INodeContainerProps) => {
     s.removeNodeData,
     s.copyNodeData,
     s.nodeProcessor.errorNodeData,
+    s.readonly,
   ]);
 
   const nodeId = layoutItem?.id;
@@ -87,9 +89,9 @@ export const NodeContainer = (props: INodeContainerProps) => {
   const NodeComponent = nodeModule?.[nodeType]?.nodeComponent;
 
   // 是否有toolbar
-  const hasToolbar = ![ENodeType.End, ENodeType.TableEvent, ENodeType.ProcessStart].includes(
-    nodeType as any
-  );
+  const hasToolbar =
+    !readonly &&
+    ![ENodeType.End, ENodeType.TableEvent, ENodeType.ProcessStart].includes(nodeType as any);
 
   // 渲染node节点组件
   const renderNodeComponent = () => {

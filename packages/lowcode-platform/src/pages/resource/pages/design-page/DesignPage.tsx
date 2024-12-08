@@ -26,9 +26,9 @@ export const DesignPage: FC<IDesignPageProps> = (props) => {
 
   return (
     <>
-      <OperationRightPortal>
+      <OperationRightPortal.Portal>
         <DesignOperation onSave={onSaveSchema} getTableData={getTableData} />
-      </OperationRightPortal>
+      </OperationRightPortal.Portal>
       <div className={s.container}>
         {loading ? <BSpin /> : <LowcodeEditor ref={lowcodeRef} resourceData={resourceData} />}
       </div>

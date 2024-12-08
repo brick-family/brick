@@ -26,6 +26,11 @@ import { createNodeProcessor, NodeProcessor } from './poc/NodeProcessor';
 export class WorkflowAppProcessor {
   self: WorkflowAppProcessor;
 
+  /**
+   * 是否只读
+   */
+  readonly: Observable<boolean>;
+
   private resourceProcessor: ResourceProcessor;
 
   nodeProcessor: NodeProcessor;
@@ -44,6 +49,7 @@ export class WorkflowAppProcessor {
 
   constructor() {
     this.self = this;
+    this.readonly = observable(false);
     this.activeNode = observable(null);
 
     this.workflowData = observable({} as IWorkflowEntity);
@@ -61,6 +67,10 @@ export class WorkflowAppProcessor {
 
   private init = () => {
     // this.resourceProcessor.requestResourceAllByResourceType()
+  };
+
+  setReadonly = (readonly: boolean) => {
+    this.readonly.set(readonly);
   };
 
   setWorkflowElement = (element: HTMLDivElement) => {

@@ -15,6 +15,7 @@ import {
 import { batch, Observable, observable } from '@legendapp/state';
 
 export class ProcessPageProcessor extends BaseProcessor {
+  readonly: Observable<boolean>;
   /**
    * 资源id，也就是表Id
    */
@@ -50,6 +51,7 @@ export class ProcessPageProcessor extends BaseProcessor {
 
   constructor() {
     super();
+    this.readonly = observable(false);
     this.workflowProcessor = createWorkflowProcessor().processor;
     this.flowModelProcessor = createFlowModelProcessor().processor;
     this.workflowAppInstance = observable(null);
@@ -101,6 +103,10 @@ export class ProcessPageProcessor extends BaseProcessor {
     return this.workflowProcessor.getWorkflowResponse.data;
   }
 
+  get setReadonly() {
+    return this.readonly;
+  }
+
   setWorkflowId = (wid: string) => {
     this.workflowId.set(wid);
     this.workflowProcessor.getWorkflow(wid);
@@ -127,12 +133,10 @@ export class ProcessPageProcessor extends BaseProcessor {
    * 开启监听器
    */
   private listeners = () => {
-    // this.workflowProcessor.workflowList.data.onChange((changeData) => {
-    //   const first = changeData.value?.[0];
-    //   if (first) {
-    //     this.currWorkflowData.set(first);
-    //   }
-    // });
+    this.selectVersion.onChange(({ value }) => {
+      const readonly = [EFlowModelStatus.USING, EFlowModelStatus.HISTORY].includes(value?.status!);
+      this.readonly.set(readonly);
+    });
   };
 }
 
