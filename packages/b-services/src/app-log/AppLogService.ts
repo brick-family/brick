@@ -1,18 +1,18 @@
-import { IAppLogEntity } from '@brick/types';
+import { IAppLogData } from '@brick/types';
 import { Request } from '@brick/utils';
 import { IQueryPage, IResponse } from '../types';
 
 export interface IQueryAppLogParams extends IQueryPage {
   // 操作人
   userName?: string;
-  // 操作时间
-  actionTime?: string;
-  // 操作结果
-  actionResult?: string;
+  // 开始时间
+  startCreateTime?: string;
+  // 结束时间
+  endCreateTime?: string;
+  // 操作状态
+  success?: string;
   // 操作类型
-  actionType?: string;
-  // 应用对象
-  appObject?: string;
+  operationType?: string;
 }
 
 /**
@@ -20,6 +20,28 @@ export interface IQueryAppLogParams extends IQueryPage {
  * @returns
  */
 export async function queryAppLogList(params: IQueryAppLogParams) {
-  console.log('params111', params);
-  return Request.get<Array<IAppLogEntity>>(`/log/page`, { params });
+  return Request.get<IAppLogData>(`/log/page`, { params });
+}
+
+/**
+ * 获取操作人列表
+ * @returns
+ */
+export async function getCreateUserList() {
+  return Request.get<Array<string>>(`/log/createUserList`);
+}
+
+/**
+ * 获取操作类型列表
+ * @returns
+ */
+export async function getOperationTypeList() {
+  return Request.get<Array<string>>(`/log/operationTypeList`);
+}
+
+/**
+ * 删除应用日志
+ */
+export async function deleteAppLog(id: string) {
+  return Request.delete(`/log/${id}`);
 }

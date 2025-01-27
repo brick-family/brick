@@ -14,4 +14,21 @@ export interface IAppLogEntity extends IBaseEntity {
   actionType?: string;
   // 应用对象
   appObject?: string;
+
+  // 操作状态
+  success?: boolean;
+}
+
+export interface IAppLogData {
+  countId: number | null;
+  current: number;
+  maxLimit: number | null;
+  optimizeCountSql: boolean;
+  orders: any[]; // 根据具体结构替换any
+  pages: number;
+  records: Array<IAppLogEntity>;
+  searchCount: boolean;
+  size: number;
+  total: number;
+  message: string;
 }
